@@ -2,7 +2,7 @@ import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 
 /****Layouts*****/
-const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
+//const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
 
 /***** Pages ****/
 
@@ -22,7 +22,7 @@ const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs"));
 const ThemeRoutes = [
   {
     path: "/",
-    element: <FullLayout />,
+    //element: <FullLayout />,
     children: [
       { path: "/", element: <Navigate to="/starter" /> },
       { path: "/starter", exact: true, element: <Starter /> },
