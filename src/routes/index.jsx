@@ -1,4 +1,7 @@
-import HomeRoute from "./home";
-import BorrowRoute from "./borrow";
+import UpdatePassRoute from "./updatePass";
+import UpcomingPassRoute from "./upcomingPass";
+import BorrowPassRoute from "./borrowPass";
+import EmployeesRoute from "./employees";
+import ReportsRoute from "./reports";
 
-export { HomeRoute, BorrowRoute };
+export { UpdatePassRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute };
