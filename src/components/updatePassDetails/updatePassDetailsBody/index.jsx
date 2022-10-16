@@ -58,7 +58,7 @@ function AdminContent({fee, pax}) {
               </p>
             </div>
             <div className="flex-1 items-center text-base font-semibold text-gray-900 dark:text-white">
-              ${fee}
+              ${fee.toFixed(2)}
             </div>
           </div>
         </li>

@@ -61,5 +61,29 @@ export const mockAdminPassData = [
         status: "Available"
       }
     ]
-  }
+  },
+  {
+    title: "Universal Studios Singapore",
+    imgUrl: "https://images.unsplash.com/photo-1601930113377-729966035f34?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    desc: "Universal Studios Singapore is a theme park located within the Resorts World Sentosa at Sentosa, Singapore. It features 28 rides, shows, and attractions in seven themed zones.",
+    fee: 82,
+    pax: 2,
+    passes: [
+      {
+        passId: "CARD0004",
+        passType: "Physical",
+        status: "Loaned"
+      },
+      {
+        passId: "CARD0005",
+        passType: "Physical",
+        status: "Lost"
+      },
+      {
+        passId: "CARD0006",
+        passType: "Physical",
+        status: "Available"
+      }
+    ]
+  },
 ]
