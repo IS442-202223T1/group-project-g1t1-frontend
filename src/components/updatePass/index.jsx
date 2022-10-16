@@ -1,12 +1,20 @@
 import React from "react";
-import Pass from "src/components/updatePass/pass";
+import PassTile from "src/components/updatePass/passTile";
 import SearchBar from "src/components/updatePass/searchBar";
 import SubmitButton from "src/components/common/buttons/yellowSubmitButton";
+import { useHistory } from "react-router-dom";
+import { mockAdminPassData } from "src/utils/mocks";
 
 function UpdatePass() {
+  const history = useHistory();
+
   const onAddNewButtonClicked = () => {
-    console.log("Add new button clicked");
+    history.push("/create-pass");
   }
+
+  const allPasses = mockAdminPassData.map((pass) => (
+    <PassTile pass={pass} />
+  ));
 
   return (
     <div className="max-w-5xl mt-5 mx-auto">
@@ -14,7 +22,9 @@ function UpdatePass() {
         <SearchBar />
         <SubmitButton buttonName="Add New" onButtonClick={onAddNewButtonClicked} />
       </div>
-      <Pass />
+      <div className="w-10/12 max-w-5xl mt-5 p-5 grid grid-cols-2 xl:grid-cols-3 gap-5 mx-auto">
+        {allPasses}
+      </div>
     </div>
   )
 }

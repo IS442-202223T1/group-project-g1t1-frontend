@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useUpdatePassContext } from "src/contexts/updatePassContext"
 
 export default function UpdatePassDetailsBody() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const { selectedPass } = useUpdatePassContext();
 
   const handleButtonTabClick = (index) => (e) => {
     e.preventDefault();
@@ -26,8 +28,8 @@ export default function UpdatePassDetailsBody() {
       <ul className="flex flex-wrap text-sm font-medium text-center bg-gray-50 rounded-t-lg border-b border-gray-200">
         {renderButtonTabs}
       </ul>
-      {activeTabIndex === 0 && <AdminContent fee="53.50" pax="4" />}
-      {activeTabIndex === 1 && <PassTableContent />}
+      {activeTabIndex === 0 && <AdminContent fee={selectedPass.fee} pax={selectedPass.pax} />}
+      {activeTabIndex === 1 && <PassTableContent passes={selectedPass.passes} />}
     </div>
   )
 }
@@ -77,7 +79,8 @@ function AdminContent({fee, pax}) {
   );
 }
 
-function PassTableContent() {
+function PassTableContent({passes}) {
+
   return (
     <div className="p-4 bg-white rounded-lg md:p-8">
       <div className="shadow-md sm:rounded-lg">
@@ -96,28 +99,21 @@ function PassTableContent() {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-gray-200 dark:border-gray-700">
-              <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                CARD0001
-              </th>
-              <td className="py-4 px-6">
-                Physical
-              </td>
-              <td className="py-4 px-6 bg-gray-50 dark:bg-gray-800">
-                Loaned
-              </td>
-            </tr>
-            <tr className="border-b border-gray-200 dark:border-gray-700">
-              <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                CARD0002
-              </th>
-              <td className="py-4 px-6">
-                Physical
-              </td>
-              <td className="py-4 px-6 bg-gray-50 dark:bg-gray-800">
-                Lost
-              </td>
-            </tr>
+            {
+              passes.map((pass) => 
+                <tr className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
+                    {pass.passId}
+                  </th>
+                  <td className="py-4 px-6">
+                    {pass.passType}
+                  </td>
+                  <td className="py-4 px-6 bg-gray-100">
+                    {pass.status}
+                  </td>
+                </tr>
+              )
+            }
           </tbody>
         </table>
       </div>

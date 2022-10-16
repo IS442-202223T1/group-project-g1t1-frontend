@@ -1,21 +1,22 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { useUpdatePassContext } from "src/contexts/updatePassContext"
 
-export default function PassTile({title, imgUrl, desc}){
+export default function PassTile({pass}){
   const history = useHistory();
+  const { setSelectedPass } = useUpdatePassContext();
 
   const onButtonClicked = () => {
+    setSelectedPass(pass);
     history.push("/update-pass-details");
   }
 
   return (
     <div className="mb-5 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <img className="rounded-t-lg" src={imgUrl} alt="" />
+      <img className="rounded-t-lg" src={pass.imgUrl} alt="" />
       <div className="p-5">
-        <a href="/#">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
-        </a>
-        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate hover:text-clip">{desc}</p>
+        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{pass.title}</h5>
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate hover:text-clip">{pass.desc}</p>
         <button 
           type="submit"
           onClick={onButtonClicked}
