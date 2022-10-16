@@ -3,5 +3,6 @@ import UpcomingPassRoute from "./upcomingPass";
 import BorrowPassRoute from "./borrowPass";
 import EmployeesRoute from "./employees";
 import ReportsRoute from "./reports";
+import UpdatePassDetailsRoute from "./updatePassDetails";
 
-export { UpdatePassRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute };
+export { UpdatePassRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute, UpdatePassDetailsRoute };
