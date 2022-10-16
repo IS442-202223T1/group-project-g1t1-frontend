@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { UpdatePassContextProvider } from "src/contexts/updatePassContext";
-import { UpdatePassRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute, UpdatePassDetailsRoute } from "src/routes";
+import { UpdatePassRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute, UpdatePassDetailsRoute, CreatePassRoute } from "src/routes";
 import Common from "src/components/common";
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
             <Route exact path='/employees' component={EmployeesRoute} />
             <Route exact path='/reports' component={ReportsRoute} />
             <Route exact path='/update-pass-details' component={UpdatePassDetailsRoute} />
+            <Route exact path='/create-pass' component={CreatePassRoute} />
           </Switch>
         </Common>
       </UpdatePassContextProvider>
