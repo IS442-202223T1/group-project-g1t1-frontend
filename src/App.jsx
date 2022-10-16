@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { UpdatePassRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute } from "src/routes";
+import { UpdatePassRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute, UpdatePassDetailsRoute } from "src/routes";
 import Common from "src/components/common";
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
           <Route exact path='/borrow-pass' component={BorrowPassRoute} />
           <Route exact path='/employees' component={EmployeesRoute} />
           <Route exact path='/reports' component={ReportsRoute} />
+          <Route exact path='/update-pass-details' component={UpdatePassDetailsRoute} />
         </Switch>
       </Common>
     </Router>
