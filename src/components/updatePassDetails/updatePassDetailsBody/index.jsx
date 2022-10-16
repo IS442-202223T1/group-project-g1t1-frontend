@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useUpdatePassContext } from "src/contexts/updatePassContext"
+import PassStatusBadge from "./statusBadge";
 
 export default function UpdatePassDetailsBody() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -84,16 +85,16 @@ function PassTableContent({passes}) {
   return (
     <div className="p-4 bg-white rounded-lg md:p-8">
       <div className="shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
+        <table className="w-full text-sm text-left text-gray-700">
+          <thead className="text-xs text-gray-700 uppercase">
             <tr>
-              <th scope="col" className="py-3 px-6 bg-gray-50 dark:bg-gray-800">
+              <th scope="col" className="py-3 px-6 bg-gray-50">
                 Pass ID
               </th>
               <th scope="col" className="py-3 px-6">
                 Pass Type
               </th>
-              <th scope="col" className="py-3 px-6 bg-gray-50 dark:bg-gray-800">
+              <th scope="col" className="py-3 px-6 bg-gray-50">
                 Status
               </th>
             </tr>
@@ -101,7 +102,7 @@ function PassTableContent({passes}) {
           <tbody>
             {
               passes.map((pass) => 
-                <tr className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                <tr className="bg-white divide-y">
                   <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
                     {pass.passId}
                   </th>
@@ -109,7 +110,7 @@ function PassTableContent({passes}) {
                     {pass.passType}
                   </td>
                   <td className="py-4 px-6 bg-gray-100">
-                    {pass.status}
+                    <PassStatusBadge status={pass.status} />
                   </td>
                 </tr>
               )
