@@ -1,12 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useUpdatePassContext } from "src/contexts/updatePassContext";
+import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext";
 import BackButton from "src/components/common/buttons/backButton";
-import UpdatePassDetailsBody from "./updatePassDetailsBody";
+import UpdateMembershipDetailsBody from "./updateMembershipDetailsBody";
 
-function UpdatePassDetails() {
+function UpdateMembershipDetails() {
   const history = useHistory();
-  const { selectedPass } = useUpdatePassContext();
+  const { selectedMembership } = useUpdateMembershipContext();
 
   const onBackButtonClicked = () => {
     history.push("/");
@@ -16,11 +16,11 @@ function UpdatePassDetails() {
     <div className="max-w-5xl mt-5 mx-auto">
       <div className="flex items-center mb-5">
         <BackButton onClick={onBackButtonClicked} />
-        <h1 className="font-medium text-3xl">{selectedPass.title}</h1>
+        <h1 className="font-medium text-3xl">{selectedMembership.title}</h1>
       </div>
-      <UpdatePassDetailsBody />
+      <UpdateMembershipDetailsBody />
     </div>
   )
 }
 
-export default UpdatePassDetails;
+export default UpdateMembershipDetails;

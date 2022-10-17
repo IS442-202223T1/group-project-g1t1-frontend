@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { UpdatePassContextProvider } from "src/contexts/updatePassContext";
-import { UpdatePassRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute, UpdatePassDetailsRoute, CreatePassRoute } from "src/routes";
+import { UpdateMembershipContextProvider } from "src/contexts/updateMembershipContext";
+import { UpdateMembershipRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute, UpdateMembershipDetailsRoute, CreateMembershipRoute } from "src/routes";
 import Common from "src/components/common";
 
 function App() {
@@ -9,14 +9,14 @@ function App() {
 
   return (
     <Router>
-      <UpdatePassContextProvider>
+      <UpdateMembershipContextProvider>
         <Common>
           <Switch>
             <Route 
               exact path='/' 
               render={() => {
                 if (userType === "admin") {
-                  return <UpdatePassRoute />
+                  return <UpdateMembershipRoute />
                 }
                 return <UpcomingPassRoute />
               }}
@@ -24,11 +24,11 @@ function App() {
             <Route exact path='/borrow-pass' component={BorrowPassRoute} />
             <Route exact path='/employees' component={EmployeesRoute} />
             <Route exact path='/reports' component={ReportsRoute} />
-            <Route exact path='/update-pass-details' component={UpdatePassDetailsRoute} />
-            <Route exact path='/create-pass' component={CreatePassRoute} />
+            <Route exact path='/update-membership-details' component={UpdateMembershipDetailsRoute} />
+            <Route exact path='/create-membership' component={CreateMembershipRoute} />
           </Switch>
         </Common>
-      </UpdatePassContextProvider>
+      </UpdateMembershipContextProvider>
     </Router>
   );
 }

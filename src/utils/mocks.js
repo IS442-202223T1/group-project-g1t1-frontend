@@ -37,7 +37,7 @@ export const mockUpcomingPassData = [
   },
 ]
 
-export const mockAdminPassData = [
+export const mockAdminMembershipData = [
   {
     title: "Mandai Wildlife Reserve",
     imgUrl: "https://images.unsplash.com/photo-1665006518423-b81a193b4100?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
