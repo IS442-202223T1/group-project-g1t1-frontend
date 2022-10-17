@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useUpdatePassContext } from "src/contexts/updatePassContext"
+import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
 import PassStatusBadge from "./statusBadge";
 
-export default function UpdatePassDetailsBody() {
+export default function UpdateMembershipDetailsBody() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const { selectedPass } = useUpdatePassContext();
+  const { selectedMembership } = useUpdateMembershipContext();
 
   const handleButtonTabClick = (index) => (e) => {
     e.preventDefault();
@@ -29,8 +29,8 @@ export default function UpdatePassDetailsBody() {
       <ul className="flex flex-wrap text-sm font-medium text-center bg-gray-50 rounded-t-lg border-b border-gray-200">
         {renderButtonTabs}
       </ul>
-      {activeTabIndex === 0 && <AdminContent fee={selectedPass.fee} pax={selectedPass.pax} />}
-      {activeTabIndex === 1 && <PassTableContent passes={selectedPass.passes} />}
+      {activeTabIndex === 0 && <AdminContent fee={selectedMembership.fee} pax={selectedMembership.pax} />}
+      {activeTabIndex === 1 && <PassTableContent passes={selectedMembership.passes} />}
     </div>
   )
 }

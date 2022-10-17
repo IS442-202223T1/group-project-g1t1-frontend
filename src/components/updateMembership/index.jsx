@@ -1,19 +1,19 @@
 import React from "react";
-import PassTile from "src/components/updatePass/passTile";
-import SearchBar from "src/components/updatePass/searchBar";
+import MembershipTile from "src/components/updateMembership/membershipTile";
+import SearchBar from "src/components/updateMembership/searchBar";
 import SubmitButton from "src/components/common/buttons/yellowSubmitButton";
 import { useHistory } from "react-router-dom";
-import { mockAdminPassData } from "src/utils/mocks";
+import { mockAdminMembershipData } from "src/utils/mocks";
 
-function UpdatePass() {
+function UpdateMembership() {
   const history = useHistory();
 
   const onAddNewButtonClicked = () => {
-    history.push("/create-pass");
+    history.push("/create-membership");
   }
 
-  const allPasses = mockAdminPassData.map((pass) => (
-    <PassTile pass={pass} />
+  const allMemberships = mockAdminMembershipData.map((membership) => (
+    <MembershipTile membership={membership} />
   ));
 
   return (
@@ -23,10 +23,10 @@ function UpdatePass() {
         <SubmitButton buttonName="Add New" onButtonClick={onAddNewButtonClicked} />
       </div>
       <div className="w-10/12 max-w-5xl mt-5 p-5 grid grid-cols-2 xl:grid-cols-3 gap-5 mx-auto">
-        {allPasses}
+        {allMemberships}
       </div>
     </div>
   )
 }
 
-export default UpdatePass;
+export default UpdateMembership;

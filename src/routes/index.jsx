@@ -1,9 +1,9 @@
-import UpdatePassRoute from "./updatePass";
+import UpdateMembershipRoute from "./updateMembership";
 import UpcomingPassRoute from "./upcomingPass";
 import BorrowPassRoute from "./borrowPass";
 import EmployeesRoute from "./employees";
 import ReportsRoute from "./reports";
-import UpdatePassDetailsRoute from "./updatePassDetails";
-import CreatePassRoute from "./createPass";
+import UpdateMembershipDetailsRoute from "./updateMembershipDetails";
+import CreateMembershipRoute from "./createMembership";
 
-export { UpdatePassRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute, UpdatePassDetailsRoute, CreatePassRoute };
+export { UpdateMembershipRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute, UpdateMembershipDetailsRoute, CreateMembershipRoute };
