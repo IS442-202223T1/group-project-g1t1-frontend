@@ -13,12 +13,12 @@ export const testToken = async (token) => {
         Authorization: `${token}`,
       },
     });
-    if (res.data) {
+    if (res.status === 200) {
       return true;
     }
     throw new Error("No data returned from backend");
   } catch (error) {
     console.log(error);
-    return { error: error.message };
+    return false;
   }
 };

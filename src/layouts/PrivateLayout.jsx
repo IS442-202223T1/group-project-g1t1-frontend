@@ -17,9 +17,6 @@ import { testToken } from "src/api/testToken";
 import jwt_decode from "jwt-decode";
 
 export default function PrivateLayout() {
-  const userType = "admin";
-  const [token, setToken] = useState("");
-
   const history = useHistory();
   const {
     isUserLoggedIn,
@@ -56,10 +53,9 @@ export default function PrivateLayout() {
           exact
           path='/'
           render={() => {
-            if (currentUserRoles.includes("Admin")) {
+            if (currentUserRoles.includes("admin")) {
               return <UpdateMembershipRoute />;
             }
-            // return <UpdateMembershipRoute />
             return <UpcomingPassRoute />;
           }}
         />
