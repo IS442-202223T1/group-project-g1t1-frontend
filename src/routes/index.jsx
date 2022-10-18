@@ -6,5 +6,16 @@ import ReportsRoute from "./reports";
 import UpdateMembershipDetailsRoute from "./updateMembershipDetails";
 import CreateMembershipRoute from "./createMembership";
 import EditPassRoute from "./editPass";
+import LoginRoute from "./login";
 
-export { UpdateMembershipRoute, UpcomingPassRoute, BorrowPassRoute, EmployeesRoute, ReportsRoute, UpdateMembershipDetailsRoute, CreateMembershipRoute, EditPassRoute };
+export {
+  UpdateMembershipRoute,
+  UpcomingPassRoute,
+  BorrowPassRoute,
+  EmployeesRoute,
+  ReportsRoute,
+  UpdateMembershipDetailsRoute,
+  CreateMembershipRoute,
+  EditPassRoute,
+  LoginRoute,
+};

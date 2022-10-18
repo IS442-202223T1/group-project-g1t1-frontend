@@ -1,18 +1,13 @@
+import { useUserContext } from "src/contexts/userContext";
 import BorrowerNavBar from "./borrower/NavBar";
 import AdminNavBar from "./admin/NavBar";
 
 export default function Common({children}) {
-  const userType = "admin";
+  const { currentUserRoles } = useUserContext();
+  const isAdmin = currentUserRoles.includes("Admin");
 
-  switch (userType) {
-    case "admin":
-      return (
-        <>
-          <AdminNavBar />
-          {children}
-        </>
-      );
-    case "borrower":
+  switch (isAdmin) {
+    case true:
       return (
         <>
           <BorrowerNavBar />
@@ -22,7 +17,7 @@ export default function Common({children}) {
     default:
       return (
         <>
-          <BorrowerNavBar />
+          <AdminNavBar />
           {children}
         </>
       );
