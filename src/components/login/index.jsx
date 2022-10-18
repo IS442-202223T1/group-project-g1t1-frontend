@@ -38,6 +38,10 @@ export default function login() {
     }
   };
 
+  const handleCreateNewAccount = () => {
+    history.push("/verify-email");
+  }
+
   return (
     <div className='w-screen h-screen flex flex-col'>
       <div className='m-auto h-11/12 xl:h-1/2 w-11/12 xl:w-3/4 rounded-2xl shadow-xl flex flex-col xl:flex-row p-10 justify-between'>
@@ -91,6 +95,7 @@ export default function login() {
             <button
               type='button'
               className='text-redPri bg-white border-redPri border hover:bg-grey focus:ring-4 focus:outline-none focus:ring-grey font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'
+              onClick={handleCreateNewAccount}
             >
               Create New Account
             </button>
