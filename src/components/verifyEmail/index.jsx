@@ -11,7 +11,7 @@ export default function VerifyEmail() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // make api call to send verification email
+    // TODO: make api call to send verification email
     setEmailSuccess(true);
   };
 

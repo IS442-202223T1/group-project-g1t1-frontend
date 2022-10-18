@@ -8,6 +8,7 @@ import CreateMembershipRoute from "./createMembership";
 import EditPassRoute from "./editPass";
 import LoginRoute from "./login";
 import VerifyEmailRoute from "./verifyEmail";
+import CreateAccountRoute from "./createAccount";
 
 export {
   UpdateMembershipRoute,
@@ -20,4 +21,5 @@ export {
   EditPassRoute,
   LoginRoute,
   VerifyEmailRoute,
+  CreateAccountRoute,
 };
