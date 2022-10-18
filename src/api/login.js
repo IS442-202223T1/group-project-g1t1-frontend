@@ -12,7 +12,7 @@ export const postLogin = async (email, password) => {
     const res = await axiosLoginInstance.post("", {
       username: email,
       password,
-    })
+    });
     if (res) {
       return res.headers;
     }
@@ -21,4 +21,4 @@ export const postLogin = async (email, password) => {
     console.log(error);
     return { error: error.message };
   }
-}
+};

@@ -11,8 +11,8 @@ export const testToken = async (token) => {
     const res = await axiosLoginInstance.get("", {
       headers: {
         Authorization: `${token}`,
-      }
-    })
+      },
+    });
     if (res.data) {
       return true;
     }
@@ -21,4 +21,4 @@ export const testToken = async (token) => {
     console.log(error);
     return { error: error.message };
   }
-}
+};
