@@ -12,6 +12,7 @@ function App() {
         <UpdateMembershipContextProvider>
           <Switch>
             <Route path="/login" component={PublicLayout} />
+            <Route path="/verify-email" component={PublicLayout} />
             <Route path="/" component={PrivateLayout} />
           </Switch>
         </UpdateMembershipContextProvider>
