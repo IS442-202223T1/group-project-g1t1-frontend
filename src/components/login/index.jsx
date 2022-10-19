@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { postLogin } from "src/api/login";
 import { useUserContext } from "src/contexts/userContext";
 // eslint-disable-next-line camelcase
@@ -14,6 +14,11 @@ export default function login() {
   const [error, setError] = useState("");
 
   const history = useHistory();
+  const { search } = useLocation();
+
+  useEffect(() => {
+    setEmail(new URLSearchParams(search).get("email"));
+  }, []);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
