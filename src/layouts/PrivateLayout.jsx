@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory, Route, Switch } from "react-router-dom";
 import Common from "src/components/common";
 import {
@@ -12,7 +12,7 @@ import {
   EditPassRoute,
 } from "src/routes";
 import { useUserContext } from "src/contexts/userContext";
-import { testToken } from "src/api/testToken";
+import { testToken } from "src/api/account";
 // eslint-disable-next-line camelcase
 import jwt_decode from "jwt-decode";
 
