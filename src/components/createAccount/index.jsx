@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { postCreateAccount } from "src/api/account";
 import CreateAccountSuccess from "./createAccountSuccess";
 
 export default function CreateAccount() {
@@ -27,19 +28,23 @@ export default function CreateAccount() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
+    const permittedEmails = ["sportsschool.edu.sg", "nysi.org.sg"];
     const queryEmail = new URLSearchParams(search).get("email");
     const tempErrors = [];
-    if ( queryEmail === null) {
+    if ( queryEmail === null || queryEmail.split("@").length !== 2 || !permittedEmails.includes(queryEmail.split("@")[1]) ) {
       tempErrors.push("Unable to fulfil request. Please use the link that was sent to your email.")
     } else {
       setEmail(queryEmail);
+      const res = await postCreateAccount(queryEmail, name, contactNumber, password);
+      if (res) {
+        setCreateSuccess(true);
+        return;
+      } 
+      tempErrors.push("Unable to fulfil request. Please try again later.");
     }
-    // TODO: make api call to create account
     if (tempErrors.length) {
       setErrors(tempErrors);
-      return;
     }
-    setCreateSuccess(true);
   };
 
   return (
