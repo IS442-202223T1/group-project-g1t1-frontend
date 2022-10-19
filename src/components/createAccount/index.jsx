@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { postCreateAccount } from "src/api/account";
+import { permittedEmails } from "src/utils/constants";
 import CreateAccountSuccess from "./createAccountSuccess";
 
 export default function CreateAccount() {
@@ -28,7 +29,6 @@ export default function CreateAccount() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
-    const permittedEmails = ["sportsschool.edu.sg", "nysi.org.sg"];
     const queryEmail = new URLSearchParams(search).get("email");
     const tempErrors = [];
     if ( queryEmail === null || queryEmail.split("@").length !== 2 || !permittedEmails.includes(queryEmail.split("@")[1]) ) {
