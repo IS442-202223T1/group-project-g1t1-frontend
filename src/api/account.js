@@ -20,7 +20,7 @@ export const postCreateAccount = async (email, name, contactNumber, password) =>
     throw new Error("No data returned from backend");
   } catch (error) {
     console.log(error);
-    return { error: error.message };
+    return false;
   }
 };
 
