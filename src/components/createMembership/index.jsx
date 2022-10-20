@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import YellowSubmitButton from "../common/buttons/yellowSubmitButton";
+import DefaultSubmitButton from "../common/buttons/defaultSubmitButton";
 
 function CreateMembership() {
   const history = useHistory();
@@ -35,7 +35,7 @@ function CreateMembership() {
             <label htmlFor="pax" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Number of Pax per Pass</label>
             <input type="number" id="pax" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
           </div>
-          <YellowSubmitButton buttonName="Create Membership" onButtonClick={onButtonClicked} />
+          <DefaultSubmitButton buttonName="Create Membership" onButtonClick={onButtonClicked} />
         </form>
       </div>
     </div>

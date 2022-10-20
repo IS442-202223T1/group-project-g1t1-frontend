@@ -6,8 +6,7 @@ export default function NavBar() {
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
       <div className="flex items-center">
-        <img src="https://flowbite.com/docs/images/logo.svg" className="mr-3 h-6 sm:h-9 " alt="Flowbite" />
-        <span className="self-center text-xl font-semibold whitespace-nowrap">Borrower</span>
+        <img src="/borrowerLogo.png" className="mr-3 h-6 sm:h-9 " alt="Flowbite" />
       </div>
       <div className="flex items-center md:order-2">
           <button type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-2 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
