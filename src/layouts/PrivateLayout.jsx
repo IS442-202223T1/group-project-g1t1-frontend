@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useHistory, Route, Switch } from "react-router-dom";
-import Common from "src/components/common";
+import NavBar from "src/components/common/navbar";
 import {
   UpdateMembershipRoute,
   UpcomingPassRoute,
@@ -47,7 +47,8 @@ export default function PrivateLayout() {
   }, []);
 
   return (
-    <Common>
+    <>
+      <NavBar />
       <Switch>
         <Route
           exact
@@ -66,6 +67,6 @@ export default function PrivateLayout() {
         <Route exact path='/create-membership' component={CreateMembershipRoute} />
         <Route exact path='/edit-pass' component={EditPassRoute} />
       </Switch>
-    </Common>
+    </>
   );
 }
