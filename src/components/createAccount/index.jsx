@@ -31,7 +31,8 @@ export default function CreateAccount() {
     setErrors([]);
     const queryEmail = new URLSearchParams(search).get("email");
     const tempErrors = [];
-    if ( queryEmail === null || queryEmail.split("@").length !== 2 || !permittedEmails.includes(queryEmail.split("@")[1]) ) {
+    const { EMAIL_CHECKING } = process.env;
+    if ( queryEmail === null || queryEmail.split("@").length !== 2 || EMAIL_CHECKING && !permittedEmails.includes(queryEmail.split("@")[1]) ) {
       tempErrors.push("Unable to fulfil request. Please use the link that was sent to your email.")
     } else {
       setEmail(queryEmail);
