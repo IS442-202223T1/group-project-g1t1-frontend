@@ -1,4 +1,6 @@
 import React from "react";
+import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
+import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 
 export default function PassTile({title, imgUrl, date, number}){
   return (
@@ -10,8 +12,8 @@ export default function PassTile({title, imgUrl, date, number}){
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{date}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{number} Pass(s)</p>
           <div className="justify-end">
-            <button type="button" className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-200">Cancel</button>
-            <button type="button" className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Report Loss</button>
+            <DefaultSubmitButton buttonName="Report Loss" onButtonClick="" />
+            <DefaultSecondaryButton buttonName="Cancel" onButtonClick="" />
           </div>
         </div>
       </a>
