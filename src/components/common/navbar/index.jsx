@@ -7,14 +7,14 @@ export default function NavBar() {
 
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
-      <div className="container flex flex-wrap justify-between items-center mx-auto">
-      <div className="flex items-center">
-        <NavBarLogo isAdmin={isAdmin} />
-      </div>
-      <UserProfile userEmail={currentUserEmail} />
-      <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-        <NavBarItems isAdmin={isAdmin} />
-      </div>
+      <div className="container flex flex-wrap justify-around items-center">
+        <div className="flex items-center">
+          <NavBarLogo isAdmin={isAdmin} />
+        </div>
+        <UserProfile userEmail={currentUserEmail} />
+        <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
+          <NavBarItems isAdmin={isAdmin} />
+        </div>
       </div>
     </nav>
   )
@@ -23,7 +23,7 @@ export default function NavBar() {
 function NavBarLogo({isAdmin}) {
   return (
     <>
-      <img src="/logo.png" className="mr-3 h-8 sm:h-9" alt="" />
+      <img src="/logo.png" className="mx-3 h-8 sm:h-9" alt="" />
       {isAdmin && <span className="text-sm font-bold text-gray-800">Admin</span>}
     </>
   )
@@ -71,16 +71,18 @@ function UserProfile({userEmail}) {
         <img className="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3580&q=80" alt="user"/>
       </button>
 
-      <div className={`${isMenuOpen ? "hidden" : ""} my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow`}>
-        <div className="py-3 px-4">
-          <span className="block text-sm text-gray-900">Bonnie Green</span>
-          <span className="block text-sm font-medium text-gray-500 truncate">{userEmail}</span>
+      <div className={`${isMenuOpen ? "hidden" : ""} relative inset-y-5 right-10`}>
+        <div className="absolute w-44 text-base list-none bg-white border border-gray-100 rounded divide-y divide-gray-100">
+          <div className="py-3 px-4">
+            <span className="block text-sm text-gray-900">Bonnie Green</span>
+            <span className="block text-sm font-medium text-gray-500 truncate">{userEmail}</span>
+          </div>
+          <ul className="py-1">
+            <li>
+              <a href="/login" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+            </li>
+          </ul>
         </div>
-        <ul className="py-1">
-          <li>
-            <a href="/login" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
-          </li>
-        </ul>
       </div>
 
       <button type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
