@@ -3,7 +3,9 @@ import { useUserContext } from "src/contexts/userContext";
 
 export default function NavBar() {
   const { currentUserRoles, currentUserEmail } = useUserContext();
-  const isAdmin = currentUserRoles.includes("Admin");
+  const isAdmin = currentUserRoles.includes("admin");
+  console.log(currentUserRoles);
+  console.log(isAdmin);
 
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
