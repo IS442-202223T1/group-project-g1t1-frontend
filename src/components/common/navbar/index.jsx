@@ -94,8 +94,8 @@ function UserProfile({userEmail, allRoles, currentRole, setCurrentRole}) {
             <span className="block text-sm font-medium text-gray-500 truncate">{userEmail}</span>
           </div>
           <ul className="py-1">
-            {showViewAdminOption && <li><button type="submit" onClick={onClickedViewAdminOption} className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">View as Admin</button></li>}
-            {showViewBorrowerOption && <li><button type="submit" onClick={onClickedViewBorrowerOption} className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">View as Staff</button></li>}
+            {showViewAdminOption && <li><button type="submit" onClick={onClickedViewAdminOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">View as Admin</button></li>}
+            {showViewBorrowerOption && <li><button type="submit" onClick={onClickedViewBorrowerOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">View as Staff</button></li>}
             <li>
               <a href="/login" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
             </li>
