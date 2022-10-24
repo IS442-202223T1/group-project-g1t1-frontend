@@ -18,7 +18,7 @@ function UpdateMembership() {
 
   return (
     <div className="max-w-5xl mt-5 mx-auto">
-      <div className="flex justify-around">
+      <div className="flex justify-around items-center">
         <SearchBar />
         <DefaultSubmitButton buttonName="Add New" onButtonClick={onAddNewButtonClicked} />
       </div>

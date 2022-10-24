@@ -1,21 +1,19 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useUserContext } from "src/contexts/userContext";
 
 export default function NavBar() {
-  const { currentUserRoles, currentUserEmail } = useUserContext();
-  const isAdmin = currentUserRoles.includes("admin");
-  console.log(currentUserRoles);
-  console.log(isAdmin);
+  const { currentUserRoles, currentSelectedRole, setCurrentSelectedRoleToStateAndSession, currentUserEmail } = useUserContext();
 
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
       <div className="container flex flex-wrap justify-around items-center">
         <div className="flex items-center">
-          <NavBarLogo isAdmin={isAdmin} />
+          <NavBarLogo isAdmin={currentSelectedRole === "admin"} />
         </div>
-        <UserProfile userEmail={currentUserEmail} />
+        <UserProfile userEmail={currentUserEmail} allRoles={currentUserRoles} currentRole={currentSelectedRole} setCurrentRole={setCurrentSelectedRoleToStateAndSession} />
         <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-          <NavBarItems isAdmin={isAdmin} />
+          <NavBarItems isAdmin={currentSelectedRole === "admin"} />
         </div>
       </div>
     </nav>
@@ -60,11 +58,27 @@ function NavBarItems({isAdmin}) {
   )
 }
 
-function UserProfile({userEmail}) {
+function UserProfile({userEmail, allRoles, currentRole, setCurrentRole}) {
+  const history = useHistory();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const showViewBorrowerOption = allRoles.includes("borrower") && currentRole === "admin";
+  const showViewAdminOption = allRoles.includes("admin") && currentRole === "borrower";
 
   const onProfileClick = () => {
     setIsMenuOpen(!isMenuOpen);
+  }
+
+  const onClickedViewAdminOption = (e) => {
+    e.preventDefault();
+    setCurrentRole("admin");
+    history.push("/");
+  }
+
+  const onClickedViewBorrowerOption = (e) => {
+    e.preventDefault();
+    setCurrentRole("borrower");
+    history.push("/");
   }
 
   return (
@@ -73,13 +87,15 @@ function UserProfile({userEmail}) {
         <img className="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3580&q=80" alt="user"/>
       </button>
 
-      <div className={`${isMenuOpen ? "hidden" : ""} relative inset-y-5 right-10`}>
+      <div className={`${isMenuOpen ? "" : "hidden"} relative inset-y-5 right-10`}>
         <div className="absolute w-44 text-base list-none bg-white border border-gray-100 rounded divide-y divide-gray-100">
           <div className="py-3 px-4">
             <span className="block text-sm text-gray-900">Bonnie Green</span>
             <span className="block text-sm font-medium text-gray-500 truncate">{userEmail}</span>
           </div>
           <ul className="py-1">
+            {showViewAdminOption && <li><button type="submit" onClick={onClickedViewAdminOption} className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">View as Admin</button></li>}
+            {showViewBorrowerOption && <li><button type="submit" onClick={onClickedViewBorrowerOption} className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">View as Staff</button></li>}
             <li>
               <a href="/login" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
             </li>
