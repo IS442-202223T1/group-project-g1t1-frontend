@@ -2,7 +2,7 @@ import React from "react";
 
 function SearchBar() {
   return (
-    <div className="grow max-w-3xl">
+    <div className="grow max-w-3xl z-10">
       <form>   
         <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
         <div className="relative">
