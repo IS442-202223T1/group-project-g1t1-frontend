@@ -44,6 +44,10 @@ function NavBarItems({currentRole}) {
     history.push("/borrow-pass");
   }
 
+  const onClickedGopButton = (e) => {
+    history.push("/gop-dashboard");
+  }
+
 
   if (currentRole === "admin") {
     return (
@@ -57,6 +61,9 @@ function NavBarItems({currentRole}) {
         <li>
           <button type="button" onClick={onClickedReportsOption} className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-redPri md:p-0">Reports</button>
         </li>
+        <li>
+        <button type="button" onClick={onClickedGopButton} className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-redPri md:p-0">GOP</button>
+      </li>
       </ul>
     )
   }
@@ -68,6 +75,9 @@ function NavBarItems({currentRole}) {
       </li>
       <li>
         <button type="button" onClick={onClickedBorrowPassOption} className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-redPri md:p-0">Borrow Pass</button>
+      </li>
+      <li>
+        <button type="button" onClick={onClickedGopButton} className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-redPri md:p-0">GOP</button>
       </li>
     </ul>
   )
