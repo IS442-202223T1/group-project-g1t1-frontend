@@ -1,5 +1,5 @@
 import React from "react";
-import YellowSubmitButton from "../common/buttons/yellowSubmitButton";
+import DefaultSubmitButton from "../common/buttons/DefaultSubmitButton";
 
 const viewDetails = () => {
   //
@@ -40,7 +40,7 @@ function Employees() {
                     5
                 </td>
                 <td className="py-4 px-6">
-                <YellowSubmitButton buttonName="View Details" viewDetails={viewDetails} />
+                <DefaultSubmitButton buttonName="View Details" viewDetails={viewDetails} />
                 </td>
                 
             </tr>
@@ -55,7 +55,7 @@ function Employees() {
                     3
                 </td>
                 <td className="py-4 px-6">
-                <YellowSubmitButton buttonName="View Details" viewDetails={viewDetails} />
+                <DefaultSubmitButton buttonName="View Details" viewDetails={viewDetails} />
                 </td>
                 
             </tr>
@@ -70,7 +70,7 @@ function Employees() {
                     2
                 </td>
                 <td className="py-4 px-6">
-                <YellowSubmitButton buttonName="View Details" viewDetails={viewDetails} />
+                <DefaultSubmitButton buttonName="View Details" viewDetails={viewDetails} />
                 </td>
                 
             </tr>

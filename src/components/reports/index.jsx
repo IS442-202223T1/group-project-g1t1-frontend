@@ -1,6 +1,6 @@
 import React from "react";
 import "flowbite";
-import YellowSubmitButton from "../common/buttons/yellowSubmitButton";
+import DefaultSubmitButton from "../common/buttons/DefaultSubmitButton";
 
 const data = [
   { year: 2022, month: "Jan", loans: 3 },
@@ -109,7 +109,7 @@ function Reports() {
         </tbody>
     </table>
 </div>
-<YellowSubmitButton buttonName="Export as CSV" exportCSV={exportCSV} />
+<DefaultSubmitButton buttonName="Export as CSV" exportCSV={exportCSV} />
 
      
     </div>
