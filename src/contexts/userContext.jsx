@@ -6,6 +6,8 @@ const defaultUserContextState = {
   setIsUserLoggedIn: (loggedInStatus) => {},
   currentUserRoles: "",
   setUserRolesToStateAndSession: (roles) => {},
+  currentSelectedRole: "",
+  setCurrentSelectedRoleToStateAndSession: (role) => {},
   currentUserEmail: null,
   setCurrentUserEmailToStateAndSession: (email) => {},
 };
@@ -15,10 +17,16 @@ export function UserProvider({ children }) {
   const [isUserLoggedin, setIsUserLoggedIn] = useState(false);
   const [currentUserRoles, setCurrentUserRoles] = useState([]);
   const [currentUserEmail, setCurrentUserEmail] = useState("");
+  const [currentSelectedRole, setCurrentSelectedRole] = useState("");
 
   const setUserRolesToStateAndSession = (roles) => {
     setCurrentUserRoles(roles);
     sessionStorage.setItem("roles", roles);
+  };
+
+  const setCurrentSelectedRoleToStateAndSession = (role) => {
+    setCurrentSelectedRole(role);
+    sessionStorage.setItem("role", role);
   };
 
   const setCurrentUserEmailToStateAndSession = (email) => {
@@ -32,6 +40,8 @@ export function UserProvider({ children }) {
       setIsUserLoggedIn,
       currentUserRoles,
       setUserRolesToStateAndSession,
+      currentSelectedRole,
+      setCurrentSelectedRoleToStateAndSession,
       currentUserEmail,
       setCurrentUserEmailToStateAndSession,
     }),
@@ -40,6 +50,8 @@ export function UserProvider({ children }) {
       setIsUserLoggedIn,
       currentUserRoles,
       setUserRolesToStateAndSession,
+      currentSelectedRole,
+      setCurrentSelectedRoleToStateAndSession,
       currentUserEmail,
       setCurrentUserEmailToStateAndSession,
     ],

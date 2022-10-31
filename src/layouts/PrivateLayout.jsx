@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory, Route, Switch } from "react-router-dom";
-import Common from "src/components/common";
+import NavBar from "src/components/common/navbar";
 import {
   UpdateMembershipRoute,
   UpcomingPassRoute,
@@ -12,7 +12,7 @@ import {
   EditPassRoute,
 } from "src/routes";
 import { useUserContext } from "src/contexts/userContext";
-import { testToken } from "src/api/testToken";
+import { testToken } from "src/api/account";
 // eslint-disable-next-line camelcase
 import jwt_decode from "jwt-decode";
 
@@ -23,6 +23,8 @@ export default function PrivateLayout() {
     setIsUserLoggedIn,
     currentUserRoles,
     setUserRolesToStateAndSession,
+    currentSelectedRole,
+    setCurrentSelectedRoleToStateAndSession,
     setCurrentUserEmailToStateAndSession,
   } = useUserContext();
 
@@ -34,6 +36,7 @@ export default function PrivateLayout() {
           if (res) {
             const decoded = jwt_decode(token);
             setUserRolesToStateAndSession(decoded.USER_ROLES);
+            setCurrentSelectedRoleToStateAndSession(decoded.USER_ROLES[0]);
             setCurrentUserEmailToStateAndSession(decoded.sub);
             setIsUserLoggedIn(true);
           } else {
@@ -47,13 +50,14 @@ export default function PrivateLayout() {
   }, []);
 
   return (
-    <Common>
+    <>
+      <NavBar />
       <Switch>
         <Route
           exact
           path='/'
           render={() => {
-            if (currentUserRoles.includes("admin")) {
+            if (currentSelectedRole === "admin") {
               return <UpdateMembershipRoute />;
             }
             return <UpcomingPassRoute />;
@@ -66,6 +70,6 @@ export default function PrivateLayout() {
         <Route exact path='/create-membership' component={CreateMembershipRoute} />
         <Route exact path='/edit-pass' component={EditPassRoute} />
       </Switch>
-    </Common>
+    </>
   );
 }

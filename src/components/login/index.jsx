@@ -1,19 +1,24 @@
 // @ts-nocheck
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { postLogin } from "src/api/login";
 import { useUserContext } from "src/contexts/userContext";
 // eslint-disable-next-line camelcase
 import jwt_decode from "jwt-decode";
 
 export default function login() {
-  const { setIsUserLoggedIn, setUserRolesToStateAndSession, setCurrentUserEmailToStateAndSession } =
+  const { setIsUserLoggedIn, setUserRolesToStateAndSession, setCurrentSelectedRoleToStateAndSession, setCurrentUserEmailToStateAndSession } =
     useUserContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const history = useHistory();
+  const { search } = useLocation();
+
+  useEffect(() => {
+    setEmail(new URLSearchParams(search).get("email"));
+  }, []);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -30,6 +35,7 @@ export default function login() {
       sessionStorage.setItem("token", res.authorization);
       const decoded = jwt_decode(res.authorization);
       setUserRolesToStateAndSession(decoded.USER_ROLES);
+      setCurrentSelectedRoleToStateAndSession(decoded.USER_ROLES[0]);
       setCurrentUserEmailToStateAndSession(decoded.sub);
       setIsUserLoggedIn(true);
       history.push("/");
@@ -85,16 +91,16 @@ export default function login() {
               <span className='text-redPri'>{error}</span>
             </div>
           </div>
-          <div className='flex flex-col space-y-4'>
+          <div className='flex flex-row space-x-6 xl:space-x-4 mx-auto justify-around items-center'>
             <button
               type='submit'
-              className='text-white bg-redPri hover:bg-redSec focus:ring-4 focus:outline-none focus:ring-grey font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'
+              className='max-w-xs text-white bg-redPri hover:bg-redSec focus:ring-4 focus:outline-none focus:ring-grey font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'
             >
               Submit
             </button>
             <button
               type='button'
-              className='text-redPri bg-white border-redPri border hover:bg-grey focus:ring-4 focus:outline-none focus:ring-grey font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'
+              className='max-w-xs text-redPri bg-white border-redPri border hover:bg-grey focus:ring-4 focus:outline-none focus:ring-grey font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'
               onClick={handleCreateNewAccount}
             >
               Create New Account

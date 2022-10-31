@@ -1,9 +1,14 @@
 import { useState } from "react";
+import { postVerifyEmail } from "src/api/email";
+import { permittedEmails } from "src/utils/constants";
 import SendEmailSuccess from "./sendEmailSuccess";
+import LoadingSpinner from "./loadingSpinner";
 
 export default function VerifyEmail() {
   const [email, setEmail] = useState("");
   const [emailSuccess, setEmailSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -11,8 +16,25 @@ export default function VerifyEmail() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // make api call to send verification email
-    setEmailSuccess(true);
+    setErrors([]);
+    const emailComponents = email.split("@");
+    const tempErrors = [];
+    const { EMAIL_CHECKING } = process.env;
+    if (emailComponents.length !== 2 || EMAIL_CHECKING && (!permittedEmails.includes(emailComponents[1]))) {
+      tempErrors.push("Please enter a valid email address.");
+    } else {
+      setIsLoading(true);
+      const res = await postVerifyEmail(email);
+      setIsLoading(false);
+      if (res) {
+        setEmailSuccess(true);
+        return;
+      }
+      tempErrors.push("Unable to fulfil request. Please try again later.");
+    }
+    if (tempErrors.length) {
+      setErrors(tempErrors);
+    }
   };
 
   return (
@@ -42,10 +64,14 @@ export default function VerifyEmail() {
             <div className='flex flex-col space-y-4'>
               <button
                 type='submit'
-                className='text-white bg-redPri hover:bg-redSec focus:ring-4 focus:outline-none focus:ring-grey font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'
+                className='flex items-center justify-center text-white bg-redPri hover:bg-redSec focus:ring-4 focus:outline-none focus:ring-grey font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'
               >
-                Send Verification Email
+                <div>Send Verification Email</div>
+                {isLoading ? <LoadingSpinner /> : null}
               </button>
+              <div className="text-redPri text-sm">
+                {errors.map((error) => (<p>{error}</p>))}
+              </div>
             </div>
           </div>
         </form>
