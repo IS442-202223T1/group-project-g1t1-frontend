@@ -3,7 +3,7 @@ import React, { useState, createContext, useContext, useMemo } from "react";
 // Do not remove default unused vars as typescript uses this for type hinting
 const defaultUserContextState = {
   isUserLoggedIn: false,
-  setIsUserLoggedIn: (loggedInStatus) => {},
+  setLoginStatusToStateAndSession: (loggedInStatus) => {},
   currentUserRoles: "",
   setUserRolesToStateAndSession: (roles) => {},
   currentSelectedRole: "",
@@ -18,6 +18,11 @@ export function UserProvider({ children }) {
   const [currentUserRoles, setCurrentUserRoles] = useState([]);
   const [currentUserEmail, setCurrentUserEmail] = useState("");
   const [currentSelectedRole, setCurrentSelectedRole] = useState("");
+
+  const setLoginStatusToStateAndSession = (loginStatus) => {
+    setIsUserLoggedIn(loginStatus);
+    sessionStorage.setItem("loginStatus", loginStatus);
+  };
 
   const setUserRolesToStateAndSession = (roles) => {
     setCurrentUserRoles(roles);
@@ -37,7 +42,7 @@ export function UserProvider({ children }) {
   const UserContextState = useMemo(
     () => ({
       isUserLoggedin,
-      setIsUserLoggedIn,
+      setLoginStatusToStateAndSession,
       currentUserRoles,
       setUserRolesToStateAndSession,
       currentSelectedRole,
@@ -47,7 +52,7 @@ export function UserProvider({ children }) {
     }),
     [
       isUserLoggedin,
-      setIsUserLoggedIn,
+      setLoginStatusToStateAndSession,
       currentUserRoles,
       setUserRolesToStateAndSession,
       currentSelectedRole,
