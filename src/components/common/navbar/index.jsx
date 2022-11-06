@@ -60,7 +60,7 @@ function NavBarItems({currentRole}) {
     <li>
       <button
         type="button"
-        onClick = {(e) => {
+        onClick = {() => {
           history.push(item.href);
         }} 
         className={`block py-2 pr-4 pl-3 rounded hover:text-redPri md:p-0 ${isCurrentPage(item.href) ? "text-redPri" : "text-gray-700"}`} 
