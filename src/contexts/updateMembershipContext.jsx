@@ -8,15 +8,20 @@ const UpdateMembershipContext = createContext(defaultUpdateMembershipContextStat
 
 export function UpdateMembershipContextProvider({ children }) {
   const [selectedMembership, setSelectedMembership] = useState(null);
+  const [allCorporatePass, setAllCorporatePass] = useState([]);
 
   const updateMembershipContextState = useMemo(
     () => ({
       selectedMembership,
       setSelectedMembership,
+      allCorporatePass,
+      setAllCorporatePass,
     }),
     [
       selectedMembership,
       setSelectedMembership,
+      allCorporatePass,
+      setAllCorporatePass,
     ],
   );
 

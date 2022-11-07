@@ -6,7 +6,7 @@ import PassStatusBadge from "./statusBadge";
 export default function UpdateMembershipDetailsBody() {
   const history = useHistory();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const { selectedMembership } = useUpdateMembershipContext();
+  const { selectedMembership, allCorporatePass } = useUpdateMembershipContext();
 
   const handleButtonTabClick = (index) => (e) => {
     e.preventDefault();
@@ -39,7 +39,7 @@ export default function UpdateMembershipDetailsBody() {
         <EditButton onClick={onClickEditButton} />
       </ul>
       {activeTabIndex === 0 && <AdminContent fee={selectedMembership.fee} pax={selectedMembership.pax} />}
-      {activeTabIndex === 1 && <PassTableContent passes={selectedMembership.passes} />}
+      {activeTabIndex === 1 && <PassTableContent passes={allCorporatePass} />}
     </div>
   )
 }
@@ -127,7 +127,7 @@ function PassTableContent({passes}) {
               passes.map((pass) => 
                 <tr className="bg-white divide-y">
                   <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
-                    {pass.passId}
+                    {pass.number}
                   </th>
                   <td className="py-4 px-6">
                     {pass.passType}
