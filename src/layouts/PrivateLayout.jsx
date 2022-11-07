@@ -19,26 +19,23 @@ import jwt_decode from "jwt-decode";
 export default function PrivateLayout() {
   const history = useHistory();
   const {
-    isUserLoggedIn,
-    setIsUserLoggedIn,
-    currentUserRoles,
+    setLoginStatusToStateAndSession,
     setUserRolesToStateAndSession,
-    currentSelectedRole,
     setCurrentSelectedRoleToStateAndSession,
     setCurrentUserEmailToStateAndSession,
   } = useUserContext();
 
   useEffect(() => {
-    if (!isUserLoggedIn) {
+    if (sessionStorage.getItem("loginStatus") === null || sessionStorage.getItem("loginStatus") === "false") {
       const token = sessionStorage.getItem("token");
       testToken(token)
         .then((res) => {
           if (res) {
             const decoded = jwt_decode(token);
+            setLoginStatusToStateAndSession(true);
             setUserRolesToStateAndSession(decoded.USER_ROLES);
             setCurrentSelectedRoleToStateAndSession(decoded.USER_ROLES[0]);
             setCurrentUserEmailToStateAndSession(decoded.sub);
-            setIsUserLoggedIn(true);
           } else {
             history.push("/login");
           }
@@ -57,7 +54,7 @@ export default function PrivateLayout() {
           exact
           path='/'
           render={() => {
-            if (currentSelectedRole === "admin") {
+            if (sessionStorage.getItem("role") === "admin") {
               return <UpdateMembershipRoute />;
             }
             return <UpcomingPassRoute />;

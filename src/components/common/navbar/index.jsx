@@ -3,17 +3,19 @@ import { useHistory } from "react-router-dom";
 import { useUserContext } from "src/contexts/userContext";
 
 export default function NavBar() {
-  const { currentUserRoles, currentSelectedRole, setCurrentSelectedRoleToStateAndSession, currentUserEmail } = useUserContext();
+  const currentRole = sessionStorage.getItem("role");
+  const allUserRoles = sessionStorage.getItem("roles");
+  const userEmail = sessionStorage.getItem("email");
 
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
       <div className="container flex flex-wrap justify-around items-center">
         <div className="flex items-center">
-          <NavBarLogo currentRole={currentSelectedRole} />
+          <NavBarLogo currentRole={currentRole} />
         </div>
-        <UserProfile userEmail={currentUserEmail} allRoles={currentUserRoles} currentRole={currentSelectedRole} setCurrentRole={setCurrentSelectedRoleToStateAndSession} />
+        <UserProfile currentRole={currentRole} allUserRoles={allUserRoles} userEmail={userEmail} />
         <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-          <NavBarItems currentRole={currentSelectedRole} />
+          <NavBarItems currentRole={currentRole} />
         </div>
       </div>
     </nav>
@@ -29,76 +31,79 @@ function NavBarLogo({currentRole}) {
   )
 }
 
+function isCurrentPage(href) {
+  const currentUrl = document.location.toString().split("/");
+  const page = `/${currentUrl[currentUrl.length - 1]}`;
+
+  if (page === href) {
+    return true;
+  }
+  return false;
+}
+
 function NavBarItems({currentRole}) {
   const history = useHistory();
-  const onClickedRootOption = (e) => {
-    history.push("/");
-  }
-  const onClickedEmployeesOption = (e) => {
-    history.push("/employees");
-  }
-  const onClickedReportsOption = (e) => {
-    history.push("/reports");
-  }
-  const onClickedBorrowPassOption = (e) => {
-    history.push("/borrow-pass");
+
+  const navBarItems = {
+    "admin": [
+      {name: "Memberships", href: "/"},
+      {name: "Employees", href: "/employees"},
+      {name: "Reports", href: "/reports"},
+    ],
+    "borrower": [
+      {name: "My Pass", href: "/"},
+      {name: "Borrow Pass", href: "/borrow-pass"},
+    ]
   }
 
-
-  if (currentRole === "admin") {
-    return (
-      <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
-        <li>
-          <button type="button" onClick={onClickedRootOption} className="block py-2 pr-4 pl-3 text-white bg-redPri rounded md:bg-transparent md:text-redPri md:p-0">Memberships</button>
-        </li>
-        <li>
-          <button type="button" onClick={onClickedEmployeesOption} className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-redPri md:p-0">Employees</button>
-        </li>
-        <li>
-          <button type="button" onClick={onClickedReportsOption} className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-redPri md:p-0">Reports</button>
-        </li>
-      </ul>
-    )
-  }
+  const renderNavBarItems = navBarItems[currentRole].map((item) => (
+    <li>
+      <button
+        type="button"
+        onClick = {() => {
+          history.push(item.href);
+        }} 
+        className={`block py-2 pr-4 pl-3 rounded hover:text-redPri md:p-0 ${isCurrentPage(item.href) ? "text-redPri" : "text-gray-700"}`} 
+      >
+        {item.name}
+      </button>
+    </li>
+  ));
 
   return (
     <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
-      <li>
-        <button type="button" onClick={onClickedRootOption} className="block py-2 pr-4 pl-3 text-white bg-redPri rounded md:bg-transparent md:text-redPri md:p-0">My Pass</button>
-      </li>
-      <li>
-        <button type="button" onClick={onClickedBorrowPassOption} className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-redPri md:p-0">Borrow Pass</button>
-      </li>
+      {renderNavBarItems}
     </ul>
-  )
+  );
 }
 
-function UserProfile({userEmail, allRoles, currentRole, setCurrentRole}) {
+function UserProfile({currentRole, allUserRoles, userEmail}) {
+  const { setCurrentSelectedRoleToStateAndSession } = useUserContext();
   const history = useHistory();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const showViewBorrowerOption = allRoles.includes("borrower") && currentRole === "admin";
-  const showViewAdminOption = allRoles.includes("admin") && currentRole === "borrower";
+  const showViewBorrowerOption = allUserRoles.includes("borrower") && currentRole === "admin";
+  const showViewAdminOption = allUserRoles.includes("admin") && currentRole === "borrower";
 
   const onProfileClick = () => {
     setIsMenuOpen(!isMenuOpen);
   }
 
   const onClickedViewAdminOption = (e) => {
-    e.preventDefault();
-    setCurrentRole("admin");
+    setCurrentSelectedRoleToStateAndSession("admin");
+    setIsMenuOpen(false);
     history.push("/");
   }
 
   const onClickedViewBorrowerOption = (e) => {
-    e.preventDefault();
-    setCurrentRole("borrower");
+    setCurrentSelectedRoleToStateAndSession("borrower");
+    setIsMenuOpen(false);
     history.push("/");
   }
 
   const onClickedSignOutOption = (e) => {
-    e.preventDefault();
     sessionStorage.clear();
+    setIsMenuOpen(false);
     history.push("/login");
   }
 
@@ -115,9 +120,9 @@ function UserProfile({userEmail, allRoles, currentRole, setCurrentRole}) {
             <span className="block text-sm font-medium text-gray-500 truncate">{userEmail}</span>
           </div>
           <ul className="py-1">
-            {showViewAdminOption && <li><button type="submit" onClick={onClickedViewAdminOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">View as Admin</button></li>}
-            {showViewBorrowerOption && <li><button type="submit" onClick={onClickedViewBorrowerOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">View as Staff</button></li>}
-            <li><button type="submit" onClick={onClickedSignOutOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Sign Out</button></li>
+            {showViewAdminOption && <li><button type="button" onClick={onClickedViewAdminOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">View as Admin</button></li>}
+            {showViewBorrowerOption && <li><button type="button" onClick={onClickedViewBorrowerOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">View as Staff</button></li>}
+            <li><button type="submit" onClick={onClickedSignOutOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">Sign Out</button></li>
           </ul>
         </div>
       </div>

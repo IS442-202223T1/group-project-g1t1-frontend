@@ -7,7 +7,7 @@ import { useUserContext } from "src/contexts/userContext";
 import jwt_decode from "jwt-decode";
 
 export default function login() {
-  const { setIsUserLoggedIn, setUserRolesToStateAndSession, setCurrentSelectedRoleToStateAndSession, setCurrentUserEmailToStateAndSession } =
+  const { setLoginStatusToStateAndSession, setUserRolesToStateAndSession, setCurrentSelectedRoleToStateAndSession, setCurrentUserEmailToStateAndSession } =
     useUserContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,10 +34,10 @@ export default function login() {
     if (res.authorization) {
       sessionStorage.setItem("token", res.authorization);
       const decoded = jwt_decode(res.authorization);
+      setLoginStatusToStateAndSession(true);
       setUserRolesToStateAndSession(decoded.USER_ROLES);
       setCurrentSelectedRoleToStateAndSession(decoded.USER_ROLES[0]);
       setCurrentUserEmailToStateAndSession(decoded.sub);
-      setIsUserLoggedIn(true);
       history.push("/");
     } else {
       setError("Invalid email or password");
