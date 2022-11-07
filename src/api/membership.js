@@ -15,7 +15,6 @@ export const getAllCorporatePassByMembership = async (token, membership) => {
       },
     });
     if (res) {
-      console.log(res.data);
       return res.data;
     }
     throw new Error("No data returned from backend");
