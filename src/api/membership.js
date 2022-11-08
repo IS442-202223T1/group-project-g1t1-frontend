@@ -7,6 +7,23 @@ const axiosEmailInstance = axios.create({
 });
 
 
+export const getAllMemberships = async (token) => {
+  try {
+    const res = await axiosEmailInstance.get("/", {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    if (res) {
+      return res.data;
+    }
+    throw new Error("No data returned from backend");
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const getMembershipDetails = async (token, membershipName) => {
   try {
     const res = await axiosEmailInstance.get(`/${membershipName}`, {

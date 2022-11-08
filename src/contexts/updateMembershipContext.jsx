@@ -1,14 +1,14 @@
 import React, { useState, createContext, useContext, useMemo } from "react";
 
 const defaultUpdateMembershipContextState = {
-  selectedMembership: {},
+  selectedMembership: "",
   setSelectedMembership: (membership) => {},
 };
 const UpdateMembershipContext = createContext(defaultUpdateMembershipContextState);
 
 export function UpdateMembershipContextProvider({ children }) {
-  const [selectedMembership, setSelectedMembership] = useState(null);
-  const [membershipDetails, setMembershipDetails,] = useState({});
+  const [selectedMembership, setSelectedMembership] = useState("");
+  const [membershipDetails, setMembershipDetails] = useState({});
 
   const updateMembershipContextState = useMemo(
     () => ({
