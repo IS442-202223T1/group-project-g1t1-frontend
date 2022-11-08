@@ -16,7 +16,7 @@ function UpdateMembershipDetails() {
     <div className="max-w-5xl mt-5 mx-auto">
       <div className="flex items-center mb-5">
         <BackButton onClick={onBackButtonClicked} />
-        <h1 className="font-medium text-3xl">{selectedMembership.title}</h1>
+        <h1 className="font-medium text-3xl">{selectedMembership}</h1>
       </div>
       <UpdateMembershipDetailsBody />
     </div>
