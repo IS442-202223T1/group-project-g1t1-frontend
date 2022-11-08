@@ -7,9 +7,9 @@ const axiosEmailInstance = axios.create({
 });
 
 
-export const getAllCorporatePassByMembership = async (token, membership) => {
+export const getMembershipDetails = async (token, membershipName) => {
   try {
-    const res = await axiosEmailInstance.get(`/${membership}`, {
+    const res = await axiosEmailInstance.get(`/${membershipName}`, {
       headers: {
         Authorization: `${token}`,
       },

@@ -1,18 +1,18 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
-import { getAllCorporatePassByMembership } from "src/api/membership"
+import { getMembershipDetails } from "src/api/membership"
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 
 export default function MembershipTile({membership}){
   const history = useHistory();
   const token = sessionStorage.getItem("token");
-  const { setSelectedMembership, setAllCorporatePass } = useUpdateMembershipContext();
+  const { setSelectedMembership, setMembershipDetails } = useUpdateMembershipContext();
 
   const onButtonClicked = async () => {
     setSelectedMembership(membership);
-    const allCorporatePass = await getAllCorporatePassByMembership(token, membership.title);
-    setAllCorporatePass(allCorporatePass);
+    const membershipDetails = await getMembershipDetails(token, membership.title);
+    setMembershipDetails(membershipDetails);
     history.push("/update-membership-details");
   }
 
