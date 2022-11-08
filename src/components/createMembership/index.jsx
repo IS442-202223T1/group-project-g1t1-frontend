@@ -12,7 +12,7 @@ function CreateMembership() {
 
   const valueSetters = {
     name: setName,
-    description: setDescription,
+    desc: setDescription,
     fee: setFee,
     electronic: setPassType,
     physical: setPassType,
