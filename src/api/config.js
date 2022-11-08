@@ -5,4 +5,4 @@ export const LOGIN_ENDPOINT = `${REACT_APP_API_DOMAIN}/login`;
 export const ACCOUNT_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/account`;
 export const EMAIL_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/email`;
 export const TEST_TOKEN_ENDPOINT = `${ACCOUNT_ENDPOINT}/test`;
-export const MEMBERSHIP_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/admin/membership`;
+export const MEMBERSHIP_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/booking/admin/membership`;
