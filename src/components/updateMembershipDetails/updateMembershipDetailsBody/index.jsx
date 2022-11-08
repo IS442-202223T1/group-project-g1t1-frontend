@@ -6,7 +6,7 @@ import PassStatusBadge from "./statusBadge";
 export default function UpdateMembershipDetailsBody() {
   const history = useHistory();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const { selectedMembership } = useUpdateMembershipContext();
+  const { selectedMembership, membershipDetails } = useUpdateMembershipContext();
 
   const handleButtonTabClick = (index) => (e) => {
     e.preventDefault();
@@ -38,8 +38,8 @@ export default function UpdateMembershipDetailsBody() {
         </div>
         <EditButton onClick={onClickEditButton} />
       </ul>
-      {activeTabIndex === 0 && <AdminContent fee={selectedMembership.fee} pax={selectedMembership.pax} />}
-      {activeTabIndex === 1 && <PassTableContent passes={selectedMembership.passes} />}
+      {activeTabIndex === 0 && <AdminContent fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} />}
+      {activeTabIndex === 1 && <PassTableContent passes={membershipDetails.corporatePasses} />}
     </div>
   )
 }
@@ -70,7 +70,7 @@ function EditButton({onClick}) {
   );
 }
 
-function AdminContent({fee, pax}) {
+function AdminContent({fee, isElectronicPass}) {
   return (
     <div className="p-4 bg-white rounded-lg md:p-8" >
       <ul className="divide-y divide-gray-300">
@@ -90,11 +90,13 @@ function AdminContent({fee, pax}) {
           <div className="flex items-center space-x-4">
             <div className="flex-none w-44">
               <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                Pass Admits
+                Pass Type
               </p>
             </div>
             <div className="flex-1 items-center text-base font-semibold text-gray-900 dark:text-white">
-              {pax} Person
+              {
+                isElectronicPass ? "Electronic" : "Physical"
+              }
             </div>
           </div>
         </li>
@@ -115,7 +117,7 @@ function PassTableContent({passes}) {
                 Pass ID
               </th>
               <th scope="col" className="py-3 px-6">
-                Pass Type
+                Pass Admits
               </th>
               <th scope="col" className="py-3 px-6 bg-gray-50">
                 Status
@@ -127,10 +129,10 @@ function PassTableContent({passes}) {
               passes.map((pass) => 
                 <tr className="bg-white divide-y">
                   <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
-                    {pass.passId}
+                    {pass.passID}
                   </th>
                   <td className="py-4 px-6">
-                    {pass.passType}
+                    {pass.maxPersonsAdmitted}
                   </td>
                   <td className="py-4 px-6 bg-gray-100">
                     <PassStatusBadge status={pass.status} />
