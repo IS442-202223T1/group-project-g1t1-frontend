@@ -71,6 +71,8 @@ function EditButton({onClick}) {
 }
 
 function AdminContent({desc, fee, isElectronicPass}) {
+  const defaultDescription = "No description specified";
+
   return (
     <div className="p-4 bg-white rounded-lg md:p-8" >
       <ul className="divide-y divide-gray-300">
@@ -82,7 +84,7 @@ function AdminContent({desc, fee, isElectronicPass}) {
               </p>
             </div>
             <div className="flex-1 items-center text-base font-semibold text-gray-900 dark:text-white">
-              {desc}
+              {desc === "" ? defaultDescription : desc}
             </div>
           </div>
         </li>

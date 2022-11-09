@@ -6,10 +6,8 @@ const axiosMembershipInstance = axios.create({
   timeout: 5000,
 });
 
-const token = sessionStorage.getItem("token");
 
-
-export const getAllMemberships = async () => {
+export const getAllMemberships = async (token) => {
   try {
     const res = await axiosMembershipInstance.get("/", {
       headers: {
@@ -26,7 +24,7 @@ export const getAllMemberships = async () => {
   }
 };
 
-export const getMembershipDetails = async (membershipName) => {
+export const getMembershipDetails = async (token, membershipName) => {
   try {
     const res = await axiosMembershipInstance.get(`/${membershipName}`, {
       headers: {
@@ -43,7 +41,7 @@ export const getMembershipDetails = async (membershipName) => {
   }
 };
 
-export const createNewMembership = async (membershipName, description, replacementFee, passType) => {
+export const createNewMembership = async (token, membershipName, description, replacementFee, passType) => {
   try {
     const body = {
       membershipName,
@@ -52,6 +50,29 @@ export const createNewMembership = async (membershipName, description, replaceme
       isElectronicPass: passType === "electronic",
     };
     const res = await axiosMembershipInstance.post("create-membership", body, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    if (res) {
+      return res.status >= 200 && res.status < 300;
+    }
+    throw new Error("No data returned from backend");
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const updateMembership = async (token, originalMembershipName, membershipName, description, replacementFee, passType) => {
+  try {
+    const body = {
+      membershipName,
+      description,
+      replacementFee,
+      isElectronicPass: passType === "electronic",
+    };
+    const res = await axiosMembershipInstance.patch(`update-membership/${originalMembershipName}`, body, {
       headers: {
         Authorization: `${token}`,
       },

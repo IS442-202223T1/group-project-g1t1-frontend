@@ -5,6 +5,7 @@ import DefaultSubmitButton from "../common/buttons/defaultSubmitButton";
 
 function CreateMembership() {
   const history = useHistory();
+  const token = sessionStorage.getItem("token");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [fee, setFee] = useState(0);
@@ -25,7 +26,7 @@ function CreateMembership() {
 
   const onButtonClicked = async (e) => {
     e.preventDefault();
-    const res = await createNewMembership(name, description, fee, passType);
+    const res = await createNewMembership(token, name, description, fee, passType);
     if (res) {
       history.push("/")
     }
@@ -56,11 +57,11 @@ function CreateMembership() {
           <div className="flex mb-6 justify-around">
             <div className="flex items-center p-2 w-full max-w-sm rounded border border-gray-200 hover:border-redPri">
                 <input id="electronic" type="radio" onChange={handleValueChange} value="electronic" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
-                <label htmlFor="bordered-radio-1" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Electronic Pass</label>
+                <label htmlFor="electronic" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Electronic Pass</label>
             </div>
             <div className="flex items-center p-2 w-full max-w-sm rounded border border-gray-200 hover:border-redPri">
-                <input checked id="physical" type="radio" onChange={handleValueChange} value="physcial" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
-                <label htmlFor="bordered-radio-2" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Physical Pass</label>
+                <input checked id="physical" type="radio" onChange={handleValueChange} value="physical" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
+                <label htmlFor="physical" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Physical Pass</label>
             </div>
           </div>
           <DefaultSubmitButton buttonName="Create Membership" onButtonClick={onButtonClicked} />
