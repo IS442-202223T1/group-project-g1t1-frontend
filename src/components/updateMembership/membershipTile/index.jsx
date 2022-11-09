@@ -6,11 +6,12 @@ import DefaultSecondaryButton from "src/components/common/buttons/defaultSeconda
 
 export default function MembershipTile({imageUrl, name, description}){
   const history = useHistory();
+  const token = sessionStorage.getItem("token");
   const { setSelectedMembership, setMembershipDetails } = useUpdateMembershipContext();
 
   const onButtonClicked = async () => {
     setSelectedMembership(name);
-    const membershipDetails = await getMembershipDetails(name);
+    const membershipDetails = await getMembershipDetails(token, name);
     setMembershipDetails(membershipDetails);
     history.push("/update-membership-details");
   }
