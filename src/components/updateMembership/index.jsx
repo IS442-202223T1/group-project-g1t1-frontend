@@ -6,8 +6,7 @@ import { useHistory } from "react-router-dom";
 import { getAllMemberships } from "src/api/membership";
 
 function UpdateMembership() {
-  const history = useHistory();
-  const token = sessionStorage.getItem("token");
+  const history = useHistory(); 
   const [memberships, setMemberships] = useState([]);
 
   const defaultImageUrl = "https://images.unsplash.com/photo-1464059728276-d877187d61a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=cr";
@@ -29,7 +28,7 @@ function UpdateMembership() {
     renderMemberships();
 
     async function renderMemberships() {
-      const allMemberships = await getAllMemberships(token);
+      const allMemberships = await getAllMemberships();
 
       setMemberships(allMemberships);
     }

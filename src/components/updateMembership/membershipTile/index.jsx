@@ -6,18 +6,17 @@ import DefaultSecondaryButton from "src/components/common/buttons/defaultSeconda
 
 export default function MembershipTile({imageUrl, name, description}){
   const history = useHistory();
-  const token = sessionStorage.getItem("token");
   const { setSelectedMembership, setMembershipDetails } = useUpdateMembershipContext();
 
   const onButtonClicked = async () => {
     setSelectedMembership(name);
-    const membershipDetails = await getMembershipDetails(token, name);
+    const membershipDetails = await getMembershipDetails(name);
     setMembershipDetails(membershipDetails);
     history.push("/update-membership-details");
   }
 
   return (
-    <div className="mb-5 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="mb-5 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg">
       <img className="rounded-t-lg object-cover w-screen h-64" src={imageUrl} alt="" />
       <div className="p-5">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{name}</h5>

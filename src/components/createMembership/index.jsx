@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { createNewMembership } from "src/api/membership";
 import DefaultSubmitButton from "../common/buttons/defaultSubmitButton";
 
 function CreateMembership() {
   const history = useHistory();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [fee, setFee] = useState(0);
+  const [passType, setPassType] = useState("physical");
 
-  const onButtonClicked = () => {
-    history.push("/");
+  const valueSetters = {
+    name: setName,
+    desc: setDescription,
+    fee: setFee,
+    electronic: setPassType,
+    physical: setPassType,
+  }
+
+  const handleValueChange = (e) => {
+    e.preventDefault();
+    valueSetters[e.target.id](e.target.value);
+  }
+
+  const onButtonClicked = async (e) => {
+    e.preventDefault();
+    const res = await createNewMembership(name, description, fee, passType);
+    if (res) {
+      history.push("/")
+    }
   }
 
   return (
@@ -15,25 +37,31 @@ function CreateMembership() {
       <div className="mt-5 p-5">
         <form>
           <div className="mb-6">
-            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Memebership Title</label>
-            <input type="text" id="title" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Mandai Wildlife Reserve" required />
+            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Memebership Name</label>
+            <input type="text" id="name" onChange={handleValueChange} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Mandai Wildlife Reserve" required />
           </div>
           <div className="mb-6">
-            <label htmlFor="desc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Membership Description</label>
-            <input type="text" id="desc" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Leave a description..." required />
+            <label htmlFor="desc" className="block mb-2 text-sm font-medium text-gray-900">Membership Description</label>
+            <input type="text" id="desc" onChange={handleValueChange}className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Leave a description..." required />
           </div>
           <div className="mb-6">
-            <label htmlFor="fee" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pass Lost Fee</label>
+            <label htmlFor="fee" className="block mb-2 text-sm font-medium text-gray-900">Pass Lost Fee</label>
             <div className="flex">
-              <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+              <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300">
                 S$
               </span>
-              <input type="number" id="fee" className="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+              <input type="number" id="fee" onChange={handleValueChange} className="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"/>
             </div>
           </div>
-          <div className="mb-6">
-            <label htmlFor="pax" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Number of Pax per Pass</label>
-            <input type="number" id="pax" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+          <div className="flex mb-6 justify-around">
+            <div className="flex items-center p-2 w-full max-w-sm rounded border border-gray-200 hover:border-redPri">
+                <input id="electronic" type="radio" onChange={handleValueChange} value="electronic" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
+                <label htmlFor="bordered-radio-1" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Electronic Pass</label>
+            </div>
+            <div className="flex items-center p-2 w-full max-w-sm rounded border border-gray-200 hover:border-redPri">
+                <input checked id="physical" type="radio" onChange={handleValueChange} value="physcial" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
+                <label htmlFor="bordered-radio-2" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Physical Pass</label>
+            </div>
           </div>
           <DefaultSubmitButton buttonName="Create Membership" onButtonClick={onButtonClicked} />
         </form>
