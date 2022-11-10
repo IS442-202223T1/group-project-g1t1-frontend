@@ -10,6 +10,7 @@ import {
   UpdateMembershipDetailsRoute,
   CreateMembershipRoute,
   EditPassRoute,
+  ViewMembershipsRoute
 } from "src/routes";
 import { useUserContext } from "src/contexts/userContext";
 import { testToken } from "src/api/account";
@@ -60,6 +61,7 @@ export default function PrivateLayout() {
             return <UpcomingPassRoute />;
           }}
         />
+        <Route exact path='/view-memberships' component={ViewMembershipsRoute} />
         <Route exact path='/borrow-pass' component={BorrowPassRoute} />
         <Route exact path='/employees' component={EmployeesRoute} />
         <Route exact path='/reports' component={ReportsRoute} />
