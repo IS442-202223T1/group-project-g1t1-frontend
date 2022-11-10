@@ -12,12 +12,15 @@ export default function EditPass() {
   const { selectedMembership, membershipDetails } = useUpdateMembershipContext();
   const [name, setName] = useState(selectedMembership);
   const [description, setDescription] = useState(membershipDetails.description);
+  const [emailTemplate, setEmailTemplate] = useState(membershipDetails.emailTemplate.templateContent);
+  const [emailPreview, setEmailPreview] = useState(false);
   const [fee, setFee] = useState(membershipDetails.replacementFee);
   const [passType, setPassType] = useState(membershipDetails.isElectronicPass === true ? "electronic" : "physical");
 
   const valueSetters = {
     name: setName,
     desc: setDescription,
+    emailTemplate: setEmailTemplate,
     fee: setFee,
     electronic: setPassType,
     physical: setPassType,
@@ -28,13 +31,19 @@ export default function EditPass() {
     valueSetters[e.target.id](e.target.value);
   }
 
+  const toggleEmailPreview = () => {
+    setEmailPreview(!emailPreview);
+  }
+
   const onBackButtonClicked = () => {
     history.push("/update-membership-details");
   }
 
   const onSubmitButtonClicked = async (e) => {
     e.preventDefault();
-    const res = await updateMembership(token, selectedMembership, name, description, fee, passType);
+    const updatedEmail = membershipDetails.emailTemplate;
+    updatedEmail.templateContent = emailTemplate;
+    const res = await updateMembership(token, selectedMembership, name, description, updatedEmail, fee, passType);
     if (res) {
       history.push("/");
     }
@@ -79,6 +88,18 @@ export default function EditPass() {
           <div className="mb-6">
             <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Corporate Passes</span>
             <PassTableContent passes={membershipDetails.corporatePasses} />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="emailTemplate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Entry to Attraction Email Template</label>
+            {
+              emailPreview ? 
+              <div dangerouslySetInnerHTML={{ __html: emailTemplate}} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" />
+              : 
+              <textarea rows={10} id="emailTemplate" onChange={handleValueChange} value={emailTemplate} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Leave a description..." required />
+            }
+            <div className="flex justify-end my-2">
+              <button type="button" onClick={toggleEmailPreview} className="text-sm font-medium  text-redPri rounded-lg py-1 px-2 hover:text-redPriDark hover:bg-gray-200">{emailPreview ? "Edit" : "Preview"}</button>
+            </div>
           </div>
           <DefaultSubmitButton buttonName="Update Membership" onButtonClick={onSubmitButtonClicked} />
         </form>
