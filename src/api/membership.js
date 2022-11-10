@@ -64,11 +64,12 @@ export const createNewMembership = async (token, membershipName, description, re
   }
 };
 
-export const updateMembership = async (token, originalMembershipName, membershipName, description, replacementFee, passType) => {
+export const updateMembership = async (token, originalMembershipName, membershipName, description, emailTemplate, replacementFee, passType) => {
   try {
     const body = {
       membershipName,
       description,
+      emailTemplate,
       replacementFee,
       isElectronicPass: passType === "electronic",
     };
