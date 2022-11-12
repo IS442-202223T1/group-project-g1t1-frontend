@@ -1,19 +1,20 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
-import { getMembershipDetails } from "src/api/membership"
+import { useViewMembershipContext } from "src/contexts/viewMembershipContext"
+import { getMembershipDetails } from "src/api/borrower"
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 
 export default function MembershipTile({imageUrl, name, description}){
   const history = useHistory();
   const token = sessionStorage.getItem("token");
-  const { setSelectedMembership, setMembershipDetails } = useUpdateMembershipContext();
+  const { setSelectedMembership, setMembershipDetails } = useViewMembershipContext();
 
   const onButtonClicked = async () => {
     setSelectedMembership(name);
     const membershipDetails = await getMembershipDetails(token, name);
+    console.log(membershipDetails);
     setMembershipDetails(membershipDetails);
-    history.push("/update-membership-details");
+    history.push("/view-membership-details");
   }
 
   return (

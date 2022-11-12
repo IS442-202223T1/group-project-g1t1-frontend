@@ -22,4 +22,20 @@ const axiosBorrowerInstance = axios.create({
       return false;
     }
   };
-  
+
+  export const getMembershipDetails = async (token, membershipName) => {
+    try {
+      const res = await axiosBorrowerInstance.get(`membership/${membershipName}`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      if (res) {
+        return res.data;
+      }
+      throw new Error("No data returned from backend");
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };

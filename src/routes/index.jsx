@@ -9,6 +9,7 @@ import LoginRoute from "./login";
 import VerifyEmailRoute from "./verifyEmail";
 import CreateAccountRoute from "./createAccount";
 import ViewMembershipsRoute from "./viewMemberships";
+import ViewMembershipDetailsRoute from "./viewMembershipDetails";
 
 export {
   UpdateMembershipRoute,
@@ -21,5 +22,6 @@ export {
   LoginRoute,
   VerifyEmailRoute,
   CreateAccountRoute,
-  ViewMembershipsRoute
+  ViewMembershipsRoute,
+  ViewMembershipDetailsRoute
 };
