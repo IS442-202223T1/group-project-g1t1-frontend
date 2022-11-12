@@ -1,6 +1,5 @@
 import UpdateMembershipRoute from "./updateMembership";
 import UpcomingPassRoute from "./upcomingPass";
-import BorrowPassRoute from "./borrowPass";
 import EmployeesRoute from "./employees";
 import ReportsRoute from "./reports";
 import UpdateMembershipDetailsRoute from "./updateMembershipDetails";
@@ -14,7 +13,6 @@ import ViewMembershipsRoute from "./viewMemberships";
 export {
   UpdateMembershipRoute,
   UpcomingPassRoute,
-  BorrowPassRoute,
   EmployeesRoute,
   ReportsRoute,
   UpdateMembershipDetailsRoute,

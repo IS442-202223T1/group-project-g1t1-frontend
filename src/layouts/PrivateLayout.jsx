@@ -4,7 +4,6 @@ import NavBar from "src/components/common/navbar";
 import {
   UpdateMembershipRoute,
   UpcomingPassRoute,
-  BorrowPassRoute,
   EmployeesRoute,
   ReportsRoute,
   UpdateMembershipDetailsRoute,
@@ -62,7 +61,6 @@ export default function PrivateLayout() {
           }}
         />
         <Route exact path='/view-memberships' component={ViewMembershipsRoute} />
-        <Route exact path='/borrow-pass' component={BorrowPassRoute} />
         <Route exact path='/employees' component={EmployeesRoute} />
         <Route exact path='/reports' component={ReportsRoute} />
         <Route exact path='/update-membership-details' component={UpdateMembershipDetailsRoute} />
