@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useViewMembershipContext } from "src/contexts/viewMembershipContext";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function ViewMembershipDetailsBody() {
   const {membershipDetails } = useViewMembershipContext();
@@ -14,7 +16,10 @@ export default function ViewMembershipDetailsBody() {
 
 function PassContent({desc, fee}) {
   const defaultDescription = "No description specified";
-
+  const [bookingDate, setBookingDate] = useState(new Date());
+  const startDate = new Date();
+  const endDate = new Date();
+  endDate.setDate(endDate.getDate() + 13);
   return (
     <div className="p-4 bg-white rounded-lg md:p-8" >
       <ul className="divide-y divide-gray-300">
@@ -29,6 +34,12 @@ function PassContent({desc, fee}) {
               {desc === "" ? defaultDescription : desc}
             </div>
           </div>
+        </li>
+        <li>
+        <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                Select the date which you wish to go on
+              </p>
+            <DatePicker selected={bookingDate} minDate={startDate} maxDate ={endDate} onChange={(date)=>{setBookingDate(date)}}/>
         </li>
       </ul>
     </div>
