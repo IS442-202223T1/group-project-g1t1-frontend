@@ -39,3 +39,27 @@ const axiosBorrowerInstance = axios.create({
       return false;
     }
   };
+
+  export const createNewBooking = async (token, date, email, membershipName, quantity) => {
+    try {
+      const body = {
+        date,
+        email,
+        membershipName,
+        quantity,
+      };
+      const res = await axiosBorrowerInstance.post("/booking/create-booking", body, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      if (res) {
+        console.log(res.status)
+        return res.status;
+      }
+      throw new Error("No data returned from backend");
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
