@@ -28,7 +28,7 @@ export default function BookingTile({bookingID, borrowerName, attractionName, da
   
   const clearDues = async (e) => {
     e.preventDefault();
-    const res = await updatePassStatus(token, bookingID, "markLost" );
+    const res = await updatePassStatus(token, bookingID, "clearDues" );
     setFreshStatus("DUESPAID");
   }
   if( freshStatus === "DUESOWED"){
