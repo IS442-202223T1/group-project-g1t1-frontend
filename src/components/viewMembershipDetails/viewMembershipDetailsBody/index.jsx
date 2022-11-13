@@ -48,7 +48,6 @@ function PassContent({desc, membershipName}) {
 
   const onButtonClicked = async (e) => {
     e.preventDefault();
-    console.log(bookingDate);
     bookingDate.setHours(bookingDate.getHours() + 8);
     const res = await createNewBooking(token, bookingDate, email, membershipName, numberOfPasses);
     if (res) {
