@@ -74,7 +74,7 @@ export const updateMembership = async (token, originalMembershipName, membership
       isElectronicPass: passType === "electronic",
       corporatePasses,
     };
-    const res = await axiosMembershipInstance.patch(`update-membership/${originalMembershipName}`, body, {
+    const res = await axiosMembershipInstance.post(`update-membership/${originalMembershipName}`, body, {
       headers: {
         Authorization: `${token}`,
       },
