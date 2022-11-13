@@ -55,7 +55,7 @@ function PassContent({desc, membershipName}) {
     }
   }
 
-  endDate.setDate(endDate.getDate() + 13);
+  endDate.setMonth(endDate.getMonth() + 2);
   return (
     <div className="p-4 bg-white rounded-lg md:p-8" >
       <ul className="divide-y divide-gray-300">
