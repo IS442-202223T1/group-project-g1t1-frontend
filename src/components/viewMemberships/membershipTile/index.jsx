@@ -12,7 +12,6 @@ export default function MembershipTile({imageUrl, name, description}){
   const onButtonClicked = async () => {
     setSelectedMembership(name);
     const membershipDetails = await getMembershipDetails(token, name);
-    console.log(membershipDetails);
     setMembershipDetails(membershipDetails);
     history.push("/view-membership-details");
   }
