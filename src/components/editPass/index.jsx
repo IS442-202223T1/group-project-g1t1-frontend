@@ -13,6 +13,8 @@ export default function EditPass() {
 
   const membershipCopy = JSON.parse(JSON.stringify(selectedMembership));
   const membershipDetailsCopy = JSON.parse(JSON.stringify(membershipDetails));
+  const membership = JSON.parse(JSON.stringify(membershipDetails));
+  delete membership.corporatePasses;
 
   const [name, setName] = useState(membershipCopy);
   const [description, setDescription] = useState(membershipDetailsCopy.description);
@@ -43,22 +45,6 @@ export default function EditPass() {
 
   const onBackButtonClicked = () => {
     history.push("/update-membership-details");
-  }
-
-  const handleAddPassClick = () => {
-    const updatedPasses = passes;
-    const membership = JSON.parse(JSON.stringify(membershipDetails));
-    delete membership.corporatePasses;
-
-    updatedPasses.push(
-      {
-        passID: "",
-        maxPersonsAdmitted: 0,
-        status: "AVAILABLE",
-        membership,
-      }
-    )
-    setPasses(updatedPasses);
   }
 
   const onSubmitButtonClicked = async (e) => {
@@ -108,11 +94,8 @@ export default function EditPass() {
             </div>
           </div>
           <div className="mb-6">
-            <div className="flex justify-between">
-              <span className="block mb-2 text-sm font-medium text-gray-900">Corporate Passes</span>
-              <button type="button" onClick={handleAddPassClick} className="text-sm font-medium mb-2 text-redPri rounded-lg py-1 px-2 hover:text-redPriDark hover:bg-gray-200">Add Pass</button>
-            </div>
-            <PassTableForm passes={passes} setPasses={setPasses} />
+            <span className="block mb-2 text-sm font-medium text-gray-900">Corporate Passes</span>
+            <PassTableForm passes={passes} setPasses={setPasses} membership={membership} />
           </div>
           <div className="mb-6">
             <label htmlFor="emailTemplate" className="block mb-2 text-sm font-medium text-gray-900">Entry to Attraction Email Template</label>
@@ -133,21 +116,26 @@ export default function EditPass() {
   )
 }
 
-function PassTableForm({passes, setPasses}) {
-  const allStatus = Array(passes === null ? 0 : passes.length ).fill(false);
+function PassTableForm({passes, setPasses, membership}) {
+  const [allPasses, setAllPasses] = useState(passes);
+  const allStatus = Array(allPasses === null ? 0 : allPasses.length ).fill(false);
   const [passesEditingToggle, setPassesEditingToggle] = useState(allStatus);
 
   const createPassesEditingToggle = useCallback(() => {
       const updatedPassesEditingToggle = JSON.parse(JSON.stringify(passesEditingToggle));
-      while (updatedPassesEditingToggle.length < passes.length) {
+      while (updatedPassesEditingToggle.length < allPasses.length) {
         updatedPassesEditingToggle.push(true);
         setPassesEditingToggle(updatedPassesEditingToggle);
       }
-  }, [passes, passesEditingToggle])
+  }, [allPasses, passesEditingToggle])
 
   useEffect(() => {
     createPassesEditingToggle();
   }, [createPassesEditingToggle])
+
+  useEffect(() => {
+    setPasses(allPasses);
+  }, [allPasses])
 
   const handleEditButtonClick = (index) => {
     const updatedEditPassStatus = JSON.parse(JSON.stringify(passesEditingToggle));
@@ -161,14 +149,33 @@ function PassTableForm({passes, setPasses}) {
     setPassesEditingToggle(updatedEditPassStatus);
   }
 
+  const handleAddButtonClick = () => {
+    const updatedPasses = JSON.parse(JSON.stringify(allPasses));
+    updatedPasses.push(
+      {
+        passID: "",
+        maxPersonsAdmitted: 0,
+        status: "AVAILABLE",
+        membership,
+      }
+    )
+    setAllPasses(updatedPasses);
+  }
+
   const handleDeleteButtonClick = (index) => {
-    //
+    const updatedEditPassStatus = JSON.parse(JSON.stringify(passesEditingToggle));
+    updatedEditPassStatus.splice(index,1);
+    setPassesEditingToggle(updatedEditPassStatus);
+
+    const updatedPasses = JSON.parse(JSON.stringify(allPasses));
+    updatedPasses.splice(index,1);
+    setAllPasses(updatedPasses);
   }
 
   const handleValueChange = (e, index) => {
-    const updatedPasses = JSON.parse(JSON.stringify(passes));
+    const updatedPasses = JSON.parse(JSON.stringify(allPasses));
     updatedPasses[index][e.target.id] = e.target.value;
-    setPasses(updatedPasses);
+    setAllPasses(updatedPasses);
   }
 
   if (passes === null || passes.length === 0) {
@@ -192,13 +199,16 @@ function PassTableForm({passes, setPasses}) {
                 Pass Admits
               </th>
               <th scope="col" className="py-3 px-6 bg-gray-50">
-                Status
+                <div className="flex justify-between items-center">
+                  <span>Status</span>
+                  <AddIconButton onAddButtonClick={handleAddButtonClick} />
+                </div>
               </th>
             </tr>
           </thead>
           <tbody>
             {
-              passes.map((pass, index) => 
+              allPasses.map((pass, index) => 
                 (
                   passesEditingToggle[index] === true
                   ?  (
@@ -284,6 +294,16 @@ function ConfirmIconButton({onConfirmButtonClick, index}) {
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
       </svg>
+    </button>
+  );
+}
+
+function AddIconButton({onAddButtonClick}) {
+  return (
+    <button type="button" onClick={onAddButtonClick} className="text-redPri hover:text-redSec">
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+      </svg>  
     </button>
   );
 }
