@@ -10,6 +10,7 @@ import VerifyEmailRoute from "./verifyEmail";
 import CreateAccountRoute from "./createAccount";
 import ViewMembershipsRoute from "./viewMemberships";
 import ViewMembershipDetailsRoute from "./viewMembershipDetails";
+import GopBookingsListRoute from "./gopBookingsList"
 
 export {
   UpdateMembershipRoute,
@@ -23,5 +24,6 @@ export {
   VerifyEmailRoute,
   CreateAccountRoute,
   ViewMembershipsRoute,
-  ViewMembershipDetailsRoute
+  ViewMembershipDetailsRoute,
+  GopBookingsListRoute
 };

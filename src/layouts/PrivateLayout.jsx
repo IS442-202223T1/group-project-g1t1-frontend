@@ -10,7 +10,8 @@ import {
   CreateMembershipRoute,
   EditPassRoute,
   ViewMembershipsRoute,
-  ViewMembershipDetailsRoute
+  ViewMembershipDetailsRoute,
+  GopBookingsListRoute
 } from "src/routes";
 import { useUserContext } from "src/contexts/userContext";
 import { testToken } from "src/api/account";
@@ -68,6 +69,8 @@ export default function PrivateLayout() {
         <Route exact path='/update-membership-details' component={UpdateMembershipDetailsRoute} />
         <Route exact path='/create-membership' component={CreateMembershipRoute} />
         <Route exact path='/edit-pass' component={EditPassRoute} />
+        <Route exact path='/gop-bookings-list' component={GopBookingsListRoute} />
+        
       </Switch>
     </>
   );

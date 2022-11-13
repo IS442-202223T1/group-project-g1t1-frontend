@@ -1,14 +1,14 @@
 import axios from "axios";
-import { BOOKING_ENDPOINT } from "./config";
+import { GOP_ENDPOINT } from "./config";
 
 const axiosBookingInstance = axios.create({
-    baseURL: BOOKING_ENDPOINT,
+    baseURL: GOP_ENDPOINT,
     timeout: 5000,
   });
 
-  export const getAllBookings = async (token) => {
+  export const getAllConfirmedBookings = async (token) => {
     try {
-      const res = await axiosBookingInstance.get("/", {
+      const res = await axiosBookingInstance.get("/bookings/confirmed", {
         headers: {
           Authorization: `${token}`,
         },
