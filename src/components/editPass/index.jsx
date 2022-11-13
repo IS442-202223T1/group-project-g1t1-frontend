@@ -1,4 +1,4 @@
-import React, { useState }  from "react";
+import React, { useState, useEffect, useCallback }  from "react";
 import { useHistory } from "react-router-dom";
 import { updateMembership } from "src/api/membership";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
@@ -10,12 +10,20 @@ export default function EditPass() {
   const token = sessionStorage.getItem("token");
 
   const { selectedMembership, membershipDetails } = useUpdateMembershipContext();
-  const [name, setName] = useState(selectedMembership);
-  const [description, setDescription] = useState(membershipDetails.description);
-  const [emailTemplate, setEmailTemplate] = useState(membershipDetails.emailTemplate.templateContent);
+
+  const membershipCopy = JSON.parse(JSON.stringify(selectedMembership));
+  const membershipDetailsCopy = JSON.parse(JSON.stringify(membershipDetails));
+  const membership = JSON.parse(JSON.stringify(membershipDetails));
+  delete membership.corporatePasses;
+
+  const [name, setName] = useState(membershipCopy);
+  const [description, setDescription] = useState(membershipDetailsCopy.description);
+  const [emailTemplate, setEmailTemplate] = useState(membershipDetailsCopy.emailTemplate.templateContent);
   const [emailPreview, setEmailPreview] = useState(false);
-  const [fee, setFee] = useState(membershipDetails.replacementFee);
-  const [passType, setPassType] = useState(membershipDetails.isElectronicPass === true ? "electronic" : "physical");
+  const [fee, setFee] = useState(membershipDetailsCopy.replacementFee);
+  const [passType, setPassType] = useState(membershipDetailsCopy.isElectronicPass === true ? "electronic" : "physical");
+
+  const [passes, setPasses] = useState(membershipDetailsCopy.corporatePasses);
 
   const valueSetters = {
     name: setName,
@@ -43,7 +51,7 @@ export default function EditPass() {
     e.preventDefault();
     const updatedEmail = membershipDetails.emailTemplate;
     updatedEmail.templateContent = emailTemplate;
-    const res = await updateMembership(token, selectedMembership, name, description, updatedEmail, fee, passType);
+    const res = await updateMembership(token, selectedMembership, name, description, updatedEmail, fee, passType, passes);
     if (res) {
       history.push("/");
     }
@@ -59,20 +67,20 @@ export default function EditPass() {
       <div className="mt-5 p-5 mx-auto">
         <form>
           <div className="mb-6">
-            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Memebership Title</label>
-            <input type="text" id="name" onChange={handleValueChange}  value={name} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Mandai Wildlife Reserve" required />
+            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900">Memebership Title</label>
+            <input type="text" id="name" onChange={handleValueChange}  value={name} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Mandai Wildlife Reserve" required />
           </div>
           <div className="mb-6">
-            <label htmlFor="desc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Membership Description</label>
-            <input type="text" id="desc" onChange={handleValueChange}  value={description} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Leave a description..." required />
+            <label htmlFor="desc" className="block mb-2 text-sm font-medium text-gray-900">Membership Description</label>
+            <input type="text" id="desc" onChange={handleValueChange}  value={description} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Leave a description..." required />
           </div>
           <div className="mb-6">
-            <label htmlFor="fee" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pass Lost Fee</label>
+            <label htmlFor="fee" className="block mb-2 text-sm font-medium text-gray-900">Pass Lost Fee</label>
             <div className="flex">
-              <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+              <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300">
                 S$
               </span>
-              <input type="number" id="fee" onChange={handleValueChange} value={fee} className="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+              <input type="number" id="fee" onChange={handleValueChange} value={fee} className="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"/>
             </div>
           </div>
           <div className="flex mb-6 justify-around">
@@ -86,11 +94,11 @@ export default function EditPass() {
             </div>
           </div>
           <div className="mb-6">
-            <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Corporate Passes</span>
-            <PassTableContent passes={membershipDetails.corporatePasses} />
+            <span className="block mb-2 text-sm font-medium text-gray-900">Corporate Passes</span>
+            <PassTableForm passes={passes} setPasses={setPasses} membership={membership} />
           </div>
           <div className="mb-6">
-            <label htmlFor="emailTemplate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Entry to Attraction Email Template</label>
+            <label htmlFor="emailTemplate" className="block mb-2 text-sm font-medium text-gray-900">Entry to Attraction Email Template</label>
             {
               emailPreview ? 
               <div dangerouslySetInnerHTML={{ __html: emailTemplate}} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" />
@@ -108,7 +116,75 @@ export default function EditPass() {
   )
 }
 
-function PassTableContent({passes}) {
+function PassTableForm({passes, setPasses, membership}) {
+  const [allPasses, setAllPasses] = useState(passes);
+  const allStatus = Array(allPasses === null ? 0 : allPasses.length ).fill(false);
+  const [passesEditingToggle, setPassesEditingToggle] = useState(allStatus);
+
+  const createPassesEditingToggle = useCallback(() => {
+      const updatedPassesEditingToggle = JSON.parse(JSON.stringify(passesEditingToggle));
+      while (updatedPassesEditingToggle.length < allPasses.length) {
+        updatedPassesEditingToggle.push(true);
+        setPassesEditingToggle(updatedPassesEditingToggle);
+      }
+  }, [allPasses, passesEditingToggle])
+
+  useEffect(() => {
+    createPassesEditingToggle();
+  }, [createPassesEditingToggle])
+
+  useEffect(() => {
+    setPasses(allPasses);
+  }, [allPasses])
+
+  const handleEditButtonClick = (index) => {
+    const updatedEditPassStatus = JSON.parse(JSON.stringify(passesEditingToggle));
+    updatedEditPassStatus[index] = true;
+    setPassesEditingToggle(updatedEditPassStatus);
+  }
+
+  const handleConfirmButtonClick = (index) => {
+    const updatedEditPassStatus = JSON.parse(JSON.stringify(passesEditingToggle));
+    updatedEditPassStatus[index] = false;
+    setPassesEditingToggle(updatedEditPassStatus);
+  }
+
+  const handleAddButtonClick = () => {
+    const updatedPasses = JSON.parse(JSON.stringify(allPasses));
+    updatedPasses.push(
+      {
+        passID: "",
+        maxPersonsAdmitted: 0,
+        status: "AVAILABLE",
+        membership,
+      }
+    )
+    setAllPasses(updatedPasses);
+  }
+
+  const handleDeleteButtonClick = (index) => {
+    const updatedEditPassStatus = JSON.parse(JSON.stringify(passesEditingToggle));
+    updatedEditPassStatus.splice(index,1);
+    setPassesEditingToggle(updatedEditPassStatus);
+
+    const updatedPasses = JSON.parse(JSON.stringify(allPasses));
+    updatedPasses.splice(index,1);
+    setAllPasses(updatedPasses);
+  }
+
+  const handleValueChange = (e, index) => {
+    const updatedPasses = JSON.parse(JSON.stringify(allPasses));
+    updatedPasses[index][e.target.id] = e.target.value;
+    setAllPasses(updatedPasses);
+  }
+
+  if (passes === null || passes.length === 0) {
+    return (
+      <div className="p-4 bg-white rounded-lg md:p-8" >
+        <p className="text-center text-gray-500">No Passes Added</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg">
@@ -123,24 +199,58 @@ function PassTableContent({passes}) {
                 Pass Admits
               </th>
               <th scope="col" className="py-3 px-6 bg-gray-50">
-                Status
+                <div className="flex justify-between items-center">
+                  <span>Status</span>
+                  <AddIconButton onAddButtonClick={handleAddButtonClick} />
+                </div>
               </th>
             </tr>
           </thead>
           <tbody>
             {
-              passes.map((pass) => 
-                <tr className="bg-white divide-y">
-                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
-                    {pass.passID}
-                  </th>
-                  <td className="py-4 px-6">
-                    {pass.maxPersonsAdmitted}
-                  </td>
-                  <td className="py-4 px-6 bg-gray-100">
-                    <PassStatusBadge status={pass.status} />
-                  </td>
-                </tr>
+              allPasses.map((pass, index) => 
+                (
+                  passesEditingToggle[index] === true
+                  ?  (
+                    <tr className="bg-white divide-y">
+                      <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
+                        <input type="text" id="passID" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.passID} />
+                      </th>
+                      <td className="py-4 px-6">
+                        <input type="number" id="maxPersonsAdmitted" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.maxPersonsAdmitted} />
+                      </td>
+                      <td className="py-4 px-6 bg-gray-100">
+                        <div className="flex justify-between">
+                          <PassStatusBadge status="AVAILABLE" />
+                          <div>
+                            <ConfirmIconButton onConfirmButtonClick={handleConfirmButtonClick} index={index} />
+                            <DeleteIconButton onDeleteButtonClick={handleDeleteButtonClick} index={index} />
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                  : (
+                    <tr className="bg-white divide-y">
+                      <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
+                        {pass.passID}
+                      </th>
+                      <td className="py-4 px-6">
+                        {pass.maxPersonsAdmitted}
+                      </td>
+                      <td className="py-4 px-6 bg-gray-100">
+                        <div className="flex justify-between">
+                          <PassStatusBadge status={pass.status} />
+                          {
+                            pass.status === "AVAILABLE"
+                            ? <EditIconButton onEditButtonClick={handleEditButtonClick} index={index} />
+                            : null
+                          }
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                )
               )
             }
           </tbody>
@@ -166,4 +276,44 @@ function PassStatusBadge({status}) {
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function EditIconButton({onEditButtonClick, index}) {
+  return (
+    <button type="button" onClick={() => onEditButtonClick(index)} className="text-redPri hover:text-redSec">
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+      </svg>
+    </button>
+  );
+}
+
+function ConfirmIconButton({onConfirmButtonClick, index}) {
+  return (
+    <button type="button" onClick={() => onConfirmButtonClick(index)} className="text-redPri hover:text-redSec mr-3">
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+  );
+}
+
+function AddIconButton({onAddButtonClick}) {
+  return (
+    <button type="button" onClick={onAddButtonClick} className="text-redPri hover:text-redSec">
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+      </svg>  
+    </button>
+  );
+}
+
+function DeleteIconButton({onDeleteButtonClick, index}) {
+  return (
+    <button type="button" onClick={() => onDeleteButtonClick(index)} className="text-redPri hover:text-redSec">
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+      </svg>
+    </button>
+  );
 }
