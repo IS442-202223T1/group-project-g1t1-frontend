@@ -1,14 +1,13 @@
 /* eslint-disable no-plusplus */
 
 import React, { useState, useEffect } from "react";
-import { getAllUser } from "../../api/account";
+import { getAllUser } from "src/api/account";
 
 
 function Employees() {
 
     const token = sessionStorage.getItem("token");
     const [allUsers, setAllUsers] = useState([])
-    const users = [];
 
   useEffect(() => {
     renderUsers();
