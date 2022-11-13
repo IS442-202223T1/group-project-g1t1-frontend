@@ -64,7 +64,7 @@ export const createNewMembership = async (token, membershipName, description, re
   }
 };
 
-export const updateMembership = async (token, originalMembershipName, membershipName, description, emailTemplate, replacementFee, passType) => {
+export const updateMembership = async (token, originalMembershipName, membershipName, description, emailTemplate, replacementFee, passType, corporatePasses) => {
   try {
     const body = {
       membershipName,
@@ -72,6 +72,7 @@ export const updateMembership = async (token, originalMembershipName, membership
       emailTemplate,
       replacementFee,
       isElectronicPass: passType === "electronic",
+      corporatePasses,
     };
     const res = await axiosMembershipInstance.patch(`update-membership/${originalMembershipName}`, body, {
       headers: {

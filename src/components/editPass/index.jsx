@@ -1,4 +1,4 @@
-import React, { useState }  from "react";
+import React, { useState, useEffect }  from "react";
 import { useHistory } from "react-router-dom";
 import { updateMembership } from "src/api/membership";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
@@ -11,14 +11,17 @@ export default function EditPass() {
 
   const { selectedMembership, membershipDetails } = useUpdateMembershipContext();
 
-  const [name, setName] = useState(selectedMembership);
-  const [description, setDescription] = useState(membershipDetails.description);
-  const [emailTemplate, setEmailTemplate] = useState(membershipDetails.emailTemplate.templateContent);
-  const [emailPreview, setEmailPreview] = useState(false);
-  const [fee, setFee] = useState(membershipDetails.replacementFee);
-  const [passType, setPassType] = useState(membershipDetails.isElectronicPass === true ? "electronic" : "physical");
+  const membershipCopy = JSON.parse(JSON.stringify(selectedMembership));
+  const membershipDetailsCopy = JSON.parse(JSON.stringify(membershipDetails));
 
-  const [passes, setPasses] = useState(membershipDetails.corporatePasses);
+  const [name, setName] = useState(membershipCopy);
+  const [description, setDescription] = useState(membershipDetailsCopy.description);
+  const [emailTemplate, setEmailTemplate] = useState(membershipDetailsCopy.emailTemplate.templateContent);
+  const [emailPreview, setEmailPreview] = useState(false);
+  const [fee, setFee] = useState(membershipDetailsCopy.replacementFee);
+  const [passType, setPassType] = useState(membershipDetailsCopy.isElectronicPass === true ? "electronic" : "physical");
+
+  const [passes, setPasses] = useState(membershipDetailsCopy.corporatePasses);
 
   const valueSetters = {
     name: setName,
@@ -44,11 +47,15 @@ export default function EditPass() {
 
   const handleAddPassClick = () => {
     const updatedPasses = passes;
+    const membership = JSON.parse(JSON.stringify(membershipDetails));
+    delete membership.corporatePasses;
+
     updatedPasses.push(
       {
         passID: "",
         maxPersonsAdmitted: 0,
         status: "AVAILABLE",
+        membership,
       }
     )
     setPasses(updatedPasses);
@@ -130,14 +137,26 @@ function PassTableForm({passes, setPasses}) {
   const allStatus = Array(passes === null ? 0 : passes.length ).fill(false);
   const [passesEditingToggle, setPassesEditingToggle] = useState(allStatus);
 
+  useEffect(() => {
+    createPassesEditingToggle();
+  }, [passes, passesEditingToggle])
+
+  const createPassesEditingToggle = () => {
+    const updatedPassesEditingToggle = JSON.parse(JSON.stringify(passesEditingToggle));
+    while (updatedPassesEditingToggle.length < passes.length) {
+      updatedPassesEditingToggle.push(true);
+    }
+    setPassesEditingToggle(updatedPassesEditingToggle);
+  }
+
   const handleEditButtonClick = (index) => {
-    const updatedEditPassStatus = passesEditingToggle;
+    const updatedEditPassStatus = JSON.parse(JSON.stringify(passesEditingToggle));
     updatedEditPassStatus[index] = true;
     setPassesEditingToggle(updatedEditPassStatus);
   }
 
   const handleConfirmButtonClick = (index) => {
-    const updatedEditPassStatus = passesEditingToggle;
+    const updatedEditPassStatus = JSON.parse(JSON.stringify(passesEditingToggle));
     updatedEditPassStatus[index] = false;
     setPassesEditingToggle(updatedEditPassStatus);
   }
@@ -147,7 +166,7 @@ function PassTableForm({passes, setPasses}) {
   }
 
   const handleValueChange = (e, index) => {
-    const updatedPasses = passes;
+    const updatedPasses = JSON.parse(JSON.stringify(passes));
     updatedPasses[index][e.target.id] = e.target.value;
     setPasses(updatedPasses);
   }
@@ -213,7 +232,7 @@ function PassTableForm({passes, setPasses}) {
                         <div className="flex justify-between">
                           <PassStatusBadge status={pass.status} />
                           {
-                            pass.status !== "LOANED"
+                            pass.status === "AVAILABLE"
                             ? <EditIconButton onEditButtonClick={handleEditButtonClick} index={index} />
                             : null
                           }
