@@ -22,3 +22,25 @@ const axiosBookingInstance = axios.create({
       return false;
     }
   };
+
+  export const updatePassStatus = async (token, bookingID, actionToPerform) => {
+    try {
+      const body = {
+        bookingID,
+        actionToPerform
+      };
+      const res = await axiosBookingInstance.patch("/corporate-pass/update-pass-status", body, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      if (res) {
+        return res.status >= 200 && res.status < 300;
+      }
+      throw new Error("No data returned from backend");
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+  

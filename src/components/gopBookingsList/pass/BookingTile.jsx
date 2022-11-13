@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import { updatePassStatus } from "src/api/gop";
 import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 import ConfirmButton from "src/components/common/buttons/confirmButton";
 
-export default function BookingTile({borrowerName, attractionName, date, numberOfPasses, status}){
+export default function BookingTile({bookingID, borrowerName, attractionName, date, numberOfPasses, status}){
+  const token = sessionStorage.getItem("token");
+  const [freshStatus, setFreshStatus] = useState(status);
+  const collectCard = async (e) => {
+    e.preventDefault();
+    const res = await updatePassStatus(token, bookingID, "collect" );
+    setFreshStatus("COLLECTED");
+  }
+
+  const returnCard = async (e) => {
+    e.preventDefault();
+    const res = await updatePassStatus(token, bookingID, "return" );
+    setFreshStatus("RETURNED");
+  }
+
+  const markCardAsLost = async (e) => {
+    e.preventDefault();
+    const res = await updatePassStatus(token, bookingID, "markLost" );
+    setFreshStatus("LOST");
+  }
+  if(freshStatus==="CONFIRMED" || freshStatus==="COLLECTED"){
   return (
     <div className='mb-5'>
       <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
@@ -12,13 +33,14 @@ export default function BookingTile({borrowerName, attractionName, date, numberO
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{attractionName}</h5>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{date}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{numberOfPasses} Pass(es)</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{status}</p>
           <div className="justify-end">
-            {status==="CONFIRMED" ? <ConfirmButton buttonName="Collect Card" onButtonClick="" /> : <DefaultSecondaryButton buttonName="Return Card" onButtonClick="" />}
-            {status==="COLLECTED" ? <DefaultSubmitButton buttonName="Report Lost" onButtonClick="" /> : <div/>}
+            {freshStatus==="CONFIRMED" ? <ConfirmButton buttonName="Collect Card" onButtonClick={collectCard} /> : <DefaultSecondaryButton buttonName="Return Card" onButtonClick={returnCard} />}
+            {freshStatus==="COLLECTED" ? <DefaultSubmitButton buttonName="Report Lost" onButtonClick={markCardAsLost} /> : <div/>}
           </div>
         </div>
       </a>
     </div>
-  )
+  );
+  }
+  return <div/>
 }

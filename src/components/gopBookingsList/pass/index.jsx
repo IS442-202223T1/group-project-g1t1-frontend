@@ -9,7 +9,7 @@ function Bookings() {
     const token = sessionStorage.getItem("token");
     const [bookings, setBookings] = useState([]);
     const confirmedBookings = bookings.map((booking) => (
-        <BookingTile borrowerName={booking.borrower.email} attractionName = {booking.corporatePass.membership.membershipName}  date={booking.borrowDate} numberOfPasses={1} status = {booking.bookingStatus} />
+        <BookingTile bookingID={booking.bookingId}  borrowerName={booking.borrower.email} attractionName = {booking.corporatePass.membership.membershipName}  date={booking.borrowDate} numberOfPasses={1} status = {booking.bookingStatus} />
     ));
 
     useEffect(() => {
@@ -17,8 +17,6 @@ function Bookings() {
 
         async function renderBookings() {
             const bookingsFromApi = await getAllConfirmedBookings(token);
-            console.log(bookingsFromApi);
-
             setBookings(bookingsFromApi);
         }
     }, []);
