@@ -22,9 +22,16 @@ export default function BookingTile({bookingID, borrowerName, attractionName, da
   const markCardAsLost = async (e) => {
     e.preventDefault();
     const res = await updatePassStatus(token, bookingID, "markLost" );
-    setFreshStatus("LOST");
+    setFreshStatus("DUESOWED");
   }
-  if(freshStatus==="CONFIRMED" || freshStatus==="COLLECTED"){
+
+  
+  const clearDues = async (e) => {
+    e.preventDefault();
+    const res = await updatePassStatus(token, bookingID, "markLost" );
+    setFreshStatus("DUESPAID");
+  }
+  if( freshStatus === "DUESOWED"){
   return (
     <div className='mb-5'>
       <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
@@ -34,13 +41,48 @@ export default function BookingTile({bookingID, borrowerName, attractionName, da
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{date}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{numberOfPasses} Pass(es)</p>
           <div className="justify-end">
-            {freshStatus==="CONFIRMED" ? <ConfirmButton buttonName="Collect Card" onButtonClick={collectCard} /> : <DefaultSecondaryButton buttonName="Return Card" onButtonClick={returnCard} />}
-            {freshStatus==="COLLECTED" ? <DefaultSubmitButton buttonName="Report Lost" onButtonClick={markCardAsLost} /> : <div/>}
+            <DefaultSecondaryButton buttonName="Clear Dues" onButtonClick={clearDues} />
+
           </div>
         </div>
       </a>
     </div>
   );
   }
+  if(freshStatus==="CONFIRMED"){
+    return (
+      <div className='mb-5'>
+        <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
+          <div className="flex flex-col justify-between p-4 leading-normal">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{borrowerName}</h5>
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{attractionName}</h5>
+            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{date}</p>
+            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{numberOfPasses} Pass(es)</p>
+            <div className="justify-end">
+              <ConfirmButton buttonName="Collect Card" onButtonClick={collectCard} />
+            </div>
+          </div>
+        </a>
+      </div>
+    );
+    }
+    if(freshStatus==="COLLECTED"){
+      return (
+        <div className='mb-5'>
+          <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
+            <div className="flex flex-col justify-between p-4 leading-normal">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{borrowerName}</h5>
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{attractionName}</h5>
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{date}</p>
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{numberOfPasses} Pass(es)</p>
+              <div className="justify-end">
+                <DefaultSecondaryButton buttonName="Return Card" onButtonClick={returnCard} />
+                <DefaultSubmitButton buttonName="Report Lost" onButtonClick={markCardAsLost} />
+              </div>
+            </div>
+          </a>
+        </div>
+      );
+      }
   return <div/>
 }

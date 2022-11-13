@@ -8,7 +8,7 @@ const axiosBookingInstance = axios.create({
 
   export const getAllConfirmedBookings = async (token) => {
     try {
-      const res = await axiosBookingInstance.get("/bookings/confirmed", {
+      const res = await axiosBookingInstance.get("/bookings/open", {
         headers: {
           Authorization: `${token}`,
         },
