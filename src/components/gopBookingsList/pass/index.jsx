@@ -9,7 +9,7 @@ function Bookings() {
     const token = sessionStorage.getItem("token");
     const [bookings, setBookings] = useState([]);
     const confirmedBookings = bookings.map((booking) => (
-        <BookingTile bookingID={booking.bookingId}  borrowerName={booking.borrower.email} attractionName = {booking.corporatePass.membership.membershipName}  date={booking.borrowDate} numberOfPasses={1} status = {booking.bookingStatus} />
+        <BookingTile bookingID={booking.bookingId}  borrowerName={booking.borrower.email} corporatePassID = {booking.corporatePass.id} attractionName = {booking.corporatePass.membership.membershipName}  date={booking.borrowDate} numberOfPasses={1} status = {booking.bookingStatus} />
     ));
 
     useEffect(() => {

@@ -4,7 +4,7 @@ import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButt
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 import ConfirmButton from "src/components/common/buttons/confirmButton";
 
-export default function BookingTile({bookingID, borrowerName, attractionName, date, numberOfPasses, status}){
+export default function BookingTile({bookingID, corporatePassID, borrowerName, attractionName, date, numberOfPasses, status}){
   const token = sessionStorage.getItem("token");
   const [freshStatus, setFreshStatus] = useState(status);
   const collectCard = async (e) => {
@@ -39,7 +39,8 @@ export default function BookingTile({bookingID, borrowerName, attractionName, da
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{borrowerName}</h5>
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{attractionName}</h5>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{date}</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{numberOfPasses} Pass(es)</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">BookingID: {bookingID}</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">cardID: {corporatePassID}</p>
           <div className="justify-end">
             <DefaultSecondaryButton buttonName="Clear Dues" onButtonClick={clearDues} />
 
@@ -57,7 +58,8 @@ export default function BookingTile({bookingID, borrowerName, attractionName, da
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{borrowerName}</h5>
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{attractionName}</h5>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{date}</p>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{numberOfPasses} Pass(es)</p>
+            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">BookingID: {bookingID}</p>
+            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">cardID: {corporatePassID}</p>
             <div className="justify-end">
               <ConfirmButton buttonName="Collect Card" onButtonClick={collectCard} />
             </div>
@@ -73,8 +75,8 @@ export default function BookingTile({bookingID, borrowerName, attractionName, da
             <div className="flex flex-col justify-between p-4 leading-normal">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{borrowerName}</h5>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{attractionName}</h5>
-              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{date}</p>
-              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{numberOfPasses} Pass(es)</p>
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">BookingID: {bookingID}</p>
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">cardID: {corporatePassID}</p>
               <div className="justify-end">
                 <DefaultSecondaryButton buttonName="Return Card" onButtonClick={returnCard} />
                 <DefaultSubmitButton buttonName="Report Lost" onButtonClick={markCardAsLost} />
