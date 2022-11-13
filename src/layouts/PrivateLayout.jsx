@@ -4,12 +4,13 @@ import NavBar from "src/components/common/navbar";
 import {
   UpdateMembershipRoute,
   UpcomingPassRoute,
-  BorrowPassRoute,
   EmployeesRoute,
   ReportsRoute,
   UpdateMembershipDetailsRoute,
   CreateMembershipRoute,
   EditPassRoute,
+  ViewMembershipsRoute,
+  ViewMembershipDetailsRoute
 } from "src/routes";
 import { useUserContext } from "src/contexts/userContext";
 import { testToken } from "src/api/account";
@@ -60,9 +61,10 @@ export default function PrivateLayout() {
             return <UpcomingPassRoute />;
           }}
         />
-        <Route exact path='/borrow-pass' component={BorrowPassRoute} />
+        <Route exact path='/view-memberships' component={ViewMembershipsRoute} />
         <Route exact path='/employees' component={EmployeesRoute} />
         <Route exact path='/reports' component={ReportsRoute} />
+        <Route exact path='/view-membership-details' component={ViewMembershipDetailsRoute} />
         <Route exact path='/update-membership-details' component={UpdateMembershipDetailsRoute} />
         <Route exact path='/create-membership' component={CreateMembershipRoute} />
         <Route exact path='/edit-pass' component={EditPassRoute} />
