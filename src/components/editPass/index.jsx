@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from "react";
+import React, { useState, useEffect, useCallback }  from "react";
 import { useHistory } from "react-router-dom";
 import { updateMembership } from "src/api/membership";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
@@ -137,17 +137,17 @@ function PassTableForm({passes, setPasses}) {
   const allStatus = Array(passes === null ? 0 : passes.length ).fill(false);
   const [passesEditingToggle, setPassesEditingToggle] = useState(allStatus);
 
-  useEffect(() => {
-    createPassesEditingToggle();
+  const createPassesEditingToggle = useCallback(() => {
+      const updatedPassesEditingToggle = JSON.parse(JSON.stringify(passesEditingToggle));
+      while (updatedPassesEditingToggle.length < passes.length) {
+        updatedPassesEditingToggle.push(true);
+        setPassesEditingToggle(updatedPassesEditingToggle);
+      }
   }, [passes, passesEditingToggle])
 
-  const createPassesEditingToggle = () => {
-    const updatedPassesEditingToggle = JSON.parse(JSON.stringify(passesEditingToggle));
-    while (updatedPassesEditingToggle.length < passes.length) {
-      updatedPassesEditingToggle.push(true);
-    }
-    setPassesEditingToggle(updatedPassesEditingToggle);
-  }
+  useEffect(() => {
+    createPassesEditingToggle();
+  }, [createPassesEditingToggle])
 
   const handleEditButtonClick = (index) => {
     const updatedEditPassStatus = JSON.parse(JSON.stringify(passesEditingToggle));
