@@ -6,9 +6,9 @@ const axiosBookingInstance = axios.create({
     timeout: 5000,
   });
 
-  export const getAllConfirmedBookings = async (token) => {
+  export const getBookingsByEmail = async (token, email) => {
     try {
-      const res = await axiosBookingInstance.get("/bookings/open", {
+      const res = await axiosBookingInstance.get(`/bookings/${email}`, {
         headers: {
           Authorization: `${token}`,
         },
