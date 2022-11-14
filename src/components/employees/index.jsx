@@ -99,7 +99,7 @@ function Employees() {
                       </button>
                       )
                     : (
-                      <button type="button" className="bg-redPri hover:bg-redSec text-white font-bold py-2 px-4 rounded" onClick={editRole(index)}>
+                      <button type="button" className="text-redPri hover:text-redSec font-bold py-2 px-4 rounded" onClick={editRole(index)}>
                         Edit
                       </button>
                     ) }
