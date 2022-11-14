@@ -8,6 +8,7 @@ import { createNewBooking } from "src/api/borrower";
 import DefaultSubmitButton from "../../common/buttons/defaultSubmitButton";
 
 import "react-datepicker/dist/react-datepicker.css";
+import ResponseText from "./errorText";
 
 
 
@@ -31,6 +32,9 @@ function PassContent({desc, membershipName}) {
   const token = sessionStorage.getItem("token");
   const email = sessionStorage.getItem("email");
   const [bookingDate, setBookingDate] = useState(new Date());
+
+  const [statusCode, setStatusCode] = useState(0);
+  const [message, setMessage] = useState("");
   const startDate = new Date();
   const endDate = new Date();
 
@@ -51,11 +55,15 @@ function PassContent({desc, membershipName}) {
     bookingDate.setHours(bookingDate.getHours() + 8);
     const res = await createNewBooking(token, bookingDate, email, membershipName, numberOfPasses);
     if (res) {
-      history.push("/")
+      setStatusCode(res.status);
+      if(res.status===400){
+        setMessage(res.message);
+      }
+      // history.push("/")
     }
   }
 
-  endDate.setDate(endDate.getDate() + 13);
+  endDate.setMonth(endDate.getMonth() + 2);
   return (
     <div className="p-4 bg-white rounded-lg md:p-8" >
       <ul className="divide-y divide-gray-300">
@@ -85,6 +93,7 @@ function PassContent({desc, membershipName}) {
         </li>
         <DefaultSubmitButton buttonName="Book membership" onButtonClick={onButtonClicked} />
       </ul>
+      <ResponseText statusCode = {statusCode} message = {message}/>
     </div>
   );
 }
