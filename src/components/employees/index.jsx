@@ -1,8 +1,9 @@
 /* eslint-disable no-plusplus */
 
 import React, { useState, useEffect } from "react";
-import { XMarkIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { getAllUser, updateRoles, disableEmployee, enableEmployee } from "src/api/accountAdmin";
+import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/global/buttons";
 import { deleteBookingsByBorrower } from "src/api/bookingAdmin";
 
 
@@ -100,10 +101,10 @@ function Employees() {
           <tbody>
             {
               allUsers.map((user, index) =>
-                <tr className="bg-white divide-y">
-                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
+                <tr className={`bg-white divide-y ${user.isActive ? "text-gray-900" : "text-darkGrey"}`}>
+                  <th scope="row" className="py-4 px-6 font-medium whitespace-nowrap bg-gray-100">
                     {user.name}
-                    {user.isActive ? null : <span className="bg-darkGrey text-white rounded-full px-2 py-1 ml-2">Disabled</span>}
+                    {user.isActive ? null : <span className="bg-darkGrey text-white rounded-full px-2 py-1 ml-2 text-xs">Disabled</span>}
                   </th>
                   <td className="py-4 px-6">
                     {user.email}
@@ -114,16 +115,12 @@ function Employees() {
                         Object.keys(roleColors).map((role) => (!user.roles.map((role) => role.label).includes(role) ? addRoleButton(role, addRole, index) : null))
                     ): null}
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 flex items-center">
                     {editState[index] ? (
-                      <button type="button" className="bg-redPri hover:bg-redSec text-white font-bold py-2 px-4 rounded" onClick={saveEdit(index)}>
-                        Save
-                      </button>
+                      <ConfirmIconButton onConfirmButtonClick={saveEdit(index)} />
                       )
                     : (
-                      <button type="button" className="text-redPri hover:text-redSec font-bold py-2 px-4 rounded" onClick={editRole(index)}>
-                        Edit
-                      </button>
+                      <EditIconButton onEditButtonClick={editRole(index)} />
                     ) }
                     {user.isActive ? (
                       <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={disableUser(index)}>Disable</button>
@@ -154,9 +151,11 @@ function roleButton(role, editState, removeRole, userIndex, roleIndex) {
     >
       <div className="flex items-center">
         <div>{role}</div>
-        {editState ? (<button type="button" onClick={() => removeRole(userIndex, roleIndex)}>
+        {editState ? (
+        <button type="button" onClick={() => removeRole(userIndex, roleIndex)}>
           <XMarkIcon className='h-4 w-4' />
-        </button>) : null}
+        </button>
+        ) : null}
       </div>
     </div>
   );
@@ -171,10 +170,12 @@ function addRoleButton(role, addRole, userIndex) {
   return (
     <button
       type="button"
-      className={`border-2 ${inverseRoleColors[role]} rounded-full px-2 py-1 text-xs font-medium inline-block mr-2`}
+      className={`border-2 ${inverseRoleColors[role]} rounded-full px-2 py-1 text-xs font-medium inline-flex mr-2 items-center`}
       onClick={() => addRole(userIndex, role)}
     >
-      +{role}
+      <span>{role}</span>
+      <PlusIcon className='h-4 w-4' />
+
     </button>
   );
 }
