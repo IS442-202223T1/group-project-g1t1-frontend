@@ -8,7 +8,7 @@ export default function NavBar() {
   const userEmail = sessionStorage.getItem("email");
 
   return (
-    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
+    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded flex justify-center">
       <div className="container flex flex-wrap justify-around items-center">
         <div className="flex items-center">
           <NavBarLogo currentRole={currentRole} />
