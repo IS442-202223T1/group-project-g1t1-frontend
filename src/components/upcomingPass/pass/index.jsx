@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getUpcomingBookings } from "src/api/passes";
+import { cancelBooking, getUpcomingBookings } from "src/api/passes";
 import PassTile from "./PassTile";
 /* eslint-disable no-plusplus */
 
@@ -9,6 +9,11 @@ function Pass() {
   
   const [upcomingBookings, setUpcomingBookings] = React.useState([]);
 
+  async function cancel(bookingID) {
+    const cancelBookings = await cancelBooking(token,email);
+    return cancelBooking;
+  }
+
   useEffect(() => {
     renderUpcomingBookings();
     async function renderUpcomingBookings() {
@@ -16,9 +21,15 @@ function Pass() {
         upcomingBookings.forEach((booking) => {
              upcomingBookings.push(booking);
         })
+
+
         setUpcomingBookings(upcomingBookings);
       }
+    
+
   },[]);
+
+  
 
   const upcomingPasses = upcomingBookings.map((pass) => (
     <PassTile
@@ -33,6 +44,7 @@ function Pass() {
     prevBookerDate={pass.previousBookingDate}
     prevBookerNum={pass.previousBookerContactNumber}
     day={pass.borrowDay}
+    cancel={cancel(pass.bookingID)}
     />
   ));
 

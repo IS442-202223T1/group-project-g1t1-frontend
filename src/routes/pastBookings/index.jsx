@@ -1,4 +1,4 @@
-import BookingHistory from "src/components/pastBookings";
+import BookingHistory from "src/components/pastBookings/pass";
 
 export default function PastBookingsRoute() {
   return (

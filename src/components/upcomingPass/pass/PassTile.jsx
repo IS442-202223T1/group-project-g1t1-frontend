@@ -1,8 +1,7 @@
 import React from "react";
-import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 
-export default function PassTile({title, day, imageUrl, date, number, desc, passId, status, bookingID, prevBookerDate, prevBookerName, prevBookerNum}){
+export default function PassTile({title, day, imageUrl, date, desc, passId, status, bookingID, prevBookerDate, prevBookerName, prevBookerNum, cancel}){
   return (
     <div className='mb-5'>
       <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
@@ -17,7 +16,7 @@ export default function PassTile({title, day, imageUrl, date, number, desc, pass
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previous Booker Name: " + prevBookerName : ""}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previous Booking Num: " + prevBookerNum : ""}</p>
           <div className="justify-end">
-            <DefaultSecondaryButton buttonName="Cancel" onButtonClick="" />
+            <DefaultSecondaryButton buttonName="Cancel" onButtonClick={cancel(bookingID)}/>
           </div>
         </div>
       </a>
