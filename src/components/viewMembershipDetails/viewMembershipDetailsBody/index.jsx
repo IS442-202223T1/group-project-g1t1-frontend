@@ -33,7 +33,6 @@ function PassContent({desc, membershipName}) {
   const email = sessionStorage.getItem("email");
   const [bookingDate, setBookingDate] = useState(new Date());
 
-  const [showResponse, setShowResponse] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
   const [message, setMessage] = useState("");
   const startDate = new Date();
@@ -56,8 +55,6 @@ function PassContent({desc, membershipName}) {
     bookingDate.setHours(bookingDate.getHours() + 8);
     const res = await createNewBooking(token, bookingDate, email, membershipName, numberOfPasses);
     if (res) {
-      console.log(res);
-      setShowResponse(true);
       setStatusCode(res.status);
       if(res.status===400){
         setMessage(res.message);
@@ -96,7 +93,7 @@ function PassContent({desc, membershipName}) {
         </li>
         <DefaultSubmitButton buttonName="Book membership" onButtonClick={onButtonClicked} />
       </ul>
-      <ResponseText show = {showResponse} statusCode = {statusCode} message = {message}/>
+      <ResponseText statusCode = {statusCode} message = {message}/>
     </div>
   );
 }
