@@ -8,7 +8,7 @@ export default function NavBar() {
   const userEmail = sessionStorage.getItem("email");
 
   return (
-    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
+    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded flex justify-center">
       <div className="container flex flex-wrap justify-around items-center">
         <div className="flex items-center">
           <NavBarLogo currentRole={currentRole} />
@@ -52,8 +52,13 @@ function NavBarItems({currentRole}) {
     ],
     "borrower": [
       {name: "My Pass", href: "/"},
+
+      {name: "Borrow Pass", href: "/borrow-pass"},
+      {name: "Past Bookings", href: "/past-bookings"},
+
       {name: "All Attractions", href : "/view-memberships"},
       {name: "Confirmed bookings", href : "/gop-bookings-list"}
+
     ]
   }
 

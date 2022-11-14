@@ -8,6 +8,7 @@ import EditPassRoute from "./editPass";
 import LoginRoute from "./login";
 import VerifyEmailRoute from "./verifyEmail";
 import CreateAccountRoute from "./createAccount";
+import PastBookingsRoute from "./pastBookings";
 import ViewMembershipsRoute from "./viewMemberships";
 import ViewMembershipDetailsRoute from "./viewMembershipDetails";
 import GopBookingsListRoute from "./gopBookingsList"
@@ -23,6 +24,7 @@ export {
   LoginRoute,
   VerifyEmailRoute,
   CreateAccountRoute,
+  PastBookingsRoute,
   ViewMembershipsRoute,
   ViewMembershipDetailsRoute,
   GopBookingsListRoute

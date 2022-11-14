@@ -2,7 +2,7 @@ import React from "react";
 import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 
-export default function PassTile({title, day, imageUrl, date, number, desc, passId, status, bookingID, prevBookerDate, prevBookerName, prevBookerNum}){
+export default function PassTile({title, imageUrl, date, ppl, number, desc, passId, status, bookingID, fee, prevBookerDate, prevBookerName, prevBookerNum}){
   return (
     <div className='mb-5'>
       <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
@@ -11,14 +11,10 @@ export default function PassTile({title, day, imageUrl, date, number, desc, pass
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Booking ID: {bookingID}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Pass ID: {passId}</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Status: {status}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Date: {date}</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previously Booked Date: " + prevBookerDate : ""}</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previous Booker Name: " + prevBookerName : ""}</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previous Booker Contact Number: " + prevBookerNum : ""}</p>
-          <div className="justify-end">
-            <DefaultSecondaryButton buttonName="Cancel" onButtonClick="" />
-          </div>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Max Number of Accompanying Guests: {ppl}</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Status: {status}</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{fee=== 0 ? "" : "Fees Owed: " + fee}</p>
         </div>
       </a>
     </div>
