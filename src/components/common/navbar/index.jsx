@@ -52,8 +52,13 @@ function NavBarItems({currentRole}) {
     ],
     "borrower": [
       {name: "My Pass", href: "/"},
+
       {name: "Borrow Pass", href: "/borrow-pass"},
       {name: "Past Bookings", href: "/past-bookings"},
+
+      {name: "All Attractions", href : "/view-memberships"},
+      {name: "Confirmed bookings", href : "/gop-bookings-list"}
+
     ]
   }
 
