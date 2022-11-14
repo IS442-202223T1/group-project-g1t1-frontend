@@ -8,7 +8,7 @@ const axiosAccountAdminInstance = axios.create({
 
 export const getAllUser = async (token) => {
   try {
-    const res = await axiosAccountAdminInstance.get("/get-all-by-role", {
+    const res = await axiosAccountAdminInstance.get("/get-all", {
       headers: {
         Authorization: `${token}`,
       },
