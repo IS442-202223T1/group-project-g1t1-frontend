@@ -1,9 +1,9 @@
 /* eslint-disable no-plusplus */
 
 import React, { useState, useEffect } from "react";
-import { getAllUser } from "src/api/account";
 import { XMarkIcon } from "@heroicons/react/20/solid";
-import { updateRoles } from "src/api/accountAdmin";
+import { getAllUser, updateRoles, disableEmployee, enableEmployee } from "src/api/accountAdmin";
+import { deleteBookingsByBorrower } from "src/api/bookingAdmin";
 
 
 function Employees() {
@@ -57,6 +57,27 @@ function Employees() {
     setAllUsers(newUsers);
   }
 
+  const disableUser = (userIndex) => async(e) => {
+    e.preventDefault();
+    const deleteBookingsRes = await deleteBookingsByBorrower(token, allUsers[userIndex].email);
+    const disableUserRes = await disableEmployee(token, allUsers[userIndex].email);
+    if (deleteBookingsRes && disableUserRes) {
+      const newUsers = [...allUsers];
+      newUsers[userIndex].isActive = false;
+      setAllUsers(newUsers);
+    }
+  }
+
+  const enableUser = (userIndex) => async(e) => {
+    e.preventDefault();
+    const enableUserRes = await enableEmployee(token, allUsers[userIndex].email);
+    if (enableUserRes) {
+      const newUsers = [...allUsers];
+      newUsers[userIndex].isActive = true;
+      setAllUsers(newUsers);
+    }
+  }
+
   return (
     <div className="max-w-5xl mt-5 mx-auto">
       <h1 className="font-medium text-3xl">View Employees</h1>
@@ -78,10 +99,11 @@ function Employees() {
           </thead>
           <tbody>
             {
-              allUsers.map((user, index) => (
+              allUsers.map((user, index) =>
                 <tr className="bg-white divide-y">
                   <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
                     {user.name}
+                    {user.isActive ? null : <span className="bg-darkGrey text-white rounded-full px-2 py-1 ml-2">Disabled</span>}
                   </th>
                   <td className="py-4 px-6">
                     {user.email}
@@ -103,9 +125,14 @@ function Employees() {
                         Edit
                       </button>
                     ) }
+                    {user.isActive ? (
+                      <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={disableUser(index)}>Disable</button>
+                      ) : (
+                      <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={enableUser(index)}>Enable</button>
+                      )}
                   </td>
                 </tr>
-                ))}
+              )}
           </tbody>
         </table>
       </div>

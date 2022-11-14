@@ -24,23 +24,6 @@ export const postCreateAccount = async (email, name, contactNumber, password) =>
   }
 };
 
-export const getAllUser = async (token) => {
-  try {
-    const res = await axiosAccountInstance.get("/admin/get_all_by_role", {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
-    if (res) {
-      return res.data;
-    }
-    throw new Error("No data returned from backend");
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-};
-
 export const testToken = async (token) => {
   try {
     const res = await axiosAccountInstance.get("/test", {
