@@ -26,7 +26,7 @@ export const postCreateAccount = async (email, name, contactNumber, password) =>
 
 export const getAllUser = async (token) => {
   try {
-    const res = await axiosAccountInstance.get("/admin/get_all_by_role", {
+    const res = await axiosAccountInstance.get("/admin/get_all", {
       headers: {
         Authorization: `${token}`,
       },
