@@ -9,7 +9,6 @@ export const TEST_TOKEN_ENDPOINT = `${ACCOUNT_ENDPOINT}/test`;
 export const GOP_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/gop`;
 export const MEMBERSHIP_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/booking/admin/membership`;
 export const DASHBOARD_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/booking`;
-export const BORROWER_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/borrower`;
 
 
 
