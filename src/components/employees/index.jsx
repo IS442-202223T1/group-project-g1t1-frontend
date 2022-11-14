@@ -8,6 +8,7 @@ function Employees() {
 
     const token = sessionStorage.getItem("token");
     const [allUsers, setAllUsers] = useState([])
+    const users = [];
 
   useEffect(() => {
     renderUsers();
