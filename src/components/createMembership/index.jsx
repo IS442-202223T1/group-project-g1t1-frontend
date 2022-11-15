@@ -61,7 +61,7 @@ export default function CreateMembership() {
       <div className="mt-5 p-5">
         <form>
           <div className="mb-6">
-            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Memebership Name</label>
+            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Membership Name</label>
             <input type="text" id="name" onChange={handleValueChange} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Mandai Wildlife Reserve" required />
           </div>
           <div className="mb-6">

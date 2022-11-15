@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useUserContext } from "src/contexts/userContext";
 
+const history = useHistory();
+
 export default function NavBar() {
-  const history = useHistory();
   const currentRole = sessionStorage.getItem("role");
   const allUserRoles = sessionStorage.getItem("roles");
   const userEmail = sessionStorage.getItem("email");
@@ -12,18 +13,18 @@ export default function NavBar() {
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
       <div className="container flex flex-wrap justify-around items-center">
         <div className="flex items-center">
-          <NavBarLogo currentRole={currentRole} history={history} />
+          <NavBarLogo currentRole={currentRole} />
         </div>
-        <UserProfile currentRole={currentRole} allUserRoles={allUserRoles} userEmail={userEmail} history={history} />
+        <UserProfile currentRole={currentRole} allUserRoles={allUserRoles} userEmail={userEmail} />
         <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-          <NavBarItems currentRole={currentRole} history={history} />
+          <NavBarItems currentRole={currentRole} />
         </div>
       </div>
     </nav>
   )
 }
 
-function NavBarLogo({currentRole, history}) {
+function NavBarLogo({currentRole}) {
   return (
     <button
       type="button"
@@ -47,7 +48,7 @@ function isCurrentPage(href) {
   return false;
 }
 
-function NavBarItems({currentRole, history}) {
+function NavBarItems({currentRole}) {
   const navBarItems = {
     "admin": [
       {name: "Memberships", href: "/"},
@@ -87,7 +88,7 @@ function NavBarItems({currentRole, history}) {
   );
 }
 
-function UserProfile({currentRole, allUserRoles, userEmail, history}) {
+function UserProfile({currentRole, allUserRoles, userEmail}) {
   const { setCurrentSelectedRoleToStateAndSession } = useUserContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
