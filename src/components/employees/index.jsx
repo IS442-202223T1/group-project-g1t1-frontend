@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-
 import React, { useState, useEffect } from "react";
 import { XMarkIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { getAllUser, updateRoles, disableEmployee, enableEmployee } from "src/api/accountAdmin";
