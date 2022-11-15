@@ -1,5 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { getEmployeeReport } from "src/api/dashboard";
+import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
+
+const downloadFile = ({ data, fileName, fileType }) => {
+  const blob = new Blob([data], { type: fileType })
+
+  const a = document.createElement("a")
+  a.download = fileName
+  a.href = window.URL.createObjectURL(blob)
+  const clickEvt = new MouseEvent("click", {
+    view: window,
+    bubbles: true,
+    cancelable: true,
+  })
+  a.dispatchEvent(clickEvt)
+  a.remove()
+}
 
 function AnnualReport() {
 
@@ -13,6 +29,22 @@ function AnnualReport() {
       setEmployeeData(employeeDataRes);
   }
 },[]);  
+
+const downloadAnnualReportCSV = async (e) => {
+  e.preventDefault();
+  const res = await getEmployeeReport(token, timeframe);
+  const headers = ["Employee Name,Employee Email,Number Of Loans,"];
+  const monthlyCSV = employeeData.reduce((acc, row) => {
+    const { employeeName, employeeEmail, numberOfLoans } = row
+    acc.push([employeeName, employeeEmail,  numberOfLoans].join(","))
+    return acc
+  }, [])
+  downloadFile({
+    data: [...headers,...monthlyCSV].join("\n"),
+    fileName: "employee_annual_report.csv",
+    fileType: "text/csv",
+  })
+}
 const duration = employeeData.map((data)=>data.duration);
 
 return (
@@ -54,6 +86,7 @@ return (
           </tbody>
         </table>
       </div>
+      <DefaultSecondaryButton buttonName="Export CSV" onButtonClick={downloadAnnualReportCSV} />
     </div>
 );
 }
