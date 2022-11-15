@@ -17,8 +17,10 @@ export default function EditPass() {
   delete membership.corporatePasses;
 
   const [name, setName] = useState(membershipCopy);
+  const [address, setAddress] = useState(membershipDetailsCopy.membershipAddress);
   const [description, setDescription] = useState(membershipDetailsCopy.description);
-  const [emailTemplate, setEmailTemplate] = useState(membershipDetailsCopy.emailTemplate.templateContent);
+  const [imageUrl, setImageUrl] = useState(membershipDetailsCopy.imageUrl);
+  const [emailTemplate, setEmailTemplate] = useState((membershipDetailsCopy.emailTemplate === null || membershipDetailsCopy.emailTemplate.templateContent === null)  ? "" : membershipDetailsCopy.emailTemplate.templateContent);
   const [emailPreview, setEmailPreview] = useState(false);
   const [fee, setFee] = useState(membershipDetailsCopy.replacementFee);
   const [passType, setPassType] = useState(membershipDetailsCopy.isElectronicPass === true ? "electronic" : "physical");
@@ -28,10 +30,12 @@ export default function EditPass() {
   const valueSetters = {
     name: setName,
     desc: setDescription,
+    img: setImageUrl,
     emailTemplate: setEmailTemplate,
     fee: setFee,
     electronic: setPassType,
     physical: setPassType,
+    address: setAddress,
   }
 
   const handleValueChange = (e) => {
@@ -51,7 +55,7 @@ export default function EditPass() {
     e.preventDefault();
     const updatedEmail = membershipDetails.emailTemplate;
     updatedEmail.templateContent = emailTemplate;
-    const res = await updateMembership(token, selectedMembership, name, description, updatedEmail, fee, passType, passes);
+    const res = await updateMembership(token, selectedMembership, name, address, description, imageUrl, updatedEmail, fee, passType, passes);
     if (res) {
       history.push("/");
     }
@@ -71,8 +75,16 @@ export default function EditPass() {
             <input type="text" id="name" onChange={handleValueChange}  value={name} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Mandai Wildlife Reserve" required />
           </div>
           <div className="mb-6">
+            <label htmlFor="desc" className="block mb-2 text-sm font-medium text-gray-900">Membership Address</label>
+            <input type="text" id="address" onChange={handleValueChange} value={address} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Add an address..." required />
+          </div>
+          <div className="mb-6">
             <label htmlFor="desc" className="block mb-2 text-sm font-medium text-gray-900">Membership Description</label>
             <input type="text" id="desc" onChange={handleValueChange}  value={description} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Leave a description..." required />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="img" className="block mb-2 text-sm font-medium text-gray-900">Image URL</label>
+            <input type="text" id="img" onChange={handleValueChange} value={imageUrl} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Add an image URL..." />
           </div>
           <div className="mb-6">
             <label htmlFor="fee" className="block mb-2 text-sm font-medium text-gray-900">Pass Lost Fee</label>
