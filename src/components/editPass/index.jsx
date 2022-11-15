@@ -20,7 +20,7 @@ export default function EditPass() {
   const [address, setAddress] = useState(membershipDetailsCopy.membershipAddress);
   const [description, setDescription] = useState(membershipDetailsCopy.description);
   const [imageUrl, setImageUrl] = useState(membershipDetailsCopy.imageUrl);
-  const [emailTemplate, setEmailTemplate] = useState(membershipDetailsCopy.emailTemplate.templateContent);
+  const [emailTemplate, setEmailTemplate] = useState((membershipDetailsCopy.emailTemplate === null || membershipDetailsCopy.emailTemplate.templateContent === null)  ? "" : membershipDetailsCopy.emailTemplate.templateContent);
   const [emailPreview, setEmailPreview] = useState(false);
   const [fee, setFee] = useState(membershipDetailsCopy.replacementFee);
   const [passType, setPassType] = useState(membershipDetailsCopy.isElectronicPass === true ? "electronic" : "physical");
