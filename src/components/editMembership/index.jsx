@@ -84,7 +84,7 @@ export default function EditMembership() {
       <div className="mt-5 p-5 mx-auto">
         <form>
           <div className="mb-6">
-            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900">Memebership Title</label>
+            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900">Membership Title</label>
             <input type="text" id="name" onChange={handleValueChange}  value={name} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Mandai Wildlife Reserve" required />
           </div>
           <div className="mb-6">
