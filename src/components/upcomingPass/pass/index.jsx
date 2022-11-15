@@ -14,7 +14,7 @@ function Pass() {
     async function renderUpcomingBookings() {
         const upcomingBookings = await getUpcomingBookings(token, email);
         upcomingBookings.forEach((booking) => {
-             upcomingBookings.push(booking);
+          upcomingBookings.push(booking);
         })
         setUpcomingBookings(upcomingBookings);
       }

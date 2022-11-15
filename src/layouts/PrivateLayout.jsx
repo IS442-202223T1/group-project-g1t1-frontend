@@ -18,6 +18,7 @@ import { useUserContext } from "src/contexts/userContext";
 import { testToken } from "src/api/account";
 // eslint-disable-next-line camelcase
 import jwt_decode from "jwt-decode";
+import ConfirmedBookings from "src/components/gopBookingsList";
 
 export default function PrivateLayout() {
   return isLoggedIn() ? (
@@ -30,6 +31,10 @@ export default function PrivateLayout() {
           render={() => {
             if (sessionStorage.getItem("role") === "admin") {
               return <UpdateMembershipRoute />;
+            }
+
+            if (sessionStorage.getItem("role") === "gop") {
+              return <ConfirmedBookings />;
             }
             return <UpcomingPassRoute />;
           }}
