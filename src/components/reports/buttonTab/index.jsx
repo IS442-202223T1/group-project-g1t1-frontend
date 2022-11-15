@@ -11,3 +11,4 @@ export default function ButtonTab({index, buttonName, onClick, activeTabIndex}) 
       </button>
     );
   }
+  
