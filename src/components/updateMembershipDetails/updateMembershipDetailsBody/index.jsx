@@ -29,7 +29,6 @@ export default function UpdateMembershipDetailsBody() {
       />
     </li>
   ))
-  console.log(membershipDetails)
 
   return (
     <div className="w-full bg-white rounded-lg border shadow-md">
@@ -39,7 +38,7 @@ export default function UpdateMembershipDetailsBody() {
         </div>
         <EditButton onClick={onClickEditButton} />
       </ul>
-      {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={membershipDetails.emailTemplate.templateContent} />}
+      {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={(membershipDetails.emailTemplate === null || membershipDetails.emailTemplate.templateContent === null)  ? "" : membershipDetails.emailTemplate.templateContent} />}
       {activeTabIndex === 1 && <PassTableContent passes={membershipDetails.corporatePasses} />}
     </div>
   )
