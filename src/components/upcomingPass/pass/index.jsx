@@ -38,7 +38,7 @@ function Pass() {
 
   return (
     <div className="w-10/12 max-w-xl mt-5 p-5 mx-auto">
-      {upcomingPasses}
+      {upcomingPasses.length === 0 ? "No Upcoming Bookings Found" : upcomingPasses}
     </div>
   )
 }
