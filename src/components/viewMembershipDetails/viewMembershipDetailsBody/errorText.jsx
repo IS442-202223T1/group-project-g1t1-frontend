@@ -1,5 +1,5 @@
-import React from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
+import React from "react";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function ResponseText({ statusCode, message }) {
 	if (statusCode === 200) {
