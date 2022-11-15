@@ -29,6 +29,7 @@ export default function UpdateMembershipDetailsBody() {
       />
     </li>
   ))
+  console.log(membershipDetails)
 
   return (
     <div className="w-full bg-white rounded-lg border shadow-md">
@@ -38,7 +39,7 @@ export default function UpdateMembershipDetailsBody() {
         </div>
         <EditButton onClick={onClickEditButton} />
       </ul>
-      {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} />}
+      {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={membershipDetails.emailTemplate.templateContent} />}
       {activeTabIndex === 1 && <PassTableContent passes={membershipDetails.corporatePasses} />}
     </div>
   )
@@ -70,7 +71,7 @@ function EditButton({onClick}) {
   );
 }
 
-function AdminContent({address, desc, fee, isElectronicPass}) {
+function AdminContent({address, desc, fee, isElectronicPass, emailTemplate}) {
   const defaultDescription = "No description specified";
 
   return (
@@ -126,8 +127,23 @@ function AdminContent({address, desc, fee, isElectronicPass}) {
             </div>
           </div>
         </li>
-    </ul>
-  </div>
+        <li className="py-3 sm:py-4">
+          <div className="flex items-center space-x-4">
+            <div className="flex-none w-44">
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                Email Template
+              </p>
+            </div>
+            <div className="flex-1 items-center text-base text-gray-900 dark:text-white">
+              {/* {
+                isElectronicPass ? "Electronic" : "Physical"
+              } */}
+              <div dangerouslySetInnerHTML={{ __html: emailTemplate}} className="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full" />
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   );
 }
 

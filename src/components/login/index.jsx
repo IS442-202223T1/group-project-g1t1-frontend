@@ -96,7 +96,7 @@ export default function login() {
               type='submit'
               className='max-w-xs text-white bg-redPri hover:bg-redSec focus:ring-4 focus:outline-none focus:ring-grey font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'
             >
-              Submit
+              Login
             </button>
             <button
               type='button'
