@@ -68,7 +68,7 @@ export const createNewMembership = async (token, membershipName, membershipAddre
   }
 };
 
-export const updateMembership = async (token, originalMembershipName, membershipName, membershipAddress, description, imageUrl, emailTemplate, replacementFee, passType, corporatePasses) => {
+export const updateMembership = async (token, originalMembershipName, membershipName, membershipAddress, description, imageUrl, emailTemplate, attachmentTemplate, replacementFee, passType, corporatePasses) => {
   try {
     const body = {
       membershipName,
@@ -76,6 +76,7 @@ export const updateMembership = async (token, originalMembershipName, membership
       description,
       imageUrl,
       emailTemplate,
+      attachmentTemplate,
       replacementFee,
       isElectronicPass: passType === "electronic",
       corporatePasses,

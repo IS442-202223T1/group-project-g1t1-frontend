@@ -22,7 +22,9 @@ export default function EditPass() {
   const [description, setDescription] = useState(membershipDetailsCopy.description);
   const [imageUrl, setImageUrl] = useState(membershipDetailsCopy.imageUrl);
   const [emailTemplate, setEmailTemplate] = useState((membershipDetailsCopy.emailTemplate === null || membershipDetailsCopy.emailTemplate.templateContent === null)  ? "" : membershipDetailsCopy.emailTemplate.templateContent);
+  const [attachmentTemplate, setAttachmentTemplate] = useState((membershipDetailsCopy.attachmentTemplate === null || membershipDetailsCopy.attachmentTemplate.templateContent === null)  ? "" : membershipDetailsCopy.attachmentTemplate.templateContent);
   const [emailPreview, setEmailPreview] = useState(false);
+  const [attachmentPreview, setAttachmentPreview] = useState(false);
   const [fee, setFee] = useState(membershipDetailsCopy.replacementFee);
   const [passType, setPassType] = useState(membershipDetailsCopy.isElectronicPass === true ? "electronic" : "physical");
 
@@ -33,6 +35,7 @@ export default function EditPass() {
     desc: setDescription,
     img: setImageUrl,
     emailTemplate: setEmailTemplate,
+    attachmentTemplate: setAttachmentTemplate,
     fee: setFee,
     electronic: setPassType,
     physical: setPassType,
@@ -48,17 +51,26 @@ export default function EditPass() {
     setEmailPreview(!emailPreview);
   }
 
+  const toggleAttachmentPreview = () => {
+    setAttachmentPreview(!attachmentPreview);
+  }
+
   const onBackButtonClicked = () => {
     history.push("/update-membership-details");
   }
 
   const onSubmitButtonClicked = async (e) => {
     e.preventDefault();
+
     const updatedEmail = membershipDetails.emailTemplate;
     updatedEmail.templateContent = emailTemplate;
-    const res = await updateMembership(token, selectedMembership, name, address, description, imageUrl, updatedEmail, fee, passType, passes);
+
+    const updatedAttachment = membershipDetails.attachmentTemplate;
+    updatedAttachment.templateContent = attachmentTemplate;
+
+    const res = await updateMembership(token, selectedMembership, name, address, description, imageUrl, updatedEmail, updatedAttachment, fee, passType, passes);
     if (res) {
-      history.push("/");
+      history.goBack();
     }
   }
 
@@ -120,6 +132,18 @@ export default function EditPass() {
             }
             <div className="flex justify-end my-2">
               <button type="button" onClick={toggleEmailPreview} className="text-sm font-medium  text-redPri rounded-lg py-1 px-2 hover:text-redPriDark hover:bg-gray-200">{emailPreview ? "Edit" : "Preview"}</button>
+            </div>
+          </div>
+          <div className="mb-6">
+            <label htmlFor="attachmentTemplate" className="block mb-2 text-sm font-medium text-gray-900">Authorisation Letter Attachment Template</label>
+            {
+              attachmentPreview ? 
+              <div dangerouslySetInnerHTML={{ __html: attachmentTemplate}} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" />
+              : 
+              <textarea rows={10} id="attachmentTemplate" onChange={handleValueChange} value={attachmentTemplate} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Leave a description..." required />
+            }
+            <div className="flex justify-end my-2">
+              <button type="button" onClick={toggleAttachmentPreview} className="text-sm font-medium  text-redPri rounded-lg py-1 px-2 hover:text-redPriDark hover:bg-gray-200">{attachmentPreview ? "Edit" : "Preview"}</button>
             </div>
           </div>
           <DefaultSubmitButton buttonName="Update Membership" onButtonClick={onSubmitButtonClicked} />
