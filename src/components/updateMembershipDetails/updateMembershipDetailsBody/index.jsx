@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
-import PassStatusBadge from "./statusBadge";
+import PassStatusBadge from "src/components/common/badges/passStatusBadge";
 
 export default function UpdateMembershipDetailsBody() {
   const history = useHistory();
