@@ -48,6 +48,25 @@ export const getPastBookings = async (token, email) => {
     }
   };
 
+  export const cancelBooking = async (token, bookingID) => {
+    try {
+      const body = {
+          bookingID,
+      }
+      const res = await axiosAccountInstance.put("/cancelBooking", body, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      if (res) {
+        return res.data;
+      }
+      throw new Error("No data returned from backend");
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
 
 
 export const testToken = async (token) => {
