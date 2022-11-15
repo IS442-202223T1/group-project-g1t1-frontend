@@ -84,7 +84,8 @@ export default function CreateMembership() {
       attachmentTemplate: newAttachment,
       replacementFee: fee,
       isElectronicPass: passType === "electronic",
-      corporatePasses: passes
+      corporatePasses: passes,
+      isActive: true,
     };
 
     if (passType === "electronic") {

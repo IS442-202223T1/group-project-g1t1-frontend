@@ -269,13 +269,6 @@ function PassTableForm({passes, setPasses, membership, passType}) {
     setAllPasses(updatedPasses);
   }
 
-  if (passes === null || passes.length === 0) {
-    return (
-      <div className="p-4 bg-white rounded-lg md:p-8" >
-        <p className="text-center text-gray-500">No Passes Added</p>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-white rounded-lg">
@@ -291,81 +284,105 @@ function PassTableForm({passes, setPasses, membership, passType}) {
               </th>
               {
                 passType === "electronic" ?
-                (<th scope="col" className="py-3 px-6">
-                  Expiry Date
-                </th>)
-                : null
+                (
+                  <>
+                    <th scope="col" className="py-3 px-6 bg-gray-50">Expiry Date</th>
+                    <th scope="col" className="py-3 px-6">
+                      <div className="flex justify-between items-center">
+                        <span>Status</span>
+                        <AddIconButton onAddButtonClick={handleAddButtonClick} />
+                      </div>
+                    </th>
+                  </>
+                )
+                :
+                (
+                  <th scope="col" className="py-3 px-6 bg-gray-50">
+                    <div className="flex justify-between items-center">
+                      <span>Status</span>
+                      <AddIconButton onAddButtonClick={handleAddButtonClick} />
+                    </div>
+                  </th>
+                )
               }
-              <th scope="col" className="py-3 px-6 bg-gray-50">
-                <div className="flex justify-between items-center">
-                  <span>Status</span>
-                  <AddIconButton onAddButtonClick={handleAddButtonClick} />
-                </div>
-              </th>
             </tr>
           </thead>
-          <tbody>
-            {
-              allPasses.map((pass, index) => 
-                (
-                  passesEditingToggle[index] === true
-                  ?  (
-                    <tr className="bg-white divide-y">
-                      <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
-                        <input type="text" id="passID" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.passID} />
-                      </th>
-                      <td className="py-4 px-6">
-                        <input type="number" id="maxPersonsAdmitted" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.maxPersonsAdmitted} />
-                      </td>
-                      {
-                        passType === "electronic" ?
-                        (<td className="py-4 px-6">
-                          <input type="date" id="expiryDate" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.expiryDate} />
-                        </td>)
-                        : null
-                      }
-                      <td className="py-4 px-6 bg-gray-100">
-                        <div className="flex justify-between items-center">
-                          <PassStatusBadge status="AVAILABLE" />
-                          <div className="">
-                            <ConfirmIconButton onConfirmButtonClick={() => handleConfirmButtonClick(index)} />
-                            <DeleteIconButton onDeleteButtonClick={() => handleDeleteButtonClick(index)} />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                  : (
-                    <tr className="bg-white divide-y">
-                      <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
-                        {pass.passID}
-                      </th>
-                      <td className="py-4 px-6">
-                        {pass.maxPersonsAdmitted}
-                      </td>
-                      {
-                        passType === "electronic" ?
-                        (<td className="py-4 px-6">
-                          {pass.expiryDate}
-                        </td>)
-                        : null
-                      }
-                      <td className="py-4 px-6 bg-gray-100">
-                        <div className="flex justify-between items-center">
-                          <PassStatusBadge status={pass.status} />
+          { 
+            (passes === null || passes.length === 0)
+            ? (
+              <tbody>
+                <tr>
+                  <td className="p-4 bg-white rounded-lg md:p-8 col-span-3 text-gray-500 justify-center" >
+                    No Passes Added
+                  </td>
+                </tr>
+              </tbody>
+            )
+            : (
+              <tbody>
+                {
+                  allPasses.map((pass, index) => 
+                    (
+                      passesEditingToggle[index] === true
+                      ?  (
+                        <tr className="bg-white divide-y">
+                          <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
+                            <input type="text" id="passID" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.passID} />
+                          </th>
+                          <td className="py-4 px-6">
+                            <input type="number" id="maxPersonsAdmitted" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.maxPersonsAdmitted} />
+                          </td>
                           {
-                            pass.status === "AVAILABLE"
-                            ? <EditIconButton onEditButtonClick={() => handleEditButtonClick(index)} />
+                            passType === "electronic" ?
+                            (<td className="py-4 px-6">
+                              <input type="date" id="expiryDate" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.expiryDate} />
+                            </td>)
                             : null
                           }
-                        </div>
-                      </td>
-                    </tr>
+                          <td className="py-4 px-6 bg-gray-100">
+                            <div className="flex justify-between">
+                              <PassStatusBadge status="AVAILABLE" />
+                              <div>
+                                <ConfirmIconButton onConfirmButtonClick={() => handleConfirmButtonClick(index)} />
+                                <DeleteIconButton onDeleteButtonClick={() => handleDeleteButtonClick(index)} />
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                      : (
+                        <tr className="bg-white divide-y">
+                          <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
+                            {pass.passID}
+                          </th>
+                          <td className="py-4 px-6">
+                            {pass.maxPersonsAdmitted}
+                          </td>
+                          {
+                            passType === "electronic" ?
+                            (<td className="py-4 px-6">
+                              {pass.expiryDate}
+                            </td>)
+                            : null
+                          }
+                          <td className="py-4 px-6 bg-gray-100">
+                            <div className="flex justify-between">
+                              <PassStatusBadge status={pass.status} />
+                              {
+                                pass.status === "AVAILABLE"
+                                ? <EditIconButton onEditButtonClick={() => handleEditButtonClick(index)}/>
+                                : null
+                              }
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    )
                   )
-                )
-              )
-            }
-          </tbody>
+                }
+              </tbody>
+            )
+          }
         </table>
       </div>
     </div>
