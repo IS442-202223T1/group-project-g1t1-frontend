@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { createNewMembership } from "src/api/membership";
 import BackButton from "src/components/common/buttons/backButton";
-import { DefaultEmailTemplate } from "./DefaultEmailTemplate";
+import { DefaultEmailTemplate } from "./defaultEmailTemplate";
 import DefaultSubmitButton from "../common/buttons/defaultSubmitButton";
 
 export default function CreateMembership() {

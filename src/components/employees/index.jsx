@@ -153,9 +153,9 @@ function Employees() {
 }
 
 const roleColors = {
-  admin: "bg-blue-200 text-blue-800",
-  gop: "bg-green-200 text-green-800",
-  borrower: "bg-red-200 text-red-800",
+  admin: "bg-badgeCol1Light text-badgeCol1Dark",
+  gop: "bg-badgeCol2Light text-badgeCol2Dark",
+  borrower: "bg-badgeCol3Light text-badgeCol3Dark",
 };
 
 function roleButton(role, editState, removeRole, userIndex, roleIndex) {
@@ -177,9 +177,9 @@ function roleButton(role, editState, removeRole, userIndex, roleIndex) {
 
 function addRoleButton(role, addRole, userIndex) {
   const inverseRoleColors = {
-    admin: "border-blue-800 text-blue-800",
-    gop: "border-green-800 text-green-800",
-    borrower: "border-red-800 text-red-800",
+    admin: "border-badgeCol1Dark text-badgeCol1Dark",
+    gop: "border-badgeCol2Dark text-badgeCol2Dark",
+    borrower: "border-badgeCol3Light text-badgeCol3Dark",
   }
   return (
     <button

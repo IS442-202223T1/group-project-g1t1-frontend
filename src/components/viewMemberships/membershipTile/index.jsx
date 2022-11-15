@@ -22,7 +22,9 @@ export default function MembershipTile({imageUrl, name, description}){
       <div className="p-5">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{name}</h5>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate hover:text-clip">{description}</p>
-        <DefaultSecondaryButton buttonName="View more" onButtonClick={onButtonClicked} />
+        <div className="mt-auto">
+          <DefaultSecondaryButton buttonName="View more" onButtonClick={onButtonClicked} />
+        </div>
       </div>
     </div>
   )
