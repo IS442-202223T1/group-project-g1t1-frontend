@@ -41,13 +41,17 @@ export const getMembershipDetails = async (token, membershipName) => {
   }
 };
 
-export const createNewMembership = async (token, membershipName, description, replacementFee, passType) => {
+export const createNewMembership = async (token, membershipName, membershipAddress, description, imageUrl, emailTemplate, replacementFee, passType, corporatePasses) => {
   try {
     const body = {
       membershipName,
+      membershipAddress,
       description,
+      imageUrl,
+      emailTemplate,
       replacementFee,
       isElectronicPass: passType === "electronic",
+      corporatePasses,
     };
     const res = await axiosMembershipInstance.post("create-membership", body, {
       headers: {
@@ -64,12 +68,15 @@ export const createNewMembership = async (token, membershipName, description, re
   }
 };
 
-export const updateMembership = async (token, originalMembershipName, membershipName, description, emailTemplate, replacementFee, passType, corporatePasses) => {
+export const updateMembership = async (token, originalMembershipName, membershipName, membershipAddress, description, imageUrl, emailTemplate, attachmentTemplate, replacementFee, passType, corporatePasses) => {
   try {
     const body = {
       membershipName,
+      membershipAddress,
       description,
+      imageUrl,
       emailTemplate,
+      attachmentTemplate,
       replacementFee,
       isElectronicPass: passType === "electronic",
       corporatePasses,

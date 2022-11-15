@@ -3,7 +3,7 @@ import { BORROWER_ENDPOINT } from "./config";
 
 const axiosBorrowerInstance = axios.create({
     baseURL: BORROWER_ENDPOINT,
-    timeout: 5000,
+    timeout: 50000,
   });
 
   export const getAllMemberships = async (token) => {
@@ -53,13 +53,24 @@ const axiosBorrowerInstance = axios.create({
           Authorization: `${token}`,
         },
       });
-      if (res) {
-        console.log(res.status)
-        return res.status;
+      if (res.status === 200) {
+        return res;
       }
       throw new Error("No data returned from backend");
     } catch (error) {
-      console.log(error);
-      return false;
+      if(error.message === "Request failed with status code 400"){
+        return {
+          status : 400,
+          message : error.response.data
+        };
+      }
+      if(error.message==="Request failed with status code 409"){
+        return {
+          status : 409,
+        };
+      }
+      return {
+        status : 500
+      }
     }
   };

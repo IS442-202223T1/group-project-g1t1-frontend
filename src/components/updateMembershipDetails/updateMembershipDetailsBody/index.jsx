@@ -14,10 +14,10 @@ export default function UpdateMembershipDetailsBody() {
   }
 
   const onClickEditButton = (e) => {
-    history.push("/edit-pass");
+    history.push("/edit-membership");
   }
 
-  const buttons = ["Administrative Details", "View All Passes"]
+  const buttons = ["Administrative Details", "View All Corporate Passes"]
 
   const renderButtonTabs = buttons.map((buttonName, index) => (
     <li className="mr-2">
@@ -29,7 +29,6 @@ export default function UpdateMembershipDetailsBody() {
       />
     </li>
   ))
-  console.log(membershipDetails)
 
   return (
     <div className="w-full bg-white rounded-lg border shadow-md">
@@ -39,7 +38,7 @@ export default function UpdateMembershipDetailsBody() {
         </div>
         <EditButton onClick={onClickEditButton} />
       </ul>
-      {activeTabIndex === 0 && <AdminContent desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={membershipDetails.emailTemplate.templateContent} />}
+      {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={(membershipDetails.emailTemplate === null || membershipDetails.emailTemplate.templateContent === null) ? "" : membershipDetails.emailTemplate.templateContent} attachmentTemplate={(membershipDetails.attachmentTemplate === null || membershipDetails.attachmentTemplate.templateContent === null) ? "" : membershipDetails.attachmentTemplate.templateContent} />}
       {activeTabIndex === 1 && <PassTableContent passes={membershipDetails.corporatePasses} />}
     </div>
   )
@@ -71,13 +70,25 @@ function EditButton({onClick}) {
   );
 }
 
-function AdminContent({desc, fee, isElectronicPass, emailTemplate}) {
+function AdminContent({address, desc, fee, isElectronicPass, emailTemplate, attachmentTemplate}) {
   const defaultDescription = "No description specified";
 
   return (
     <div className="p-4 bg-white rounded-lg md:p-8" >
       <ul className="divide-y divide-gray-300">
-      <li className="py-3 sm:py-4">
+        <li className="py-3 sm:py-4">
+          <div className="flex items-center space-x-4 justify-start">
+            <div className="flex-none w-44">
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                Address
+              </p>
+            </div>
+            <div className="flex-1 items-center text-base font-semibold text-gray-900 dark:text-white">
+              {address}
+            </div>
+          </div>
+        </li>
+        <li className="py-3 sm:py-4">
           <div className="flex items-center space-x-4 justify-start">
             <div className="flex-none w-44">
               <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
@@ -123,10 +134,19 @@ function AdminContent({desc, fee, isElectronicPass, emailTemplate}) {
               </p>
             </div>
             <div className="flex-1 items-center text-base text-gray-900 dark:text-white">
-              {/* {
-                isElectronicPass ? "Electronic" : "Physical"
-              } */}
               <div dangerouslySetInnerHTML={{ __html: emailTemplate}} className="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full" />
+            </div>
+          </div>
+        </li>
+        <li className="py-3 sm:py-4">
+          <div className="flex items-center space-x-4">
+            <div className="flex-none w-44">
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                Authorisation Letter Attachment Template
+              </p>
+            </div>
+            <div className="flex-1 items-center text-base text-gray-900 dark:text-white">
+              <div dangerouslySetInnerHTML={{ __html: attachmentTemplate}} className="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full" />
             </div>
           </div>
         </li>
