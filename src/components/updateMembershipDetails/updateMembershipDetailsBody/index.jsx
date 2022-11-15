@@ -17,7 +17,7 @@ export default function UpdateMembershipDetailsBody() {
     history.push("/edit-membership");
   }
 
-  const buttons = ["Administrative Details", "View All Passes"]
+  const buttons = ["Administrative Details", "View All Corporate Passes"]
 
   const renderButtonTabs = buttons.map((buttonName, index) => (
     <li className="mr-2">

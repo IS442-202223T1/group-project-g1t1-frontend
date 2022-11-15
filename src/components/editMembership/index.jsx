@@ -108,14 +108,17 @@ export default function EditMembership() {
               <input type="number" id="fee" onChange={handleValueChange} value={fee} className="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"/>
             </div>
           </div>
-          <div className="flex mb-6 justify-around">
-            <div className="flex items-center p-2 w-full max-w-sm rounded border border-gray-200 hover:border-redPri">
+          <div className="mb-6">
+            <label htmlFor="electronic" className="block mb-2 text-sm font-medium text-gray-900">Pass Type</label>
+            <div className="flex justify-around">
+              <div className="flex items-center p-2 w-full max-w-sm rounded border border-gray-200 hover:border-redPri">
                 <input checked={passType === "electronic"} id="electronic" type="radio" onChange={handleValueChange} value="electronic" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
                 <label htmlFor="electronic" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Electronic Pass</label>
-            </div>
-            <div className="flex items-center p-2 w-full max-w-sm rounded border border-gray-200 hover:border-redPri">
+              </div>
+              <div className="flex items-center p-2 w-full max-w-sm rounded border border-gray-200 hover:border-redPri">
                 <input checked={passType === "physical"} id="physical" type="radio" onChange={handleValueChange} value="physical" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
                 <label htmlFor="physical" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Physical Pass</label>
+              </div>
             </div>
           </div>
           <div className="mb-6">
