@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback }  from "react";
 import { useHistory } from "react-router-dom";
 import { updateMembership } from "src/api/membership";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
-import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/global/buttons";
+import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/common/buttons/iconButtons";
 import BackButton from "src/components/common/buttons/backButton";
 import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
 

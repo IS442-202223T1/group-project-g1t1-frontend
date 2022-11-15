@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { getUpcomingBookings } from "src/api/passes";
 import PassTile from "./PassTile";
 
@@ -11,11 +11,8 @@ function Pass() {
   useEffect(() => {
     renderUpcomingBookings();
     async function renderUpcomingBookings() {
-        const upcomingBookings = await getUpcomingBookings(token, email);
-        upcomingBookings.forEach((booking) => {
-          upcomingBookings.push(booking);
-        })
-        setUpcomingBookings(upcomingBookings);
+        const upcomingBookingsRes = await getUpcomingBookings(token, email);
+        setUpcomingBookings(upcomingBookingsRes);
       }
   },[]);
 

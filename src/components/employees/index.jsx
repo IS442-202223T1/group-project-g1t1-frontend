@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { XMarkIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { getAllUser, updateRoles, disableEmployee, enableEmployee } from "src/api/accountAdmin";
-import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/global/buttons";
+import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/common/buttons/iconButtons";
 import { deleteBookingsByBorrower } from "src/api/bookingAdmin";
 
 
@@ -10,7 +10,6 @@ function Employees() {
   const token = sessionStorage.getItem("token");
   const [allUsers, setAllUsers] = useState([])
   const [editState, setEditState] = useState([])
-  const users = [];
 
   const editRole = (index) => (e) => {
     e.preventDefault();
@@ -35,6 +34,7 @@ function Employees() {
   useEffect(() => {
     renderUsers();
     async function renderUsers() {
+      const users = [];
         const allUsers = await getAllUser(token);
         allUsers.forEach((user) => {
           users.push(user);

@@ -4,7 +4,7 @@ import DefaultSecondaryButton from "src/components/common/buttons/defaultSeconda
 
 export default function PassTile({title, imageUrl, date, ppl, number, desc, passId, status, bookingID, fee, prevBookerDate, prevBookerName, prevBookerNum}){
   return (
-    <div className='mb-5'>
+    <div className='mb-5 grid-col-span-full md:col-span-1'>
       <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
         <img className="object-cover w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src={imageUrl} alt="nature" />
         <div className="flex flex-col justify-between p-4 leading-normal">
