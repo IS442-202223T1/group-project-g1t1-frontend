@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { createNewMembership } from "src/api/membership";
 import BackButton from "src/components/common/buttons/backButton";
+import { DefaultEmailTemplate } from "./DefaultEmailTemplate";
 import DefaultSubmitButton from "../common/buttons/defaultSubmitButton";
 
 export default function CreateMembership() {
@@ -11,7 +12,7 @@ export default function CreateMembership() {
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [emailTemplate, setEmailTemplate] = useState("");
+  const [emailTemplate, setEmailTemplate] = useState(DefaultEmailTemplate);
   const [emailPreview, setEmailPreview] = useState(false);
   const [fee, setFee] = useState(0);
   const [passType, setPassType] = useState("physical");

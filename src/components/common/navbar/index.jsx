@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useUserContext } from "src/contexts/userContext";
 
-const history = useHistory();
-
 export default function NavBar() {
+  const history = useHistory();
   const currentRole = sessionStorage.getItem("role");
   const allUserRoles = sessionStorage.getItem("roles");
   const userEmail = sessionStorage.getItem("email");
@@ -13,18 +12,18 @@ export default function NavBar() {
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
       <div className="container flex flex-wrap justify-around items-center">
         <div className="flex items-center">
-          <NavBarLogo currentRole={currentRole} />
+          <NavBarLogo currentRole={currentRole} history={history} />
         </div>
-        <UserProfile currentRole={currentRole} allUserRoles={allUserRoles} userEmail={userEmail} />
+        <UserProfile currentRole={currentRole} allUserRoles={allUserRoles} userEmail={userEmail} history={history} />
         <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-          <NavBarItems currentRole={currentRole} />
+          <NavBarItems currentRole={currentRole} history={history} />
         </div>
       </div>
     </nav>
   )
 }
 
-function NavBarLogo({currentRole}) {
+function NavBarLogo({currentRole, history}) {
   return (
     <button
       type="button"
@@ -48,7 +47,7 @@ function isCurrentPage(href) {
   return false;
 }
 
-function NavBarItems({currentRole}) {
+function NavBarItems({currentRole, history}) {
   const navBarItems = {
     "admin": [
       {name: "Memberships", href: "/"},
@@ -88,7 +87,7 @@ function NavBarItems({currentRole}) {
   );
 }
 
-function UserProfile({currentRole, allUserRoles, userEmail}) {
+function UserProfile({currentRole, allUserRoles, userEmail, history}) {
   const { setCurrentSelectedRoleToStateAndSession } = useUserContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
