@@ -32,6 +32,10 @@ export default function BookingTile({bookingID, corporatePassID, borrowerName, a
     setFreshStatus("DUESPAID");
   }
 
+  if (freshStatus === "DUESPAID") {
+    return null;
+  }
+
   return (
     <div className='mb-5'>
       <div className="flex flex-col items-center bg-white rounded-lg border shadow md:flex-row hover:shadow-lg">
