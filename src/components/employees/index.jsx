@@ -125,7 +125,7 @@ function Employees() {
                             Object.keys(roleColors).map((role) => (!user.roles.map((role) => role.label).includes(role) ? addRoleButton(role, addRole, index) : null))
                         ): null}
                       </td>
-                      <td className="py-4 px-6 flex items-center">
+                      <td className="py-4 px-6 flex items-center justify-between">
                         {editState[index] ? (
                           <ConfirmIconButton onConfirmButtonClick={saveEdit(index)} />
                           )
@@ -133,9 +133,9 @@ function Employees() {
                           <EditIconButton onEditButtonClick={editRole(index)} />
                         ) }
                         {user.isActive ? (
-                          <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={disableUser(index)}>Disable</button>
+                          <button type="button" className="text-darkGrey bg-grey hover:text-black font-bold py-2 px-4 rounded-lg" onClick={disableUser(index)}>Disable</button>
                           ) : (
-                          <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={enableUser(index)}>Enable</button>
+                          <button type="button" className="text-darkGrey bg-grey hover:text-black font-bold py-2 px-4 rounded-lg" onClick={enableUser(index)}>Enable</button>
                           )}
                       </td>
                     </tr>

@@ -26,7 +26,7 @@ function Reports() {
 
   return (
     <div className="max-w-5xl mt-5 mx-auto">
-      <h1 className="font-medium text-3xl">View Reports</h1>
+      <h1 className="font-medium text-3xl">View All Reports</h1>
       <div className="max-w-5xl mt-5 mx-auto">
       <div className="w-full bg-white rounded-lg border shadow-md">
       <ul className="flex flex-wrap items-center justify-between text-sm font-medium text-center bg-gray-50 rounded-t-lg border-b border-gray-200">
