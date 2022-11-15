@@ -51,7 +51,7 @@ function NavBarItems({currentRole}) {
       {name: "Reports", href: "/reports"},
     ],
     "borrower": [
-      {name: "My Pass", href: "/"},
+      {name: "Upcoming Bookings", href: "/"},
 
       {name: "Borrow Pass", href: "/borrow-pass"},
       {name: "Past Bookings", href: "/past-bookings"},
