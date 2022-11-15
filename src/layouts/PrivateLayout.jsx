@@ -2,7 +2,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import NavBar from "src/components/common/navbar";
 import {
   UpdateMembershipRoute,
-  UpcomingPassRoute,
+  UpcomingBookingsRoute,
   EmployeesRoute,
   ReportsRoute,
   UpdateMembershipDetailsRoute,
@@ -35,7 +35,7 @@ export default function PrivateLayout() {
             if (sessionStorage.getItem("role") === "gop") {
               return <ConfirmedBookings />;
             }
-            return <UpcomingPassRoute />;
+            return <UpcomingBookingsRoute />;
           }}
         />
         <Route exact path='/view-memberships' component={ViewMembershipsRoute} />

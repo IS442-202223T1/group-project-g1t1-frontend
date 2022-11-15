@@ -22,17 +22,17 @@ function Pass() {
 
   const upcomingPasses = upcomingBookings.map((pass) => (
     <PassTile
-    title={pass.membershipName} 
-    imageUrl={pass.imageUrl} 
-    date={pass.borrowDate} 
-    desc={pass.numberOfPasses} 
-    passId={pass.passId} 
-    bookingID={pass.bookingID}
-    status={pass.bookingStatus}
-    prevBookerName={pass.previousBookerName}
-    prevBookerDate={pass.previousBookingDate}
-    prevBookerNum={pass.previousBookerContactNumber}
-    day={pass.borrowDay}
+      title={pass.membershipName} 
+      imageUrl={pass.imageUrl} 
+      date={pass.borrowDate} 
+      desc={pass.numberOfPasses} 
+      passId={pass.passId} 
+      bookingID={pass.bookingID}
+      status={pass.bookingStatus}
+      prevBookerName={pass.previousBookerName}
+      prevBookerDate={pass.previousBookingDate}
+      prevBookerNum={pass.previousBookerContactNumber}
+      day={pass.borrowDay}
     />
   ));
 

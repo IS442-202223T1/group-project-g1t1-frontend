@@ -1,7 +1,7 @@
 import React from "react";
-import Pass from "src/components/upcomingPass/pass";
+import Pass from "src/components/upcomingBookings/pass";
 
-function UpcomingPass() {
+function UpcomingBookings() {
   return (
     <div className="max-w-5xl mt-5 mx-auto">
       <h1 className="font-medium text-3xl">My Upcoming Bookings</h1>
@@ -10,4 +10,4 @@ function UpcomingPass() {
   )
 }
 
-export default UpcomingPass;
+export default UpcomingBookings;

@@ -1,5 +1,5 @@
 import UpdateMembershipRoute from "./updateMembership";
-import UpcomingPassRoute from "./upcomingPass";
+import UpcomingBookingsRoute from "./upcomingBookings";
 import EmployeesRoute from "./employees";
 import ReportsRoute from "./reports";
 import UpdateMembershipDetailsRoute from "./updateMembershipDetails";
@@ -15,7 +15,7 @@ import GopBookingsListRoute from "./gopBookingsList"
 
 export {
   UpdateMembershipRoute,
-  UpcomingPassRoute,
+  UpcomingBookingsRoute,
   EmployeesRoute,
   ReportsRoute,
   UpdateMembershipDetailsRoute,
