@@ -42,6 +42,7 @@ const axiosBorrowerInstance = axios.create({
 
   export const createNewBooking = async (token, date, email, membershipName, quantity) => {
     try {
+      date.setHours(date.getHours() + 8);
       const body = {
         date,
         email,
@@ -65,8 +66,10 @@ const axiosBorrowerInstance = axios.create({
         };
       }
       if(error.message==="Request failed with status code 409"){
+        console.log(error.response)
         return {
           status : 409,
+          message : error.response.data
         };
       }
       return {

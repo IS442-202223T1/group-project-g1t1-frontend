@@ -35,6 +35,7 @@ function PassContent({desc, membershipName}) {
 
   const [statusCode, setStatusCode] = useState(0);
   const [message, setMessage] = useState("");
+  const [borrowers, setBorrowers] = useState([]);
   const startDate = new Date();
   const endDate = new Date();
 
@@ -52,12 +53,15 @@ function PassContent({desc, membershipName}) {
 
   const onButtonClicked = async (e) => {
     e.preventDefault();
-    bookingDate.setHours(bookingDate.getHours() + 8);
+    
     const res = await createNewBooking(token, bookingDate, email, membershipName, numberOfPasses);
     if (res) {
       setStatusCode(res.status);
       if(res.status===400){
         setMessage(res.message);
+      }
+      else if(res.status===409){
+        setBorrowers(res.message);
       }
       // history.push("/")
     }
@@ -94,6 +98,40 @@ function PassContent({desc, membershipName}) {
         <DefaultSubmitButton buttonName="Book membership" onButtonClick={onButtonClicked} />
       </ul>
       <ResponseText statusCode = {statusCode} message = {message}/>
+      {borrowers.length === 0 ? (
+				<div/>
+			) : (
+				<table className="w-full text-sm text-left text-gray-700">
+					<thead className="text-xs text-gray-700 uppercase">
+						<tr>
+							<th scope="col" className="py-3 px-6 bg-gray-50">
+								Booker Name
+							</th>
+							<th scope="col" className="py-3 px-6">
+								Booker Number
+							</th>
+
+							<th scope="col" className="py-3 px-6 bg-gray-50">
+								Card ID
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{borrowers.map((data) => (
+							<tr className="bg-white divide-y">
+								<th
+									scope="row"
+									className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100"
+								>
+									{data.bookerName}
+								</th>
+								<td className="py-4 px-6">{data.contactNumber === null ? "Contact unavailable" : data.contactNumber}</td>
+								<td className="py-4 px-6 bg-gray-100">{data.passId}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			)}
     </div>
   );
 }
