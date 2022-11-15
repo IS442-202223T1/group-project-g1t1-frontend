@@ -12,6 +12,11 @@ export default function PassTile({title, day, imageUrl, date, desc, passId, stat
   const handleCancelBooking = async (e) => {
     e.preventDefault();
     const res = await cancelBooking(token, bookingID);
+    if (res === true) {
+      alert("Booking Successfully Cancelled");
+    } else {
+      alert("Booking Cancel Failed");
+    }
     setPresent(false);
   }
   if(!present){
