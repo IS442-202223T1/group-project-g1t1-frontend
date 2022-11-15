@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { cancelBooking } from "src/api/passes";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
+import PassStatusBadge from "src/components/updateMembershipDetails/updateMembershipDetailsBody/statusBadge";
 
 export default function PassTile({title, day, imageUrl, date, desc, passId, status, bookingID, prevBookerDate, prevBookerName, prevBookerNum}){
   const token = sessionStorage.getItem("token");
@@ -22,7 +23,7 @@ export default function PassTile({title, day, imageUrl, date, desc, passId, stat
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Booking ID: {bookingID}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Pass ID: {passId}</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Status: {status}</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Status: <PassStatusBadge status={status} /></p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Date: {date}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previously Booked Date: " + prevBookerDate : ""}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previous Booker Name: " + prevBookerName : ""}</p>
