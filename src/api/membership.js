@@ -68,19 +68,8 @@ export const createNewMembership = async (token, membershipName, membershipAddre
   }
 };
 
-export const updateMembership = async (token, originalMembershipName, membershipName, membershipAddress, description, imageUrl, emailTemplate, attachmentTemplate, replacementFee, passType, corporatePasses) => {
+export const updateMembership = async (token, originalMembershipName, body) =>{
   try {
-    const body = {
-      membershipName,
-      membershipAddress,
-      description,
-      imageUrl,
-      emailTemplate,
-      attachmentTemplate,
-      replacementFee,
-      isElectronicPass: passType === "electronic",
-      corporatePasses,
-    };
     const res = await axiosMembershipInstance.post(`update-membership/${originalMembershipName}`, body, {
       headers: {
         Authorization: `${token}`,
