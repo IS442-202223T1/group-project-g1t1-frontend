@@ -48,10 +48,10 @@ export const getPastBookings = async (token, email) => {
     }
   };
 
-  export const cancelBooking = async (token, body) => {
+  export const cancelBooking = async (token, bookingID) => {
     try {
       const body = {
-          "bookingID" : 3,
+          bookingID,
       }
       const res = await axiosAccountInstance.put("/cancelBooking", body, {
         headers: {
