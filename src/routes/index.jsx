@@ -4,7 +4,7 @@ import EmployeesRoute from "./employees";
 import ReportsRoute from "./reports";
 import UpdateMembershipDetailsRoute from "./updateMembershipDetails";
 import CreateMembershipRoute from "./createMembership";
-import EditPassRoute from "./editPass";
+import EditMembershipRoute from "./editMembership";
 import LoginRoute from "./login";
 import VerifyEmailRoute from "./verifyEmail";
 import CreateAccountRoute from "./createAccount";
@@ -20,7 +20,7 @@ export {
   ReportsRoute,
   UpdateMembershipDetailsRoute,
   CreateMembershipRoute,
-  EditPassRoute,
+  EditMembershipRoute,
   LoginRoute,
   VerifyEmailRoute,
   CreateAccountRoute,

@@ -14,7 +14,7 @@ export default function UpdateMembershipDetailsBody() {
   }
 
   const onClickEditButton = (e) => {
-    history.push("/edit-pass");
+    history.push("/edit-membership");
   }
 
   const buttons = ["Administrative Details", "View All Passes"]

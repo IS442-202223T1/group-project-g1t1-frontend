@@ -6,7 +6,7 @@ import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } fr
 import BackButton from "src/components/common/buttons/backButton";
 import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
 
-export default function EditPass() {
+export default function EditMembership() {
   const history = useHistory();
   const token = sessionStorage.getItem("token");
 
