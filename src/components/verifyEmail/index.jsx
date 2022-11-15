@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { postVerifyEmail } from "src/api/email";
 import { permittedEmails } from "src/utils/constants";
+import LoadingSpinner from "src/components/common/spinner/loadingSpinner";
 import SendEmailSuccess from "./sendEmailSuccess";
-import LoadingSpinner from "./loadingSpinner";
 
 export default function VerifyEmail() {
   const [email, setEmail] = useState("");
