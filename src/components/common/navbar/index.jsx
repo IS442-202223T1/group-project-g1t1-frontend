@@ -61,7 +61,7 @@ function NavBarItems({currentRole, history}) {
       {name: "All Pass", href : "/view-memberships"},
     ], 
     "gop": [
-      {name: "Confirmed Bookings", href : "/"}
+      {name: "Bookings", href : "/"}
     ]
   }
 
