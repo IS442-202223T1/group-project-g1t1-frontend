@@ -38,7 +38,7 @@ export default function UpdateMembershipDetailsBody() {
         </div>
         <EditButton onClick={onClickEditButton} />
       </ul>
-      {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={(membershipDetails.emailTemplate === null || membershipDetails.emailTemplate.templateContent === null) ? "" : membershipDetails.emailTemplate.templateContent} attachmentTemplate={(membershipDetails.attachmentTemplate === null || membershipDetails.attachmentTemplate.templateContent === null) ? "" : membershipDetails.attachmentTemplate.templateContent} />}
+      {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={(membershipDetails.emailTemplate === null || membershipDetails.emailTemplate.templateContent === null) ? "" : membershipDetails.emailTemplate.templateContent} attachmentTemplate={(membershipDetails.attachmentTemplate === null || membershipDetails.attachmentTemplate.templateContent === null) ? "" : membershipDetails.attachmentTemplate.templateContent} membershipGrade={membershipDetails.membershipGrade} logoUrl={membershipDetails.logoUrl}/>}
       {activeTabIndex === 1 && <PassTableContent passes={membershipDetails.corporatePasses} />}
     </div>
   )
@@ -70,7 +70,7 @@ function EditButton({onClick}) {
   );
 }
 
-function AdminContent({address, desc, fee, isElectronicPass, emailTemplate, attachmentTemplate}) {
+function AdminContent({address, desc, fee, isElectronicPass, emailTemplate, attachmentTemplate, membershipGrade, logoUrl}) {
   const defaultDescription = "No description specified";
 
   return (
@@ -126,6 +126,7 @@ function AdminContent({address, desc, fee, isElectronicPass, emailTemplate, atta
             </div>
           </div>
         </li>
+        { isElectronicPass && <EPassDetails membershipGrade={membershipGrade} logoUrl={logoUrl} />}
         <li className="py-3 sm:py-4">
           <div className="flex items-center space-x-4">
             <div className="flex-none w-44">
@@ -141,7 +142,7 @@ function AdminContent({address, desc, fee, isElectronicPass, emailTemplate, atta
         <li className="py-3 sm:py-4">
           <div className="flex items-center space-x-4">
             <div className="flex-none w-44">
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+              <p className="text-sm font-medium text-gray-900 dark:text-white">
                 Authorisation Letter Attachment Template
               </p>
             </div>
@@ -202,4 +203,35 @@ function PassTableContent({passes}) {
       </div>
     </div>
   );
+}
+
+function EPassDetails({membershipGrade, logoUrl}) {
+  return (
+    <>
+      <li className="py-3 sm:py-4">
+        <div className="flex items-center space-x-4 justify-start">
+          <div className="flex-none w-44">
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+              Membership Grade
+            </p>
+          </div>
+          <div className="flex-1 items-center text-base font-semibold text-gray-900 dark:text-white">
+            {membershipGrade}
+          </div>
+        </div>
+      </li>
+      <li className="py-3 sm:py-4">
+        <div className="flex items-center space-x-4 justify-start">
+          <div className="flex-none w-44">
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+              Logo URL
+            </p>
+          </div>
+          <div className="flex-1 items-center text-base font-semibold text-gray-900 dark:text-white">
+            {logoUrl}
+          </div>
+        </div>
+      </li>
+    </>
+  )
 }
