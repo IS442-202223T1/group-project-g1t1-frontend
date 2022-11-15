@@ -14,7 +14,7 @@ function Pass() {
     async function renderUpcomingBookings() {
         const upcomingBookings = await getUpcomingBookings(token, email);
         upcomingBookings.forEach((booking) => {
-             upcomingBookings.push(booking);
+          upcomingBookings.push(booking);
         })
         setUpcomingBookings(upcomingBookings);
       }
@@ -38,7 +38,7 @@ function Pass() {
 
   return (
     <div className="w-10/12 max-w-xl mt-5 p-5 mx-auto">
-      {upcomingPasses}
+      {upcomingPasses.length === 0 ? "No Upcoming Bookings Found" : upcomingPasses}
     </div>
   )
 }

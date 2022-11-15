@@ -37,11 +37,11 @@ function UpdateMembership() {
 
   return (
     <div className="max-w-5xl mt-5 mx-auto">
-      <div className="flex justify-around items-center">
-        <SearchBar />
+      <div className="flex justify-between items-center">
+        <span className="font-medium text-3xl">View All Memberships</span>
         <DefaultSubmitButton buttonName="Add New" onButtonClick={onAddNewButtonClicked} />
       </div>
-      <div className="w-10/12 max-w-5xl mt-5 p-5 grid grid-cols-2 xl:grid-cols-3 gap-5 mx-auto">
+      <div className="w-10/12 max-w-5xl mt-5 p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mx-auto">
         {memberships.length === 0 ? "No Memberships Found" : renderMemberships}
       </div>
     </div>
