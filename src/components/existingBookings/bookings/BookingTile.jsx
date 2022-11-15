@@ -31,10 +31,10 @@ export default function BookingTile({bookingID, corporatePassID, borrowerName, a
     const res = await updatePassStatus(token, bookingID, "clearDues" );
     setFreshStatus("DUESPAID");
   }
-  if( freshStatus === "DUESOWED"){
+  if(freshStatus === "DUESOWED"){
   return (
     <div className='mb-5'>
-      <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
+      <div className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
         <div className="flex flex-col justify-between p-4 leading-normal">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{borrowerName}</h5>
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{attractionName}</h5>
@@ -43,17 +43,16 @@ export default function BookingTile({bookingID, corporatePassID, borrowerName, a
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">cardID: {corporatePassID}</p>
           <div className="justify-end">
             <DefaultSecondaryButton buttonName="Clear Dues" onButtonClick={clearDues} />
-
           </div>
         </div>
-      </a>
+      </div>
     </div>
   );
   }
   if(freshStatus==="CONFIRMED"){
     return (
       <div className='mb-5'>
-        <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
+        <div className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
           <div className="flex flex-col justify-between p-4 leading-normal">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{borrowerName}</h5>
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{attractionName}</h5>
@@ -64,14 +63,14 @@ export default function BookingTile({bookingID, corporatePassID, borrowerName, a
               <ConfirmButton buttonName="Collect Card" onButtonClick={collectCard} />
             </div>
           </div>
-        </a>
+        </div>
       </div>
     );
     }
     if(freshStatus==="COLLECTED"){
       return (
         <div className='mb-5'>
-          <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
+          <div className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
             <div className="flex flex-col justify-between p-4 leading-normal">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{borrowerName}</h5>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{attractionName}</h5>
@@ -82,7 +81,7 @@ export default function BookingTile({bookingID, corporatePassID, borrowerName, a
                 <DefaultSubmitButton buttonName="Report Lost" onButtonClick={markCardAsLost} />
               </div>
             </div>
-          </a>
+          </div>
         </div>
       );
       }

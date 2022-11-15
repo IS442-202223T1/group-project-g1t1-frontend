@@ -16,7 +16,7 @@ export default function PassTile({title, day, imageUrl, date, desc, passId, stat
   }
   return (
     <div className='mb-5'>
-      <a href="/#" className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
+      <div className="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100">
         <img className="object-cover w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src={imageUrl} alt="nature" />
         <div className="flex flex-col justify-between p-4 leading-normal">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
@@ -31,7 +31,7 @@ export default function PassTile({title, day, imageUrl, date, desc, passId, stat
             {status === "COLLECTED" ? null : <DefaultSecondaryButton buttonName="Cancel" onButtonClick={handleCancelBooking}/>}
           </div>
         </div>
-      </a>
+      </div>
     </div>
   )
 }
