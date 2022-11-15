@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { XMarkIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { getAllUser, updateRoles, disableEmployee, enableEmployee } from "src/api/accountAdmin";
-import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/common/buttons/iconButtons";
+import { EditIconButton, ConfirmIconButton } from "src/components/common/buttons/iconButtons";
 import { deleteBookingsByBorrower } from "src/api/bookingAdmin";
 
 
@@ -125,7 +125,7 @@ function Employees() {
                             Object.keys(roleColors).map((role) => (!user.roles.map((role) => role.label).includes(role) ? addRoleButton(role, addRole, index) : null))
                         ): null}
                       </td>
-                      <td className="py-4 px-6 flex items-center">
+                      <td className="py-4 px-6 flex items-center justify-between">
                         {editState[index] ? (
                           <ConfirmIconButton onConfirmButtonClick={saveEdit(index)} />
                           )
@@ -133,9 +133,9 @@ function Employees() {
                           <EditIconButton onEditButtonClick={editRole(index)} />
                         ) }
                         {user.isActive ? (
-                          <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={disableUser(index)}>Disable</button>
+                          <button type="button" className="text-darkGrey bg-grey hover:text-black font-bold py-2 px-4 rounded-lg" onClick={disableUser(index)}>Disable</button>
                           ) : (
-                          <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={enableUser(index)}>Enable</button>
+                          <button type="button" className="text-darkGrey bg-grey hover:text-black font-bold py-2 px-4 rounded-lg" onClick={enableUser(index)}>Enable</button>
                           )}
                       </td>
                     </tr>
@@ -151,9 +151,9 @@ function Employees() {
 }
 
 const roleColors = {
-  admin: "bg-badgeCol1Light text-badgeCol1Dark",
-  gop: "bg-badgeCol2Light text-badgeCol2Dark",
-  borrower: "bg-badgeCol3Light text-badgeCol3Dark",
+  admin: "bg-purple-200 text-purple-800",
+  gop: "bg-orange-200 text-orange-800",
+  borrower: "bg-yellow-200 text-yellow-800",
 };
 
 function roleButton(role, editState, removeRole, userIndex, roleIndex) {
@@ -175,9 +175,9 @@ function roleButton(role, editState, removeRole, userIndex, roleIndex) {
 
 function addRoleButton(role, addRole, userIndex) {
   const inverseRoleColors = {
-    admin: "border-badgeCol1Dark text-badgeCol1Dark",
-    gop: "border-badgeCol2Dark text-badgeCol2Dark",
-    borrower: "border-badgeCol3Light text-badgeCol3Dark",
+    admin: "border-purple-800 text-purple-800",
+    gop: "border-orange-800 text-orange-800",
+    borrower: "border-yellow-800 text-yellow-800",
   }
   return (
     <button

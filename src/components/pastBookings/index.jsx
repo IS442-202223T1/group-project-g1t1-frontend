@@ -1,5 +1,5 @@
 import React from "react";
-import PastBookings from "src/components/pastBookings/pass";
+import PastBookings from "src/components/pastBookings/passes";
 
 function BookingHistory() {
   return (

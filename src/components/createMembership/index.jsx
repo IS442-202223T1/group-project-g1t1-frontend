@@ -5,6 +5,7 @@ import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } fr
 import BackButton from "src/components/common/buttons/backButton";
 import { DefaultPhysicalEmailTemplate, DefaultElectronicEmailTemplate, EmailVariables } from "../defaultEmailTemplate";
 import { DefaultPhysicalAttachmentTemplate, DefaultElectronicAttachmentTemplate, ElectronicAttachmentVariables, PhysicalAttachmentVariables } from "../defaultAttachmentTemplate";
+import PassStatusBadge from "src/components/common/badges/passStatusBadge";
 import DefaultSubmitButton from "../common/buttons/defaultSubmitButton";
 
 export default function CreateMembership() {
@@ -373,20 +374,6 @@ function PassTableForm({passes, setPasses, passType}) {
         </table>
       </div>
     </div>
-  );
-}
-
-function PassStatusBadge({status}) {
-  const statusToBadgeClass = {
-    "AVAILABLE": "bg-green-100 text-green-800",
-    "LOST": "bg-red-100 text-red-800", 
-    "LOANED": "bg-blue-200 text-blue-800",
-  };
-
-  const badgeStatus = capitalizeFirstLetter(status.toLowerCase());
-
-  return (
-    <span className={`${statusToBadgeClass[status]} text-sm font-medium mx-3 px-2.5 py-0.5 rounded`}>{badgeStatus}</span>
   );
 }
 

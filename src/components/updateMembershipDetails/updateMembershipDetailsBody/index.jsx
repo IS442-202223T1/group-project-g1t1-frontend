@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { DeleteIconButton, ConfirmIconButton } from "src/components/common/buttons/iconButtons";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
 import { enableMembership, deleteMembership } from "src/api/membership";
-import PassStatusBadge from "./statusBadge";
+import PassStatusBadge from "src/components/common/badges/passStatusBadge";
 
 export default function UpdateMembershipDetailsBody() {
   const history = useHistory();

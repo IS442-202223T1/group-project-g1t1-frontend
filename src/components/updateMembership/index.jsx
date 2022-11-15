@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import MembershipTile from "src/components/updateMembership/membershipTile";
-import SearchBar from "src/components/updateMembership/searchBar";
 import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
 import { useHistory } from "react-router-dom";
 import { getAllMemberships } from "src/api/membership";
