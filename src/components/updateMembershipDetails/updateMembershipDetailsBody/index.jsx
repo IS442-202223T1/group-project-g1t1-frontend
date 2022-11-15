@@ -39,7 +39,7 @@ export default function UpdateMembershipDetailsBody() {
         <EditButton onClick={onClickEditButton} />
       </ul>
       {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={(membershipDetails.emailTemplate === null || membershipDetails.emailTemplate.templateContent === null) ? "" : membershipDetails.emailTemplate.templateContent} attachmentTemplate={(membershipDetails.attachmentTemplate === null || membershipDetails.attachmentTemplate.templateContent === null) ? "" : membershipDetails.attachmentTemplate.templateContent} membershipGrade={membershipDetails.membershipGrade} logoUrl={membershipDetails.logoUrl}/>}
-      {activeTabIndex === 1 && <PassTableContent passes={membershipDetails.corporatePasses} />}
+      {activeTabIndex === 1 && <PassTableContent passes={membershipDetails.corporatePasses} isElectronicPass={membershipDetails.isElectronicPass} />}
     </div>
   )
 }
@@ -156,7 +156,7 @@ function AdminContent({address, desc, fee, isElectronicPass, emailTemplate, atta
   );
 }
 
-function PassTableContent({passes}) {
+function PassTableContent({passes, isElectronicPass}) {
   if (passes === null || passes.length === 0) {
     return (
       <div className="p-4 bg-white rounded-lg md:p-8" >
@@ -177,6 +177,13 @@ function PassTableContent({passes}) {
               <th scope="col" className="py-3 px-6">
                 Pass Admits
               </th>
+              {
+                isElectronicPass ?
+                (<th scope="col" className="py-3 px-6">
+                  Expiry Date
+                </th>)
+                : null
+              }
               <th scope="col" className="py-3 px-6 bg-gray-50">
                 Status
               </th>
@@ -192,6 +199,13 @@ function PassTableContent({passes}) {
                   <td className="py-4 px-6">
                     {pass.maxPersonsAdmitted}
                   </td>
+                  {
+                    isElectronicPass ?
+                    (<td className="py-4 px-6">
+                      {pass.expiryDate}
+                    </td>)
+                    : null
+                  }
                   <td className="py-4 px-6 bg-gray-100">
                     <PassStatusBadge status={pass.status} />
                   </td>
