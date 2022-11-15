@@ -5,6 +5,8 @@ import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext
 import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/common/buttons/iconButtons";
 import BackButton from "src/components/common/buttons/backButton";
 import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
+import { DefaultPhysicalEmailTemplate, DefaultElectronicEmailTemplate, EmailVariables } from "../defaultEmailTemplate";
+import { DefaultPhysicalAttachmentTemplate, DefaultElectronicAttachmentTemplate, ElectronicAttachmentVariables, PhysicalAttachmentVariables } from "../defaultAttachmentTemplate";
 
 export default function EditMembership() {
   const history = useHistory();
@@ -32,6 +34,18 @@ export default function EditMembership() {
 
   const [passes, setPasses] = useState(membershipDetailsCopy.corporatePasses);
 
+  const setElectronicPass = () => {
+    setEmailTemplate(DefaultElectronicEmailTemplate);
+    setAttachmentTemplate(DefaultElectronicAttachmentTemplate);
+    setPassType("electronic");
+  }
+
+  const setPhysicalPass = () => {
+    setEmailTemplate(DefaultPhysicalEmailTemplate);
+    setAttachmentTemplate(DefaultPhysicalAttachmentTemplate);
+    setPassType("physical");
+  }
+
   const valueSetters = {
     name: setName,
     desc: setDescription,
@@ -41,8 +55,8 @@ export default function EditMembership() {
     membershipGrade: setMembershipGrade,
     logoUrl: setLogoUrl,
     fee: setFee,
-    electronic: setPassType,
-    physical: setPassType,
+    electronic: setElectronicPass,
+    physical: setPhysicalPass,
     address: setAddress,
   }
 
@@ -160,7 +174,8 @@ export default function EditMembership() {
               : 
               <textarea rows={10} id="emailTemplate" onChange={handleValueChange} value={emailTemplate} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Leave a description..." required />
             }
-            <div className="flex justify-end my-2">
+            <div className="flex justify-between my-2">
+              <span className="text-sm text-darkGrey">{"Variables: " + EmailVariables}</span>
               <button type="button" onClick={toggleEmailPreview} className="text-sm font-medium  text-redPri rounded-lg py-1 px-2 hover:text-redPriDark hover:bg-gray-200">{emailPreview ? "Edit" : "Preview"}</button>
             </div>
           </div>
@@ -172,7 +187,8 @@ export default function EditMembership() {
               : 
               <textarea rows={10} id="attachmentTemplate" onChange={handleValueChange} value={attachmentTemplate} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Leave a description..." required />
             }
-            <div className="flex justify-end my-2">
+            <div className="flex justify-between my-2">
+              {passType === "electronic" ? <span className="text-sm text-darkGrey">{"Variables: " + ElectronicAttachmentVariables}</span> : <span className="text-sm text-darkGrey">{"Variables: " + PhysicalAttachmentVariables}</span>}
               <button type="button" onClick={toggleAttachmentPreview} className="text-sm font-medium  text-redPri rounded-lg py-1 px-2 hover:text-redPriDark hover:bg-gray-200">{attachmentPreview ? "Edit" : "Preview"}</button>
             </div>
           </div>
@@ -241,7 +257,15 @@ function PassTableForm({passes, setPasses, membership, passType}) {
 
   const handleValueChange = (e, index) => {
     const updatedPasses = JSON.parse(JSON.stringify(allPasses));
-    updatedPasses[index][e.target.id] = e.target.value;
+    switch (e.target.id) {
+      case ("passID"):
+        if (e.target.value.length <= 22) {
+          updatedPasses[index].passID = e.target.value;
+        }
+        break;
+      default:
+        updatedPasses[index][e.target.id] = e.target.value;
+    }
     setAllPasses(updatedPasses);
   }
 

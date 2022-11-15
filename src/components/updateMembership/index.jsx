@@ -22,6 +22,7 @@ function UpdateMembership() {
       imageUrl={(membership.imageUrl === null || membership.imageUrl === "") ? defaultImageUrl : membership.imageUrl}
       name={membership.membershipName}
       description={membership.description === "" ? defaultDescription : membership.description}
+      isActive={membership.isActive}
     />
   ));
 
