@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { cancelBooking,} from "src/api/passes";
+import { cancelBooking } from "src/api/passes";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 
 export default function PassTile({title, day, imageUrl, date, desc, passId, status, bookingID, prevBookerDate, prevBookerName, prevBookerNum}){
