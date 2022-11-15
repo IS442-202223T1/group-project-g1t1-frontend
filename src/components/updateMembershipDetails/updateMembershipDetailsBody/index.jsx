@@ -14,10 +14,10 @@ export default function UpdateMembershipDetailsBody() {
   }
 
   const onClickEditButton = (e) => {
-    history.push("/edit-pass");
+    history.push("/edit-membership");
   }
 
-  const buttons = ["Administrative Details", "View All Passes"]
+  const buttons = ["Administrative Details", "View All Corporate Passes"]
 
   const renderButtonTabs = buttons.map((buttonName, index) => (
     <li className="mr-2">
@@ -38,8 +38,8 @@ export default function UpdateMembershipDetailsBody() {
         </div>
         <EditButton onClick={onClickEditButton} />
       </ul>
-      {activeTabIndex === 0 && <AdminContent desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} />}
-      {activeTabIndex === 1 && <PassTableContent passes={membershipDetails.corporatePasses} />}
+      {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={(membershipDetails.emailTemplate === null || membershipDetails.emailTemplate.templateContent === null) ? "" : membershipDetails.emailTemplate.templateContent} attachmentTemplate={(membershipDetails.attachmentTemplate === null || membershipDetails.attachmentTemplate.templateContent === null) ? "" : membershipDetails.attachmentTemplate.templateContent} membershipGrade={membershipDetails.membershipGrade} logoUrl={membershipDetails.logoUrl}/>}
+      {activeTabIndex === 1 && <PassTableContent passes={membershipDetails.corporatePasses} isElectronicPass={membershipDetails.isElectronicPass} />}
     </div>
   )
 }
@@ -70,13 +70,25 @@ function EditButton({onClick}) {
   );
 }
 
-function AdminContent({desc, fee, isElectronicPass}) {
+function AdminContent({address, desc, fee, isElectronicPass, emailTemplate, attachmentTemplate, membershipGrade, logoUrl}) {
   const defaultDescription = "No description specified";
 
   return (
     <div className="p-4 bg-white rounded-lg md:p-8" >
       <ul className="divide-y divide-gray-300">
-      <li className="py-3 sm:py-4">
+        <li className="py-3 sm:py-4">
+          <div className="flex items-center space-x-4 justify-start">
+            <div className="flex-none w-44">
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                Address
+              </p>
+            </div>
+            <div className="flex-1 items-center text-base font-semibold text-gray-900 dark:text-white">
+              {address}
+            </div>
+          </div>
+        </li>
+        <li className="py-3 sm:py-4">
           <div className="flex items-center space-x-4 justify-start">
             <div className="flex-none w-44">
               <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
@@ -114,12 +126,37 @@ function AdminContent({desc, fee, isElectronicPass}) {
             </div>
           </div>
         </li>
+        { isElectronicPass && <EPassDetails membershipGrade={membershipGrade} logoUrl={logoUrl} />}
+        <li className="py-3 sm:py-4">
+          <div className="flex items-center space-x-4">
+            <div className="flex-none w-44">
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                Email Template
+              </p>
+            </div>
+            <div className="flex-1 items-center text-base text-gray-900 dark:text-white">
+              <div dangerouslySetInnerHTML={{ __html: emailTemplate}} className="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full" />
+            </div>
+          </div>
+        </li>
+        <li className="py-3 sm:py-4">
+          <div className="flex items-center space-x-4">
+            <div className="flex-none w-44">
+              <p className="text-sm font-medium text-gray-900 dark:text-white">
+                Authorisation Letter Attachment Template
+              </p>
+            </div>
+            <div className="flex-1 items-center text-base text-gray-900 dark:text-white">
+              <div dangerouslySetInnerHTML={{ __html: attachmentTemplate}} className="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full" />
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
   );
 }
 
-function PassTableContent({passes}) {
+function PassTableContent({passes, isElectronicPass}) {
   if (passes === null || passes.length === 0) {
     return (
       <div className="p-4 bg-white rounded-lg md:p-8" >
@@ -140,6 +177,13 @@ function PassTableContent({passes}) {
               <th scope="col" className="py-3 px-6">
                 Pass Admits
               </th>
+              {
+                isElectronicPass ?
+                (<th scope="col" className="py-3 px-6">
+                  Expiry Date
+                </th>)
+                : null
+              }
               <th scope="col" className="py-3 px-6 bg-gray-50">
                 Status
               </th>
@@ -155,6 +199,13 @@ function PassTableContent({passes}) {
                   <td className="py-4 px-6">
                     {pass.maxPersonsAdmitted}
                   </td>
+                  {
+                    isElectronicPass ?
+                    (<td className="py-4 px-6">
+                      {pass.expiryDate}
+                    </td>)
+                    : null
+                  }
                   <td className="py-4 px-6 bg-gray-100">
                     <PassStatusBadge status={pass.status} />
                   </td>
@@ -166,4 +217,35 @@ function PassTableContent({passes}) {
       </div>
     </div>
   );
+}
+
+function EPassDetails({membershipGrade, logoUrl}) {
+  return (
+    <>
+      <li className="py-3 sm:py-4">
+        <div className="flex items-center space-x-4 justify-start">
+          <div className="flex-none w-44">
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+              Membership Grade
+            </p>
+          </div>
+          <div className="flex-1 items-center text-base font-semibold text-gray-900 dark:text-white">
+            {membershipGrade}
+          </div>
+        </div>
+      </li>
+      <li className="py-3 sm:py-4">
+        <div className="flex items-center space-x-4 justify-start">
+          <div className="flex-none w-44">
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+              Logo URL
+            </p>
+          </div>
+          <div className="flex-1 items-center text-base font-semibold text-gray-900 dark:text-white">
+            {logoUrl}
+          </div>
+        </div>
+      </li>
+    </>
+  )
 }

@@ -2,10 +2,11 @@ import React, { useState, useEffect, useCallback }  from "react";
 import { useHistory } from "react-router-dom";
 import { updateMembership } from "src/api/membership";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
+import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/common/buttons/iconButtons";
 import BackButton from "src/components/common/buttons/backButton";
 import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
 
-export default function EditPass() {
+export default function EditMembership() {
   const history = useHistory();
   const token = sessionStorage.getItem("token");
 
@@ -17,9 +18,15 @@ export default function EditPass() {
   delete membership.corporatePasses;
 
   const [name, setName] = useState(membershipCopy);
+  const [address, setAddress] = useState(membershipDetailsCopy.membershipAddress);
   const [description, setDescription] = useState(membershipDetailsCopy.description);
-  const [emailTemplate, setEmailTemplate] = useState(membershipDetailsCopy.emailTemplate.templateContent);
+  const [imageUrl, setImageUrl] = useState(membershipDetailsCopy.imageUrl);
+  const [membershipGrade, setMembershipGrade] = useState(membershipDetailsCopy.membershipGrade === null ? "" : membershipDetailsCopy.membershipGrade);
+  const [logoUrl, setLogoUrl] = useState(membershipDetailsCopy.logoUrl === null ? "" : membershipDetailsCopy.logoUrl);
+  const [emailTemplate, setEmailTemplate] = useState((membershipDetailsCopy.emailTemplate === null || membershipDetailsCopy.emailTemplate.templateContent === null)  ? "" : membershipDetailsCopy.emailTemplate.templateContent);
+  const [attachmentTemplate, setAttachmentTemplate] = useState((membershipDetailsCopy.attachmentTemplate === null || membershipDetailsCopy.attachmentTemplate.templateContent === null)  ? "" : membershipDetailsCopy.attachmentTemplate.templateContent);
   const [emailPreview, setEmailPreview] = useState(false);
+  const [attachmentPreview, setAttachmentPreview] = useState(false);
   const [fee, setFee] = useState(membershipDetailsCopy.replacementFee);
   const [passType, setPassType] = useState(membershipDetailsCopy.isElectronicPass === true ? "electronic" : "physical");
 
@@ -28,10 +35,15 @@ export default function EditPass() {
   const valueSetters = {
     name: setName,
     desc: setDescription,
+    img: setImageUrl,
     emailTemplate: setEmailTemplate,
+    attachmentTemplate: setAttachmentTemplate,
+    membershipGrade: setMembershipGrade,
+    logoUrl: setLogoUrl,
     fee: setFee,
     electronic: setPassType,
     physical: setPassType,
+    address: setAddress,
   }
 
   const handleValueChange = (e) => {
@@ -43,15 +55,41 @@ export default function EditPass() {
     setEmailPreview(!emailPreview);
   }
 
+  const toggleAttachmentPreview = () => {
+    setAttachmentPreview(!attachmentPreview);
+  }
+
   const onBackButtonClicked = () => {
     history.push("/update-membership-details");
   }
 
   const onSubmitButtonClicked = async (e) => {
     e.preventDefault();
+
     const updatedEmail = membershipDetails.emailTemplate;
     updatedEmail.templateContent = emailTemplate;
-    const res = await updateMembership(token, selectedMembership, name, description, updatedEmail, fee, passType, passes);
+
+    const updatedAttachment = membershipDetails.attachmentTemplate;
+    updatedAttachment.templateContent = attachmentTemplate;
+
+    const body = {
+      membershipName: name,
+      membershipAddress: address,
+      description,
+      imageUrl,
+      emailTemplate: updatedEmail,
+      attachmentTemplate: updatedAttachment,
+      replacementFee: fee,
+      isElectronicPass: passType === "electronic",
+      corporatePasses: passes
+    };
+
+    if (passType === "electronic") {
+      body.membershipGrade = membershipGrade;
+      body.logoUrl = logoUrl;
+    }
+
+    const res = await updateMembership(token, selectedMembership, body);
     if (res) {
       history.push("/");
     }
@@ -67,12 +105,20 @@ export default function EditPass() {
       <div className="mt-5 p-5 mx-auto">
         <form>
           <div className="mb-6">
-            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900">Memebership Title</label>
+            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900">Membership Title</label>
             <input type="text" id="name" onChange={handleValueChange}  value={name} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Mandai Wildlife Reserve" required />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="desc" className="block mb-2 text-sm font-medium text-gray-900">Membership Address</label>
+            <input type="text" id="address" onChange={handleValueChange} value={address} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Add an address..." required />
           </div>
           <div className="mb-6">
             <label htmlFor="desc" className="block mb-2 text-sm font-medium text-gray-900">Membership Description</label>
             <input type="text" id="desc" onChange={handleValueChange}  value={description} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Leave a description..." required />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="img" className="block mb-2 text-sm font-medium text-gray-900">Image URL</label>
+            <input type="text" id="img" onChange={handleValueChange} value={imageUrl} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Add an image URL..." />
           </div>
           <div className="mb-6">
             <label htmlFor="fee" className="block mb-2 text-sm font-medium text-gray-900">Pass Lost Fee</label>
@@ -83,19 +129,28 @@ export default function EditPass() {
               <input type="number" id="fee" onChange={handleValueChange} value={fee} className="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"/>
             </div>
           </div>
-          <div className="flex mb-6 justify-around">
+          <label htmlFor="passType" className="block mb-2 text-sm font-medium text-gray-900">Pass Type</label>
+          <div className="flex mb-6 justify-around" id="passType">
             <div className="flex items-center p-2 w-full max-w-sm rounded border border-gray-200 hover:border-redPri">
-                <input checked={passType === "electronic"} id="electronic" type="radio" onChange={handleValueChange} value="electronic" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
-                <label htmlFor="electronic" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Electronic Pass</label>
+              <input checked={passType === "electronic"} id="electronic" type="radio" onChange={handleValueChange} value="electronic" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
+              <label htmlFor="electronic" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Electronic Pass</label>
             </div>
             <div className="flex items-center p-2 w-full max-w-sm rounded border border-gray-200 hover:border-redPri">
-                <input checked={passType === "physical"} id="physical" type="radio" onChange={handleValueChange} value="physical" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
-                <label htmlFor="physical" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Physical Pass</label>
+              <input checked={passType === "physical"} id="physical" type="radio" onChange={handleValueChange} value="physical" name="bordered-radio" className="w-4 h-4 text-redPri bg-gray-100 border-gray-300" />
+              <label htmlFor="physical" className="py-4 ml-2 w-full text-sm font-medium text-gray-900">Physical Pass</label>
             </div>
           </div>
+          {
+            passType === "electronic" ? (
+              <>
+                <EPassMembershipGrade handleValueChange={handleValueChange} membershipGrade={membershipGrade} />
+                <EPassLogoUrl handleValueChange={handleValueChange} logoUrl={logoUrl} />
+              </>
+            ) : null
+          }
           <div className="mb-6">
             <span className="block mb-2 text-sm font-medium text-gray-900">Corporate Passes</span>
-            <PassTableForm passes={passes} setPasses={setPasses} membership={membership} />
+            <PassTableForm passes={passes} setPasses={setPasses} membership={membership} passType={passType} />
           </div>
           <div className="mb-6">
             <label htmlFor="emailTemplate" className="block mb-2 text-sm font-medium text-gray-900">Entry to Attraction Email Template</label>
@@ -109,6 +164,18 @@ export default function EditPass() {
               <button type="button" onClick={toggleEmailPreview} className="text-sm font-medium  text-redPri rounded-lg py-1 px-2 hover:text-redPriDark hover:bg-gray-200">{emailPreview ? "Edit" : "Preview"}</button>
             </div>
           </div>
+          <div className="mb-6">
+            <label htmlFor="attachmentTemplate" className="block mb-2 text-sm font-medium text-gray-900">Authorisation Letter Attachment Template</label>
+            {
+              attachmentPreview ? 
+              <div dangerouslySetInnerHTML={{ __html: attachmentTemplate}} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" />
+              : 
+              <textarea rows={10} id="attachmentTemplate" onChange={handleValueChange} value={attachmentTemplate} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Leave a description..." required />
+            }
+            <div className="flex justify-end my-2">
+              <button type="button" onClick={toggleAttachmentPreview} className="text-sm font-medium  text-redPri rounded-lg py-1 px-2 hover:text-redPriDark hover:bg-gray-200">{attachmentPreview ? "Edit" : "Preview"}</button>
+            </div>
+          </div>
           <DefaultSubmitButton buttonName="Update Membership" onButtonClick={onSubmitButtonClicked} />
         </form>
       </div>
@@ -116,7 +183,7 @@ export default function EditPass() {
   )
 }
 
-function PassTableForm({passes, setPasses, membership}) {
+function PassTableForm({passes, setPasses, membership, passType}) {
   const [allPasses, setAllPasses] = useState(passes);
   const allStatus = Array(allPasses === null ? 0 : allPasses.length ).fill(false);
   const [passesEditingToggle, setPassesEditingToggle] = useState(allStatus);
@@ -198,6 +265,13 @@ function PassTableForm({passes, setPasses, membership}) {
               <th scope="col" className="py-3 px-6">
                 Pass Admits
               </th>
+              {
+                passType === "electronic" ?
+                (<th scope="col" className="py-3 px-6">
+                  Expiry Date
+                </th>)
+                : null
+              }
               <th scope="col" className="py-3 px-6 bg-gray-50">
                 <div className="flex justify-between items-center">
                   <span>Status</span>
@@ -219,12 +293,19 @@ function PassTableForm({passes, setPasses, membership}) {
                       <td className="py-4 px-6">
                         <input type="number" id="maxPersonsAdmitted" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.maxPersonsAdmitted} />
                       </td>
+                      {
+                        passType === "electronic" ?
+                        (<td className="py-4 px-6">
+                          <input type="date" id="expiryDate" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.expiryDate} />
+                        </td>)
+                        : null
+                      }
                       <td className="py-4 px-6 bg-gray-100">
-                        <div className="flex justify-between">
+                        <div className="flex justify-between items-center">
                           <PassStatusBadge status="AVAILABLE" />
-                          <div>
-                            <ConfirmIconButton onConfirmButtonClick={handleConfirmButtonClick} index={index} />
-                            <DeleteIconButton onDeleteButtonClick={handleDeleteButtonClick} index={index} />
+                          <div className="">
+                            <ConfirmIconButton onConfirmButtonClick={() => handleConfirmButtonClick(index)} />
+                            <DeleteIconButton onDeleteButtonClick={() => handleDeleteButtonClick(index)} />
                           </div>
                         </div>
                       </td>
@@ -238,12 +319,19 @@ function PassTableForm({passes, setPasses, membership}) {
                       <td className="py-4 px-6">
                         {pass.maxPersonsAdmitted}
                       </td>
+                      {
+                        passType === "electronic" ?
+                        (<td className="py-4 px-6">
+                          {pass.expiryDate}
+                        </td>)
+                        : null
+                      }
                       <td className="py-4 px-6 bg-gray-100">
-                        <div className="flex justify-between">
+                        <div className="flex justify-between items-center">
                           <PassStatusBadge status={pass.status} />
                           {
                             pass.status === "AVAILABLE"
-                            ? <EditIconButton onEditButtonClick={handleEditButtonClick} index={index} />
+                            ? <EditIconButton onEditButtonClick={() => handleEditButtonClick(index)} />
                             : null
                           }
                         </div>
@@ -270,7 +358,7 @@ function PassStatusBadge({status}) {
   const badgeStatus = capitalizeFirstLetter(status.toLowerCase());
 
   return (
-    <span className={`${statusToBadgeClass[status]} text-sm font-medium mx-3 px-2.5 py-0.5 rounded`}>{badgeStatus}</span>
+    <div className={`${statusToBadgeClass[status]} text-sm font-medium mx-3 px-2.5 py-0.5 rounded flex items-center h-fit`}>{badgeStatus}</div>
   );
 }
 
@@ -278,42 +366,20 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function EditIconButton({onEditButtonClick, index}) {
+function EPassMembershipGrade({handleValueChange, membershipGrade}) {
   return (
-    <button type="button" onClick={() => onEditButtonClick(index)} className="text-redPri hover:text-redSec">
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-      </svg>
-    </button>
+    <div className="mb-6">
+      <span className="block mb-2 text-sm font-medium text-gray-900">Membership Grade</span>
+      <input type="text" id="membershipGrade" onChange={handleValueChange} value={membershipGrade} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Add a membership grade" required />
+    </div>
   );
 }
 
-function ConfirmIconButton({onConfirmButtonClick, index}) {
+function EPassLogoUrl({handleValueChange, logoUrl}) {
   return (
-    <button type="button" onClick={() => onConfirmButtonClick(index)} className="text-redPri hover:text-redSec mr-3">
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-      </svg>
-    </button>
-  );
-}
-
-function AddIconButton({onAddButtonClick}) {
-  return (
-    <button type="button" onClick={onAddButtonClick} className="text-redPri hover:text-redSec">
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-      </svg>  
-    </button>
-  );
-}
-
-function DeleteIconButton({onDeleteButtonClick, index}) {
-  return (
-    <button type="button" onClick={() => onDeleteButtonClick(index)} className="text-redPri hover:text-redSec">
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-      </svg>
-    </button>
+    <div className="mb-6">
+      <span className="block mb-2 text-sm font-medium text-gray-900">Logo URL</span>
+      <input type="text" id="logoUrl" onChange={handleValueChange} value={logoUrl} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Add a logo url (e.g. https://image.location.com)" required />
+    </div>
   );
 }

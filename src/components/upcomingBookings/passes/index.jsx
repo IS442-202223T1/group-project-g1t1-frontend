@@ -1,49 +1,48 @@
-import React, { useState, useEffect } from "react";
-import { getPastBookings } from "src/api/passes";
+import React, { useEffect } from "react";
+import { getUpcomingBookings } from "src/api/passes";
 import PassTile from "./PassTile";
 
-function BookingHistory() {
+function Pass() {
   const token = sessionStorage.getItem("token");
   const email = sessionStorage.getItem("email");
   
-  const [pastBookings, setPastBookings] = React.useState([]);
+  const [upcomingBookings, setUpcomingBookings] = React.useState([]);
 
   useEffect(() => {
-    renderPastBookings();
-    async function renderPastBookings() {
-      const pastBookingsRes = await getPastBookings(token, email);
-      setPastBookings(pastBookingsRes);
-    }
+    renderUpcomingBookings();
+    async function renderUpcomingBookings() {
+        const upcomingBookingsRes = await getUpcomingBookings(token, email);
+        setUpcomingBookings(upcomingBookingsRes);
+      }
   },[]);
 
-  const pastPasses = pastBookings.map((pass) => (
+  const upcomingPasses = upcomingBookings.map((pass) => (
     <PassTile
       title={pass.membershipName} 
       imageUrl={pass.imageUrl} 
       date={pass.borrowDate} 
       desc={pass.numberOfPasses} 
       passId={pass.passId} 
-      ppl={pass.maxPersonsAdmitted}
       bookingID={pass.bookingID}
       status={pass.bookingStatus}
       prevBookerName={pass.previousBookerName}
       prevBookerDate={pass.previousBookingDate}
       prevBookerNum={pass.previousBookerContactNumber}
-      fee={pass.feesOwed}
+      day={pass.borrowDay}
     />
   ));
 
   return (
     <div className="w-10/12 max-w-xl mt-5 p-5 mx-auto">
       {
-        pastPasses.length === 0 
+        upcomingPasses.length === 0 
         ? <div className="flex justify-center">
-            <span className="text-center text-lg font-medium">No Past Bookings Found</span> 
+            <span className="text-center text-lg font-medium">No Upcoming Bookings Found</span> 
           </div>
-        : pastPasses
+        : upcomingPasses
       }
     </div>
   )
 }
 
-export default BookingHistory;
+export default Pass;

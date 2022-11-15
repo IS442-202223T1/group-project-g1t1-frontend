@@ -26,7 +26,7 @@ export default function PassTile({title, day, imageUrl, date, desc, passId, stat
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Date: {date}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previously Booked Date: " + prevBookerDate : ""}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previous Booker Name: " + prevBookerName : ""}</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previous Booking Num: " + prevBookerNum : ""}</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previous Booker Contact Number: " + prevBookerNum : ""}</p>
           <div className="justify-end">
             {status === "COLLECTED" ? null : <DefaultSecondaryButton buttonName="Cancel" onButtonClick={handleCancelBooking}/>}
           </div>
