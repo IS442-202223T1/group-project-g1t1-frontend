@@ -44,7 +44,6 @@ function Reports() {
       {activeTabIndex === 1 ? <BiannualReport /> : null}
       {activeTabIndex === 2 ? <AnnualReport /> : null}
       {activeTabIndex === 3 ? <AllReport /> : null}
-
     </div>
   )
 }

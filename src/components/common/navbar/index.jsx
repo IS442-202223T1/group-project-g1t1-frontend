@@ -10,7 +10,7 @@ export default function NavBar() {
 
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded flex justify-center">
-      <div className="container flex flex-wrap justify-around items-center">
+      <div className="container flex flex-wrap justify-between items-center max-w-5xl">
         <div className="flex items-center">
           <NavBarLogo currentRole={currentRole} history={history} />
         </div>
@@ -33,6 +33,7 @@ function NavBarLogo({currentRole, history}) {
     >
       <img src="/logo.png" className="mx-3 h-8 sm:h-9" alt="" />
       {currentRole === "admin" && <span className="text-sm font-bold text-gray-800">Admin</span>}
+      {currentRole === "gop" && <span className="text-sm font-bold text-gray-800">GOP</span>}
     </button>
   )
 }
@@ -55,14 +56,12 @@ function NavBarItems({currentRole, history}) {
       {name: "Reports", href: "/reports"},
     ],
     "borrower": [
-      {name: "My Pass", href: "/"},
-
-      {name: "Borrow Pass", href: "/borrow-pass"},
+      {name: "Upcoming Bookings", href: "/"},
       {name: "Past Bookings", href: "/past-bookings"},
-
-      {name: "All Attractions", href : "/view-memberships"},
-      {name: "Confirmed bookings", href : "/gop-bookings-list"}
-
+      {name: "Book a Pass", href : "/view-memberships"},
+    ], 
+    "gop": [
+      {name: "Bookings", href : "/"}
     ]
   }
 
@@ -91,8 +90,9 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
   const { setCurrentSelectedRoleToStateAndSession } = useUserContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const showViewBorrowerOption = allUserRoles.includes("borrower") && currentRole === "admin";
-  const showViewAdminOption = allUserRoles.includes("admin") && currentRole === "borrower";
+  const showViewBorrowerOption = allUserRoles.includes("borrower") && currentRole !== "borrower";
+  const showViewGOPOption = allUserRoles.includes("gop") && currentRole !== "gop";
+  const showViewAdminOption = allUserRoles.includes("admin") && currentRole !== "admin";
 
   const onProfileClick = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -100,6 +100,12 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
 
   const onClickedViewAdminOption = () => {
     setCurrentSelectedRoleToStateAndSession("admin");
+    setIsMenuOpen(false);
+    history.push("/");
+  }
+
+  const onClickedViewGOPOption = () => {
+    setCurrentSelectedRoleToStateAndSession("gop");
     setIsMenuOpen(false);
     history.push("/");
   }
@@ -125,11 +131,11 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
       <div className={`${isMenuOpen ? "" : "hidden"} relative inset-y-5 right-10 z-20`}>
         <div className="absolute w-44 text-base list-none bg-white border border-gray-100 rounded divide-y divide-gray-100">
           <div className="py-3 px-4">
-            <span className="block text-sm text-gray-900">Bonnie Green</span>
             <span className="block text-sm font-medium text-gray-500 truncate">{userEmail}</span>
           </div>
           <ul className="py-1">
             {showViewAdminOption && <li><button type="button" onClick={onClickedViewAdminOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">View as Admin</button></li>}
+            {showViewGOPOption && <li><button type="button" onClick={onClickedViewGOPOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">View as GOP</button></li>}
             {showViewBorrowerOption && <li><button type="button" onClick={onClickedViewBorrowerOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">View as Staff</button></li>}
             <li><button type="submit" onClick={onClickedSignOutOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">Sign Out</button></li>
           </ul>

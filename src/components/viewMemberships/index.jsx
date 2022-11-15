@@ -31,9 +31,20 @@ function ViewMemberships(){
       }, []);
 
       return (
-          <div className="w-10/12 max-w-5xl mt-5 p-5 grid grid-cols-2 xl:grid-cols-3 gap-5 mx-auto">
-            {memberships.length === 0 ? "No Memberships Found" : renderMemberships}
+        <div className="max-w-5xl mt-5 mx-auto">
+          <div className="flex justify-between items-center">
+            <span className="font-medium text-3xl">Book a Pass</span>
           </div>
+          <div className="w-10/12 max-w-5xl mt-5 p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mx-auto">
+            {
+              memberships.length === 0 
+              ? <div className="flex justify-center text-center col-span-full">
+                  <span className="text-lg font-medium">No Memberships Found</span> 
+                </div>
+              : renderMemberships
+            }
+          </div>
+        </div>
       )
 }
 
