@@ -14,10 +14,10 @@ export default function UpdateMembershipDetailsBody() {
   }
 
   const onClickEditButton = (e) => {
-    history.push("/edit-pass");
+    history.push("/edit-membership");
   }
 
-  const buttons = ["Administrative Details", "View All Passes"]
+  const buttons = ["Administrative Details", "View All Corporate Passes"]
 
   const renderButtonTabs = buttons.map((buttonName, index) => (
     <li className="mr-2">

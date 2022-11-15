@@ -58,10 +58,10 @@ function NavBarItems({currentRole, history}) {
     "borrower": [
       {name: "Upcoming Bookings", href: "/"},
       {name: "Past Bookings", href: "/past-bookings"},
-      {name: "All Pass", href : "/view-memberships"},
+      {name: "Book a Pass", href : "/view-memberships"},
     ], 
     "gop": [
-      {name: "Confirmed Bookings", href : "/"}
+      {name: "Bookings", href : "/"}
     ]
   }
 

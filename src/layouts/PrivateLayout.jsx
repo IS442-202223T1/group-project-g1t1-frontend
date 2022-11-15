@@ -2,23 +2,21 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import NavBar from "src/components/common/navbar";
 import {
   UpdateMembershipRoute,
-  UpcomingPassRoute,
+  UpcomingBookingsRoute,
   EmployeesRoute,
   ReportsRoute,
   UpdateMembershipDetailsRoute,
   CreateMembershipRoute,
-  EditPassRoute,
+  EditMembershipRoute,
   PastBookingsRoute,
   ViewMembershipsRoute,
   ViewMembershipDetailsRoute,
-  GopBookingsListRoute
-
 } from "src/routes";
 import { useUserContext } from "src/contexts/userContext";
 import { testToken } from "src/api/account";
 // eslint-disable-next-line camelcase
 import jwt_decode from "jwt-decode";
-import ConfirmedBookings from "src/components/gopBookingsList";
+import ExistingBookings from "src/components/existingBookings";
 
 export default function PrivateLayout() {
   return isLoggedIn() ? (
@@ -34,9 +32,9 @@ export default function PrivateLayout() {
             }
 
             if (sessionStorage.getItem("role") === "gop") {
-              return <ConfirmedBookings />;
+              return <ExistingBookings />;
             }
-            return <UpcomingPassRoute />;
+            return <UpcomingBookingsRoute />;
           }}
         />
         <Route exact path='/view-memberships' component={ViewMembershipsRoute} />
@@ -45,9 +43,8 @@ export default function PrivateLayout() {
         <Route exact path='/view-membership-details' component={ViewMembershipDetailsRoute} />
         <Route exact path='/update-membership-details' component={UpdateMembershipDetailsRoute} />
         <Route exact path='/create-membership' component={CreateMembershipRoute} />
-        <Route exact path='/edit-pass' component={EditPassRoute} />
+        <Route exact path='/edit-membership' component={EditMembershipRoute} />
         <Route exact path='/past-bookings' component={PastBookingsRoute} />
-        <Route exact path='/gop-bookings-list' component={GopBookingsListRoute} />
       </Switch>
     </>
   ) : <Redirect to={{ pathname: "/login"}} />;

@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-
 import React, { useState, useEffect } from "react";
 import { XMarkIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { getAllUser, updateRoles, disableEmployee, enableEmployee } from "src/api/accountAdmin";
@@ -81,7 +79,7 @@ function Employees() {
 
   return (
     <div className="max-w-5xl mt-5 mx-auto">
-      <h1 className="font-medium text-3xl">View Employees</h1>
+      <h1 className="font-medium text-3xl">View All Employees</h1>
       <div className="p-4 bg-white rounded-lg md:p-8">
       <div className="shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-700">
@@ -98,39 +96,53 @@ function Employees() {
               </th>
             </tr>
           </thead>
-          <tbody>
-            {
-              allUsers.map((user, index) =>
-                <tr className={`bg-white divide-y ${user.isActive ? "text-gray-900" : "text-darkGrey"}`}>
-                  <th scope="row" className="py-4 px-6 font-medium whitespace-nowrap bg-gray-100">
-                    {user.name}
-                    {user.isActive ? null : <span className="bg-darkGrey text-white rounded-full px-2 py-1 ml-2 text-xs">Disabled</span>}
-                  </th>
-                  <td className="py-4 px-6">
-                    {user.email}
-                  </td>
-                  <td className="py-4 px-6">
-                    {user.roles.map((role, roleIndex) => roleButton(role.label, editState[index], removeRole, index, roleIndex))}
-                    {editState[index] ? (
-                        Object.keys(roleColors).map((role) => (!user.roles.map((role) => role.label).includes(role) ? addRoleButton(role, addRole, index) : null))
-                    ): null}
-                  </td>
-                  <td className="py-4 px-6 flex items-center">
-                    {editState[index] ? (
-                      <ConfirmIconButton onConfirmButtonClick={saveEdit(index)} />
-                      )
-                    : (
-                      <EditIconButton onEditButtonClick={editRole(index)} />
-                    ) }
-                    {user.isActive ? (
-                      <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={disableUser(index)}>Disable</button>
-                      ) : (
-                      <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={enableUser(index)}>Enable</button>
-                      )}
+          { 
+            (allUsers === null || allUsers.length === 0)
+            ? (
+              <tbody>
+                <tr>
+                  <td className="p-4 bg-white rounded-lg md:p-8 col-span-3 text-gray-500 justify-center" >
+                    No Employees found
                   </td>
                 </tr>
-              )}
-          </tbody>
+              </tbody>
+            )
+            : (
+              <tbody>
+                {
+                  allUsers.map((user, index) =>
+                    <tr className={`bg-white divide-y ${user.isActive ? "text-gray-900" : "text-darkGrey"}`}>
+                      <th scope="row" className="py-4 px-6 font-medium whitespace-nowrap bg-gray-100">
+                        {user.name}
+                        {user.isActive ? null : <span className="bg-darkGrey text-white rounded-full px-2 py-1 ml-2 text-xs">Disabled</span>}
+                      </th>
+                      <td className="py-4 px-6">
+                        {user.email}
+                      </td>
+                      <td className="py-4 px-6">
+                        {user.roles.map((role, roleIndex) => roleButton(role.label, editState[index], removeRole, index, roleIndex))}
+                        {editState[index] ? (
+                            Object.keys(roleColors).map((role) => (!user.roles.map((role) => role.label).includes(role) ? addRoleButton(role, addRole, index) : null))
+                        ): null}
+                      </td>
+                      <td className="py-4 px-6 flex items-center">
+                        {editState[index] ? (
+                          <ConfirmIconButton onConfirmButtonClick={saveEdit(index)} />
+                          )
+                        : (
+                          <EditIconButton onEditButtonClick={editRole(index)} />
+                        ) }
+                        {user.isActive ? (
+                          <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={disableUser(index)}>Disable</button>
+                          ) : (
+                          <button type="button" className="text-darkGrey hover:text-black font-bold py-2 px-4 rounded" onClick={enableUser(index)}>Enable</button>
+                          )}
+                      </td>
+                    </tr>
+                  )}
+              </tbody>
+            )
+          }
         </table>
       </div>
     </div>
@@ -139,9 +151,9 @@ function Employees() {
 }
 
 const roleColors = {
-  admin: "bg-blue-200 text-blue-800",
-  gop: "bg-green-200 text-green-800",
-  borrower: "bg-red-200 text-red-800",
+  admin: "bg-badgeCol1Light text-badgeCol1Dark",
+  gop: "bg-badgeCol2Light text-badgeCol2Dark",
+  borrower: "bg-badgeCol3Light text-badgeCol3Dark",
 };
 
 function roleButton(role, editState, removeRole, userIndex, roleIndex) {
@@ -163,9 +175,9 @@ function roleButton(role, editState, removeRole, userIndex, roleIndex) {
 
 function addRoleButton(role, addRole, userIndex) {
   const inverseRoleColors = {
-    admin: "border-blue-800 text-blue-800",
-    gop: "border-green-800 text-green-800",
-    borrower: "border-red-800 text-red-800",
+    admin: "border-badgeCol1Dark text-badgeCol1Dark",
+    gop: "border-badgeCol2Dark text-badgeCol2Dark",
+    borrower: "border-badgeCol3Light text-badgeCol3Dark",
   }
   return (
     <button

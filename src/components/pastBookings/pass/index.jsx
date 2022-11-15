@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getPastBookings } from "src/api/passes";
 import PassTile from "./PassTile";
-/* eslint-disable no-plusplus */
 
 function BookingHistory() {
   const token = sessionStorage.getItem("token");
@@ -14,7 +13,7 @@ function BookingHistory() {
     async function renderPastBookings() {
         const pastBookings = await getPastBookings(token, email);
         pastBookings.forEach((booking) => {
-             pastBookings.push(booking);
+          pastBookings.push(booking);
         })
         setPastBookings(pastBookings);
       }
@@ -39,7 +38,13 @@ function BookingHistory() {
 
   return (
     <div className="w-10/12 max-w-xl mt-5 p-5 mx-auto">
-      {pastPasses}
+      {
+        pastPasses.length === 0 
+        ? <div className="flex justify-center">
+            <span className="text-center text-lg font-medium">No Past Bookings Found</span> 
+          </div>
+        : pastPasses
+      }
     </div>
   )
 }
