@@ -11,28 +11,25 @@ function BookingHistory() {
   useEffect(() => {
     renderPastBookings();
     async function renderPastBookings() {
-        const pastBookings = await getPastBookings(token, email);
-        pastBookings.forEach((booking) => {
-          pastBookings.push(booking);
-        })
-        setPastBookings(pastBookings);
-      }
+      const pastBookingsRes = await getPastBookings(token, email);
+      setPastBookings(pastBookingsRes);
+    }
   },[]);
 
   const pastPasses = pastBookings.map((pass) => (
     <PassTile
-    title={pass.membershipName} 
-    imageUrl={pass.imageUrl} 
-    date={pass.borrowDate} 
-    desc={pass.numberOfPasses} 
-    passId={pass.passId} 
-    ppl={pass.maxPersonsAdmitted}
-    bookingID={pass.bookingID}
-    status={pass.bookingStatus}
-    prevBookerName={pass.previousBookerName}
-    prevBookerDate={pass.previousBookingDate}
-    prevBookerNum={pass.previousBookerContactNumber}
-    fee={pass.feesOwed}
+      title={pass.membershipName} 
+      imageUrl={pass.imageUrl} 
+      date={pass.borrowDate} 
+      desc={pass.numberOfPasses} 
+      passId={pass.passId} 
+      ppl={pass.maxPersonsAdmitted}
+      bookingID={pass.bookingID}
+      status={pass.bookingStatus}
+      prevBookerName={pass.previousBookerName}
+      prevBookerDate={pass.previousBookingDate}
+      prevBookerNum={pass.previousBookerContactNumber}
+      fee={pass.feesOwed}
     />
   ));
 

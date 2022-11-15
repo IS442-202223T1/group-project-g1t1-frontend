@@ -21,10 +21,8 @@ module.exports = {
         badgeCol1Dark: "#6D5271",
         badgeCol2Light: "#CADEED",
         badgeCol2Dark: "#053F5C",
-        badgeCol3Light: "#F9DDB1",
-        badgeCol3Dark: "#D24E01",
-        badgeCol4Light: "#ef9a6e",
-        badgeCol4Dark: "#2c2424",
+        badgeCol3Light: "#FFEACC",
+        badgeCol3Dark: "#DC6601",
       }
     },
   },

@@ -1,5 +1,4 @@
 import React from "react";
-import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 
 export default function PassTile({title, day, imageUrl, date, number, desc, passId, status, bookingID, prevBookerDate, prevBookerName, prevBookerNum}){
@@ -13,9 +12,9 @@ export default function PassTile({title, day, imageUrl, date, number, desc, pass
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Pass ID: {passId}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Status: {status}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Date: {date}</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{prevBookerDate!=null ? "Previously Booked Date: " + prevBookerDate : ""}</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{prevBookerDate!=null ? "Previous Booker Name: " + prevBookerName : ""}</p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{prevBookerDate!=null ? "Previous Booker Contact Number: " + prevBookerNum : ""}</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previously Booked Date: " + prevBookerDate : ""}</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previous Booker Name: " + prevBookerName : ""}</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{day=== "SUNDAY" ? "Previous Booker Contact Number: " + prevBookerNum : ""}</p>
           <div className="justify-end">
             <DefaultSecondaryButton buttonName="Cancel" onButtonClick="" />
           </div>
