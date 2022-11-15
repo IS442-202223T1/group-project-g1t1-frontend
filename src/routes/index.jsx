@@ -11,7 +11,6 @@ import CreateAccountRoute from "./createAccount";
 import PastBookingsRoute from "./pastBookings";
 import ViewMembershipsRoute from "./viewMemberships";
 import ViewMembershipDetailsRoute from "./viewMembershipDetails";
-import GopBookingsListRoute from "./gopBookingsList"
 
 export {
   UpdateMembershipRoute,
@@ -27,5 +26,4 @@ export {
   PastBookingsRoute,
   ViewMembershipsRoute,
   ViewMembershipDetailsRoute,
-  GopBookingsListRoute
 };

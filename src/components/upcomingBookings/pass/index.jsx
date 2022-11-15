@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getUpcomingBookings } from "src/api/passes";
 import PassTile from "./PassTile";
-/* eslint-disable no-plusplus */
 
 function Pass() {
   const token = sessionStorage.getItem("token");
