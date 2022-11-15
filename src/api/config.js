@@ -3,6 +3,8 @@ const REACT_APP_API_BASE_ENDPOINT = `${REACT_APP_API_DOMAIN}/api/v1`;
 
 export const LOGIN_ENDPOINT = `${REACT_APP_API_DOMAIN}/login`;
 export const ACCOUNT_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/account`;
+export const ACCOUNT_ADMIN_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/account/admin`;
+export const BOOKING_ADMIN_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/booking/admin`;
 export const BORROWER_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/borrower`;
 export const EMAIL_ENDPOINT = `${REACT_APP_API_BASE_ENDPOINT}/email`;
 export const TEST_TOKEN_ENDPOINT = `${ACCOUNT_ENDPOINT}/test`;
