@@ -100,37 +100,37 @@ function PassContent({desc, membershipName}) {
       <ResponseText statusCode = {statusCode} message = {message}/>
       {borrowers.length === 0 ? (
 				<div/>
-			) : (
-				<table className="w-full text-sm text-left text-gray-700">
-					<thead className="text-xs text-gray-700 uppercase">
-						<tr>
-							<th scope="col" className="py-3 px-6 bg-gray-50">
-								Booker Name
-							</th>
-							<th scope="col" className="py-3 px-6">
-								Booker Number
-							</th>
+        ) : (
+          <table className="w-full text-sm text-left text-gray-700">
+            <thead className="text-xs text-gray-700 uppercase">
+              <tr>
+                <th scope="col" className="py-3 px-6 bg-gray-50">
+                  Booker Name
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Booker Number
+                </th>
 
-							<th scope="col" className="py-3 px-6 bg-gray-50">
-								Card ID
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{borrowers.map((data) => (
-							<tr className="bg-white divide-y">
-								<th
-									scope="row"
-									className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100"
-								>
-									{data.bookerName}
-								</th>
-								<td className="py-4 px-6">{data.contactNumber === null ? "Contact unavailable" : data.contactNumber}</td>
-								<td className="py-4 px-6 bg-gray-100">{data.passId}</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
+                <th scope="col" className="py-3 px-6 bg-gray-50">
+                  Pass ID
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {borrowers.map((data) => (
+                <tr className="bg-white divide-y">
+                  <th
+                    scope="row"
+                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100"
+                  >
+                    {data.bookerName}
+                  </th>
+                  <td className="py-4 px-6">{data.contactNumber === null ? "Contact unavailable" : data.contactNumber}</td>
+                  <td className="py-4 px-6 bg-gray-100">{data.passId}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 			)}
     </div>
   );
