@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { updateMembership } from "src/api/membership";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
 import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/common/buttons/iconButtons";
+import PassStatusBadge from "src/components/common/badges/passStatusBadge";
 import BackButton from "src/components/common/buttons/backButton";
 import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
 
@@ -346,24 +347,6 @@ function PassTableForm({passes, setPasses, membership, passType}) {
       </div>
     </div>
   );
-}
-
-function PassStatusBadge({status}) {
-  const statusToBadgeClass = {
-    "AVAILABLE": "bg-green-100 text-green-800",
-    "LOST": "bg-red-100 text-red-800", 
-    "LOANED": "bg-blue-200 text-blue-800",
-  };
-
-  const badgeStatus = capitalizeFirstLetter(status.toLowerCase());
-
-  return (
-    <div className={`${statusToBadgeClass[status]} text-sm font-medium mx-3 px-2.5 py-0.5 rounded flex items-center h-fit`}>{badgeStatus}</div>
-  );
-}
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function EPassMembershipGrade({handleValueChange, membershipGrade}) {
