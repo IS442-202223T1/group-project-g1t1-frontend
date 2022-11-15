@@ -40,31 +40,38 @@ export const getMembershipDetails = async (token, membershipName) => {
   }
 };
 
-export const createNewBooking = async (token, date, email, membershipName, quantity) => {
-  try {
-    const body = {
-      date,
-      email,
-      membershipName,
-      quantity,
-    };
-    const res = await axiosBorrowerInstance.post("/booking/create-booking", body, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
-    if (res.status === 200) {
-      return res;
-    }
-    throw new Error("No data returned from backend");
-  } catch (error) {
-    if (error.message === "Request failed with status code 400") {
-      return {
-        status: 400,
-        message: error.response.data,
+  export const createNewBooking = async (token, date, email, membershipName, quantity) => {
+    try {
+      date.setHours(date.getHours() + 8);
+      const body = {
+        date,
+        email,
+        membershipName,
+        quantity,
       };
-    }
-    if (error.message === "Request failed with status code 409") {
+      const res = await axiosBorrowerInstance.post("/booking/create-booking", body, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      if (res.status === 200) {
+        return res;
+      }
+      throw new Error("No data returned from backend");
+    } catch (error) {
+      if(error.message === "Request failed with status code 400"){
+        return {
+          status : 400,
+          message : error.response.data
+        };
+      }
+      if(error.message==="Request failed with status code 409"){
+        console.log(error.response)
+        return {
+          status : 409,
+          message : error.response.data
+        };
+      }
       return {
         status: 409,
       };

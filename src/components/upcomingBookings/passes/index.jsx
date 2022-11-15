@@ -10,11 +10,17 @@ function Pass() {
 
   useEffect(() => {
     renderUpcomingBookings();
+    const nonCancelledBookings = [];
     async function renderUpcomingBookings() {
         const upcomingBookingsRes = await getUpcomingBookings(token, email);
-        setUpcomingBookings(upcomingBookingsRes);
-      }
-  },[]);
+        upcomingBookingsRes.forEach((booking) => {
+          if (booking.bookingStatus !== "CANCELLED") {
+            nonCancelledBookings.push(booking);
+          };
+        });
+          setUpcomingBookings(nonCancelledBookings);
+        }
+      },[]);
 
   const upcomingPasses = upcomingBookings.map((pass) => (
     <PassTile
@@ -24,7 +30,7 @@ function Pass() {
       desc={pass.numberOfPasses} 
       passId={pass.passId} 
       bookingID={pass.bookingID}
-      status={pass.bookingStatus}
+      status={pass.bookingStatus}  
       prevBookerName={pass.previousBookerName}
       prevBookerDate={pass.previousBookingDate}
       prevBookerNum={pass.previousBookerContactNumber}
@@ -41,6 +47,7 @@ function Pass() {
           </div>
         : upcomingPasses
       }
+      
     </div>
   )
 }

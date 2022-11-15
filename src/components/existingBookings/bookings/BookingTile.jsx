@@ -32,7 +32,7 @@ export default function BookingTile({bookingID, corporatePassID, borrowerName, a
     setFreshStatus("DUESPAID");
   }
 
-  if (freshStatus === "DUESPAID") {
+  if (freshStatus === "DUESPAID" || freshStatus ==="RETURNED") {
     return null;
   }
 
