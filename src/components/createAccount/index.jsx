@@ -19,7 +19,9 @@ export default function CreateAccount() {
   };
 
   const handleContactNumberChange = (e) => {
-    setContactNumber(e.target.value);
+    if (e.target.value.length <= 8) {
+      setContactNumber(e.target.value);
+    }
   };
 
   const handlePasswordChange = (e) => {
@@ -34,7 +36,14 @@ export default function CreateAccount() {
     const { EMAIL_CHECKING } = process.env;
     if ( queryEmail === null || queryEmail.split("@").length !== 2 || EMAIL_CHECKING && !permittedEmails.includes(queryEmail.split("@")[1]) ) {
       tempErrors.push("Unable to fulfil request. Please use the link that was sent to your email.")
-    } else {
+    } else if (name === "") {
+      tempErrors.push("Name cannot be empty.");
+    } else if (contactNumber === "") {
+      tempErrors.push("Contact number cannot be empty.");
+    } else if (password === "") {
+      tempErrors.push("Password cannot be empty.");
+    } else
+    {
       setEmail(queryEmail);
       const res = await postCreateAccount(queryEmail, name, contactNumber, password);
       if (res) {
