@@ -18,8 +18,7 @@ function ViewGlobalConfig() {
   const updateConfigHandler = (configState) => {};
 
   const toggleIsEditHandler = () => setIsEdit(!isEdit);
-
-  const renderGlobalConfig = (globalconfigs) => (
+  const renderGlobalConfig = (value) => (
     <GlobalConfig
       configValues={globalconfigs}
       isEdit={isEdit}
@@ -33,7 +32,7 @@ function ViewGlobalConfig() {
 
     async function renderGlobalConfig() {
       const globalConfigRes = await getGlobalConfig(token);
-
+      console.log(globalConfigRes);
       setGlobalConfig(globalConfigRes);
     }
   }, []);

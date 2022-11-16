@@ -23,7 +23,7 @@ export const getGlobalConfig = async (token) => {
   }
 };
 
-export const updateRoles = async (
+export const updateGlobalConfig= async (
   token,
   loanLimitPerMonth,
   passLimitPerLoan,
