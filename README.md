@@ -4,7 +4,7 @@
 <br />
 <div align="center">
 
-  <h3 align="center">OOP Project</h3>
+  <h3 align="center">IS442 G1T1 Frontend</h3>
 
 </div>
 
