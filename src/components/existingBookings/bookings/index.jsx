@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getBookingsByEmail } from "src/api/gop";
 import BookingTile from "./BookingTile";
 import SearchBar from "./searchBar";
@@ -38,6 +38,15 @@ function Bookings() {
 			}
 		}
 	};
+
+	useEffect(() => {
+		renderBookings();
+		async function renderBookings() {
+				const bookingsFromApi = await getBookingsByEmail(token, email);
+				console.log(bookingsFromApi);
+				setBookings(bookingsFromApi);
+		}
+	  },[]);
 
 	return (
 		<div className="w-10/12 max-w-5xl mt-5 p-5 mx-auto">
