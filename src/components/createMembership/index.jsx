@@ -3,9 +3,9 @@ import { useHistory } from "react-router-dom";
 import { createNewMembership } from "src/api/membership";
 import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/common/buttons/iconButtons";
 import BackButton from "src/components/common/buttons/backButton";
+import PassStatusBadge from "src/components/common/badges/passStatusBadge";
 import { DefaultPhysicalEmailTemplate, DefaultElectronicEmailTemplate, EmailVariables } from "../defaultEmailTemplate";
 import { DefaultPhysicalAttachmentTemplate, DefaultElectronicAttachmentTemplate, ElectronicAttachmentVariables, PhysicalAttachmentVariables } from "../defaultAttachmentTemplate";
-import PassStatusBadge from "src/components/common/badges/passStatusBadge";
 import DefaultSubmitButton from "../common/buttons/defaultSubmitButton";
 
 export default function CreateMembership() {
