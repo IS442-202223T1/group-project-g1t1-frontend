@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { useBookPassContext } from "src/contexts/bookPassContext";
 import { createNewBooking, sendEmail } from "src/api/borrower";
+import { getGlobalConfig} from "src/api/globalConfig";
 import DefaultSubmitButton from "../../common/buttons/defaultSubmitButton";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -29,10 +30,18 @@ function PassContent({desc, address, membershipName}) {
 
   const [message, setMessage] = useState("");
   const [borrowers, setBorrowers] = useState([]);
+  const [maxPasses, setMaxPasses] = useState(0);
   const today = new Date();
   const startDate = new Date();
   startDate.setDate(today.getDate() + 1);
   const endDate = new Date();
+  useEffect(() => {
+    getGlobalConfigs();
+    async function getGlobalConfigs() {
+      const res = await getGlobalConfig(token);
+      setMaxPasses(res.passLimitPerLoan);
+    }
+  }, []);
 
   const [numberOfPasses, setNumberOfPasses] = useState(0);
 
@@ -108,7 +117,7 @@ function PassContent({desc, address, membershipName}) {
             How many passes would you like?
           </p>
           <div className="w-1/4">
-            <input type="number" id="numberOfPasses" onChange={handleValueChange} className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"/>
+            <input type="number" id="numberOfPasses" min={1}  max={maxPasses} onChange={handleValueChange} className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"/>
           </div>
         </li>
         <DefaultSubmitButton buttonName="Book Now" onButtonClick={onButtonClicked} />
