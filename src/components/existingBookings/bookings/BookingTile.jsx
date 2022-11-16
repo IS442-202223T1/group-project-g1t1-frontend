@@ -13,6 +13,7 @@ export default function BookingTile({
   date,
   numberOfPasses,
   status,
+  feesOwed
 }) {
   const token = sessionStorage.getItem("token");
   const [freshStatus, setFreshStatus] = useState(status);
@@ -79,6 +80,9 @@ export default function BookingTile({
           <p className='mb-3 font-normal text-gray-700'>
             Pass ID: <span className='font-medium text-black'>{corporatePassID}</span>
           </p>
+         { status === "DUESOWED" ? <p className='mb-3 font-normal text-gray-700'>
+            Dues Owed: <span className='font-medium text-black'>{feesOwed}</span>
+          </p> : <p/>}
         </div>
         <div className='grid grid-rows-2 justify-items-stretch items-stretch w-2/5 p-2 gap-2 h-56'>
           {renderButtons()}
