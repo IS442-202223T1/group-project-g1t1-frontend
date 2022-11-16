@@ -50,7 +50,7 @@ export default function UpdateMembershipDetailsBody() {
           {renderButtonTabs}
         </div>
         <div className="flex">
-          {membershipDetails.isActive ? 
+          {membershipDetails.active ? 
           <DeleteIconButton onDeleteButtonClick={onClickDeleteButton} />
           : <ConfirmIconButton onConfirmButtonClick={onClickConfirmButton} />}
           <EditButton onClick={onClickEditButton} />
