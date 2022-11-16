@@ -7,7 +7,7 @@ function UpcomingBookings() {
       <h1 className="font-medium text-3xl">My Upcoming Bookings</h1>
       <Passes />
     </div>
-  )
+  );
 }
 
 export default UpcomingBookings;
