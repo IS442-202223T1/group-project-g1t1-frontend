@@ -18,7 +18,9 @@ export default function NavBar() {
         </div>
         <UserProfile currentRole={currentRole} allUserRoles={allUserRoles} userEmail={userEmail} history={history} />
         <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-          <NavBarItems currentRole={currentRole} history={history} />
+          <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+            <NavBarItems currentRole={currentRole} history={history} closeMenu={()=>{}} />
+          </ul>
         </div>
       </div>
     </nav>
@@ -50,7 +52,7 @@ function isCurrentPage(href) {
   return false;
 }
 
-function NavBarItems({currentRole, history}) {
+function NavBarItems({currentRole, history, closeMenu}) {
   const navBarItems = {
     "admin": [
       {name: "Memberships", href: "/"},
@@ -67,30 +69,26 @@ function NavBarItems({currentRole, history}) {
     ]
   }
 
-  const renderNavBarItems = navBarItems[currentRole].map((item) => (
-    <li>
-      <button
-        type="button"
-        onClick = {() => {
-          history.push(item.href);
-        }} 
-        className={`block py-2 pr-4 pl-3 rounded hover:text-redPri md:p-0 ${isCurrentPage(item.href) ? "text-redPri" : "text-gray-700"}`} 
-      >
-        {item.name}
-      </button>
-    </li>
-  ));
-
-  return (
-    <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
-      {renderNavBarItems}
-    </ul>
-  );
+  return navBarItems[currentRole].map((item) => (
+      <li>
+        <button
+          type="button"
+          onClick = {() => {
+            closeMenu();
+            history.push(item.href);
+          }} 
+          className={`block py-2 pr-4 pl-3 rounded hover:text-redPri md:p-0 ${isCurrentPage(item.href) ? "text-redPri" : "text-gray-700"}`} 
+        >
+          {item.name}
+        </button>
+      </li>
+    ));
 }
 
 function UserProfile({currentRole, allUserRoles, userEmail, history}) {
   const { setCurrentSelectedRoleToStateAndSession } = useUserContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [name, setName] = useState(userEmail.split("@")[0]);
 
   const showViewBorrowerOption = allUserRoles.includes("borrower") && currentRole !== "borrower";
@@ -111,7 +109,17 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
   }, []);
 
   const onProfileClick = () => {
+    if (isHamburgerOpen) {
+      setIsHamburgerOpen(false);
+    }
     setIsMenuOpen(!isMenuOpen);
+  }
+
+  const onHamBurgerClick = () => {
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+    setIsHamburgerOpen(!isHamburgerOpen);
   }
 
   const onClickedViewAdminOption = () => {
@@ -144,7 +152,7 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
         <UserCircleIcon className="w-8 h-8 text-darkGrey" />
       </button>
 
-      <div className={`${isMenuOpen ? "" : "hidden"} relative inset-y-5 right-10 z-20`}>
+      <div className={`${isMenuOpen ? "" : "hidden"} relative inset-y-5 right-44 z-20`}>
         <div className="absolute w-44 text-base list-none bg-white border border-gray-100 rounded divide-y divide-gray-100">
           <div className="py-3 px-4">
             <span className="block text-sm font-medium text-gray-500 truncate">{name}</span>
@@ -158,7 +166,15 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
         </div>
       </div>
 
-      <button type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+      <div className={`${isHamburgerOpen ? "md:hidden" : "hidden"} relative inset-y-5 right-32 z-20`}>
+        <div className="absolute w-44 text-base list-none bg-white border border-gray-100 rounded divide-y divide-gray-100">
+          <ul className="py-1">
+            <NavBarItems currentRole={currentRole} history={history} closeMenu={() => setIsHamburgerOpen(false)}/>
+          </ul>
+        </div>
+      </div>
+
+      <button type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" onClick={onHamBurgerClick}>
         <span className="sr-only">Open main menu</span>
         <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/></svg>
       </button>
