@@ -9,21 +9,16 @@ function UpdateMembership() {
   const token = sessionStorage.getItem("token");
   const [memberships, setMemberships] = useState([]);
 
-  const defaultImageUrl =
-    "https://images.unsplash.com/photo-1464059728276-d877187d61a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=cr";
+  const defaultImageUrl = "https://images.unsplash.com/photo-1464059728276-d877187d61a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=cr";
   const defaultDescription = "No description specified";
 
   const onAddNewButtonClicked = () => {
     history.push("/create-membership");
-  };
+  }
 
   const renderMemberships = memberships.map((membership) => (
-    <MembershipTile
-      imageUrl={
-        membership.imageUrl === null || membership.imageUrl === ""
-          ? defaultImageUrl
-          : membership.imageUrl
-      }
+    <MembershipTile 
+      imageUrl={(membership.imageUrl === null || membership.imageUrl === "") ? defaultImageUrl : membership.imageUrl}
       name={membership.membershipName}
       description={membership.description === "" ? defaultDescription : membership.description}
       isActive={membership.isActive}
@@ -47,16 +42,16 @@ function UpdateMembership() {
         <DefaultSubmitButton buttonName="Add Membership" onButtonClick={onAddNewButtonClicked} />
       </div>
       <div className="w-10/12 max-w-5xl mt-5 p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mx-auto">
-        {memberships.length === 0 ? (
-          <div className="flex justify-center text-center col-span-full">
-            <span className="text-lg font-medium">No Memberships Found</span>
+      {
+        memberships.length === 0 
+        ? <div className="flex justify-center text-center col-span-full">
+            <span className="text-lg font-medium">No Memberships Found</span> 
           </div>
-        ) : (
-          renderMemberships
-        )}
+        : renderMemberships
+      }
       </div>
     </div>
-  );
+  )
 }
 
 export default UpdateMembership;

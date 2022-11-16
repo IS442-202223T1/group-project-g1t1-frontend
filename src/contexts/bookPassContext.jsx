@@ -19,11 +19,18 @@ export function BookPassContextProvider({ children }) {
       membershipDetails,
       setMembershipDetails,
     }),
-    [selectedMembership, setSelectedMembership, membershipDetails, setMembershipDetails],
+    [
+      selectedMembership,
+      setSelectedMembership,
+      membershipDetails,
+      setMembershipDetails,
+    ],
   );
 
   return (
-    <BookPassContext.Provider value={bookPassContextState}>{children}</BookPassContext.Provider>
+    <BookPassContext.Provider value={bookPassContextState}>
+      {children}
+    </BookPassContext.Provider>
   );
 }
 

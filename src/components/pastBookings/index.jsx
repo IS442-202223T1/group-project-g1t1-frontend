@@ -7,7 +7,7 @@ function BookingHistory() {
       <h1 className="font-medium text-3xl">My Booking History</h1>
       <PastBookings />
     </div>
-  );
+  )
 }
 
 export default BookingHistory;

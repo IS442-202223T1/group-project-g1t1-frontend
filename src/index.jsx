@@ -8,7 +8,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // Temporarily disabling strict mode to prevent double useEffect hooks
   // <React.StrictMode>
-  <App />,
+    <App />
   // </React.StrictMode>
 );
 

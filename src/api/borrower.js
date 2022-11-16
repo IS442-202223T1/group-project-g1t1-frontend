@@ -62,18 +62,19 @@ export const createNewBooking = async (token, date, email, membershipName, quant
     }
 
     throw new Error("No data returned from backend");
+
   } catch (error) {
-    if (error.message === "Request failed with status code 400") {
+    if(error.message === "Request failed with status code 400"){
       return {
-        status: 400,
-        message: error.response.data,
+        status : 400,
+        message : error.response.data
       };
     }
 
-    if (error.message === "Request failed with status code 409") {
+    if(error.message==="Request failed with status code 409"){
       return {
-        status: 409,
-        message: error.response.data,
+        status : 409,
+        message : error.response.data
       };
     }
 
@@ -81,7 +82,7 @@ export const createNewBooking = async (token, date, email, membershipName, quant
       status: 500,
     };
   }
-};
+}
 
 export const sendEmail = async (token, date, email, membershipName, quantity, bookingResults) => {
   try {
@@ -105,7 +106,8 @@ export const sendEmail = async (token, date, email, membershipName, quantity, bo
     }
 
     throw new Error("No data returned from backend");
+
   } catch (error) {
     throw new Error("No data returned from backend");
   }
-};
+}

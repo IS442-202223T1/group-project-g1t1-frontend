@@ -6,6 +6,7 @@ const axiosEmailInstance = axios.create({
   timeout: 5000,
 });
 
+
 export const postVerifyEmail = async (email) => {
   try {
     const res = await axiosEmailInstance.post(`/verify?email=${email}`);

@@ -6,14 +6,14 @@ const axiosAccountInstance = axios.create({
   timeout: 5000,
 });
 
-export const getCurrentAccount = async (token) => {
+export const getCurrentAccount = async(token) => {
   const response = await axiosAccountInstance.get("/me", {
     headers: {
       Authorization: `${token}`,
     },
   });
   return response.data;
-};
+}
 
 export const postCreateAccount = async (email, name, contactNumber, password) => {
   try {
@@ -48,4 +48,6 @@ export const testToken = async (token) => {
     console.log(error);
     return false;
   }
+
+
 };

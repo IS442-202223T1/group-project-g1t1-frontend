@@ -17,7 +17,12 @@ export function UpdateMembershipContextProvider({ children }) {
       membershipDetails,
       setMembershipDetails,
     }),
-    [selectedMembership, setSelectedMembership, membershipDetails, setMembershipDetails],
+    [
+      selectedMembership,
+      setSelectedMembership,
+      membershipDetails,
+      setMembershipDetails,
+    ],
   );
 
   return (
@@ -31,3 +36,4 @@ export function UpdateMembershipContextProvider({ children }) {
 export function useUpdateMembershipContext() {
   return useContext(UpdateMembershipContext);
 }
+

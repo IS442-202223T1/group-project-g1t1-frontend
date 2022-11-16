@@ -55,7 +55,7 @@ export const disableEmployee = async (token, email) => {
     console.log(error);
     return false;
   }
-};
+}
 
 export const enableEmployee = async (token, email) => {
   try {
@@ -72,4 +72,4 @@ export const enableEmployee = async (token, email) => {
     console.log(error);
     return false;
   }
-};
+}

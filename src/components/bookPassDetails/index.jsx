@@ -10,7 +10,7 @@ function BookPassDetails() {
 
   const onBackButtonClicked = () => {
     history.push("/book-pass");
-  };
+  }
 
   return (
     <div className="max-w-5xl mt-5 mx-auto">
@@ -20,7 +20,7 @@ function BookPassDetails() {
       </div>
       <BookPassDetailsForm />
     </div>
-  );
+  )
 }
 
 export default BookPassDetails;

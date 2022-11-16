@@ -23,7 +23,7 @@ export default function PrivateLayout() {
       <Switch>
         <Route
           exact
-          path="/"
+          path='/'
           render={() => {
             if (sessionStorage.getItem("role") === "admin") {
               return <UpdateMembershipRoute />;
@@ -35,18 +35,19 @@ export default function PrivateLayout() {
             return <UpcomingBookingsRoute />;
           }}
         />
-        <Route exact path="/book-pass" component={BookPassRoute} />
-        <Route exact path="/employees" component={EmployeesRoute} />
-        <Route exact path="/reports" component={ReportsRoute} />
-        <Route exact path="/book-pass-details" component={BookPassDetailsRoute} />
-        <Route exact path="/update-membership-details" component={UpdateMembershipDetailsRoute} />
-        <Route exact path="/create-membership" component={CreateMembershipRoute} />
-        <Route exact path="/edit-membership" component={EditMembershipRoute} />
-        <Route exact path="/past-bookings" component={PastBookingsRoute} />
-        <Route exact path="/view-global-config" component={ViewGlobalConfig} />
+        <Route exact path='/book-pass' component={BookPassRoute} />
+        <Route exact path='/employees' component={EmployeesRoute} />
+        <Route exact path='/reports' component={ReportsRoute} />
+        <Route exact path='/book-pass-details' component={BookPassDetailsRoute} />
+        <Route exact path='/update-membership-details' component={UpdateMembershipDetailsRoute} />
+        <Route exact path='/create-membership' component={CreateMembershipRoute} />
+        <Route exact path='/edit-membership' component={EditMembershipRoute} />
+        <Route exact path='/past-bookings' component={PastBookingsRoute} />
+        <Route exact path='/view-global-config' component={ViewGlobalConfig} />
       </Switch>
     </>
   ) : (
     <Redirect to={{ pathname: "/login" }} />
   );
 }
+
