@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { cancelBooking } from "src/api/passes";
 import BookingStatusBadge from "src/components/common/badges/bookingStatusBadge.jsx";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
+import BookingStatusBadge from "src/components/common/badges/bookingStatusBadge.jsx";
 
 export default function PassTile({title, day, imageUrl, date, ppl, passId, status, bookingID, prevBookerDate, prevBookerName, prevBookerNum}){
   const token = sessionStorage.getItem("token");
@@ -10,9 +11,15 @@ export default function PassTile({title, day, imageUrl, date, ppl, passId, statu
   const defaultImageUrl = "https://images.unsplash.com/photo-1464059728276-d877187d61a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=cr";
   const [present, setPresent] = useState(true);
 
+  
   const handleCancelBooking = async (e) => {
     e.preventDefault();
     const res = await cancelBooking(token, bookingID);
+    if (res === true) {
+      alert("Booking Successfully Cancelled");
+    } else {
+      alert("Booking Cancel Failed");
+    }
     setPresent(false);
   }
 
