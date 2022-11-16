@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import MembershipTile from "src/components/viewMemberships/membershipTile";
-import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
+import MembershipTile from "src/components/bookPass/membershipTile";
 import { useHistory } from "react-router-dom";
 import { getAllMemberships } from "src/api/borrower";
 
-function ViewMemberships(){
+function BookPass(){
     const history = useHistory();
     const token = sessionStorage.getItem("token");
     const [memberships, setMemberships] = useState([]);
@@ -14,7 +13,7 @@ function ViewMemberships(){
 
     const renderMemberships = memberships.map((membership) => (
         <MembershipTile 
-          imageUrl={membership.imageUrl === null ? defaultImageUrl : membership.imageUrl}
+          imageUrl={membership.imageUrl === null || membership.imageUrl === "" ? defaultImageUrl : membership.imageUrl}
           name={membership.membershipName}
           description={membership.description === "" ? defaultDescription : membership.description}
         />
@@ -48,4 +47,4 @@ function ViewMemberships(){
       )
 }
 
-export default ViewMemberships;
+export default BookPass;

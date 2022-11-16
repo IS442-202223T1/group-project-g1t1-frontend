@@ -1,15 +1,15 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useViewMembershipContext } from "src/contexts/viewMembershipContext";
+import { useBookPassContext } from "src/contexts/bookPassContext";
 import BackButton from "src/components/common/buttons/backButton";
-import ViewMembershipDetailsBody from "./viewMembershipDetailsBody";
+import BookPassDetailsForm from "./bookPassDetailsForm";
 
-function ViewMembershipDetails() {
+function BookPassDetails() {
   const history = useHistory();
-  const { selectedMembership } = useViewMembershipContext();
+  const { selectedMembership } = useBookPassContext();
 
   const onBackButtonClicked = () => {
-    history.push("/");
+    history.push("/book-pass");
   }
 
   return (
@@ -18,9 +18,9 @@ function ViewMembershipDetails() {
         <BackButton onClick={onBackButtonClicked} />
         <h1 className="font-medium text-3xl">{selectedMembership}</h1>
       </div>
-      <ViewMembershipDetailsBody />
+      <BookPassDetailsForm />
     </div>
   )
 }
 
-export default ViewMembershipDetails;
+export default BookPassDetails;

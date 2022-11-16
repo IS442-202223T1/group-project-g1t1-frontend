@@ -28,7 +28,7 @@ function Pass() {
       title={pass.membershipName} 
       imageUrl={pass.imageUrl} 
       date={pass.borrowDate} 
-      desc={pass.numberOfPasses} 
+      ppl={pass.maxPersonsAdmitted} 
       passId={pass.passId} 
       bookingID={pass.bookingID}
       status={pass.bookingStatus}  
@@ -40,7 +40,7 @@ function Pass() {
   ));
 
   return (
-    <div className="w-10/12 max-w-xl mt-5 p-5 mx-auto">
+    <div className="w-10/12 max-w-5xl mt-5 p-5 mx-auto">
       {
         upcomingPasses.length === 0 
         ? <div className="flex justify-center">

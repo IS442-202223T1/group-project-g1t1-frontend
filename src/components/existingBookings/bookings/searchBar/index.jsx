@@ -2,7 +2,7 @@ import React from "react";
 
 function SearchBar({handleSubmitButtonClick, handleInputChange}) {
   return (
-    <div className="grow max-w-3xl z-10 mb-5">
+    <div className="grow z-10 mb-5">
       <form>   
         <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
         <div className="relative">
@@ -11,7 +11,7 @@ function SearchBar({handleSubmitButtonClick, handleInputChange}) {
           </div>
           <div className="flex items-center">
             <input type="search" id="default-search" onChange={handleInputChange} className="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter an email..." required />
-            <button type="submit" onClick={handleSubmitButtonClick} className="mt-auto text-white absolute right-2.5 text-gray-800 bg-gray-300 rounded-lg hover:bg-gray-400 font-medium rounded-lg text-sm px-4 py-2">Search</button>
+            <button type="submit" onClick={handleSubmitButtonClick} className="mt-auto text-white absolute right-2.5 text-gray-800 bg-gray-300 rounded-lg hover:bg-gray-400 hover:text-white font-medium rounded-lg text-sm px-4 py-2">Search</button>
           </div>
         </div>
       </form>
