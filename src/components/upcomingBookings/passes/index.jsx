@@ -18,7 +18,7 @@ function Pass() {
           nonCancelledBookings.push(booking);
         };
       });
-      console.log(nonCancelledBookings);
+
       setUpcomingBookings(nonCancelledBookings);
       }
     },[]);

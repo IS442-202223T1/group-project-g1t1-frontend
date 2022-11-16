@@ -44,7 +44,6 @@ function Bookings() {
 		renderBookings();
 		async function renderBookings() {
 				const bookingsFromApi = await getBookingsByEmail(token, email);
-				console.log(bookingsFromApi);
 				setBookings(bookingsFromApi);
 		}
 	  },[]);
