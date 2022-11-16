@@ -16,6 +16,7 @@ export default function BookingTile({
   feesOwed
 }) {
   const token = sessionStorage.getItem("token");
+  const displayedDate = new Date(date);
   const [freshStatus, setFreshStatus] = useState(status);
   const collectCard = async (e) => {
     e.preventDefault();
@@ -68,11 +69,11 @@ export default function BookingTile({
           <h5 className='mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white'>
             {borrowerName}
           </h5>
-          <h5 className='mb-2 text-2xl font-bold tracking-tight text-redPri dark:text-white'>
-            {attractionName}
-          </h5>
           <p className='mb-3 font-normal text-gray-700'>
-            Date: <span className='font-medium text-black'>{date}</span>
+            Attraction Name: <span className='font-medium text-black'>{attractionName}</span>
+          </p>
+          <p className='mb-3 font-normal text-gray-700'>
+            Date: <span className='font-medium text-black'>{displayedDate.toDateString()}</span>
           </p>
           <p className='mb-3 font-normal text-gray-700'>
             Booking ID: <span className='font-medium text-black'>{bookingID}</span>
