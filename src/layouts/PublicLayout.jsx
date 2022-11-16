@@ -1,8 +1,9 @@
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { LoginRoute, VerifyEmailRoute, CreateAccountRoute } from "src/routes";
+import isLoggedIn from "./isLoggedIn";
 
 export default function PublicLayout() {
-  return (
+  return isLoggedIn() ? <Redirect to={{ pathname: "/"}} /> : (
     <Switch>
       <Route exact path='/login' component={LoginRoute} />
       <Route exact path='/verify-email' component={VerifyEmailRoute} />
