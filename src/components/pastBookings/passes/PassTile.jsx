@@ -27,7 +27,7 @@ export default function PassTile({title, imageUrl, date, ppl, passId, status, bo
 
         <p className="mb-3 font-normal text-gray-700">
           {
-            status==="DUESOWED" ? <p className="mb-3 font-normal text-gray-700">Dues Owed: <span className="font-medium text-black">${fee}</span></p> : null
+            status==="DUESOWED" ? <p className="mb-3 font-normal text-gray-700">Dues Owed: <span className="font-medium text-black">${fee.toFixed(2)}</span></p> : null
           }
         </p>
       </div>
