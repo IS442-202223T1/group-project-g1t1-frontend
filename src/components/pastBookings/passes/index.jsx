@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { getPastBookings } from "src/api/passes";
 import PassTile from "./PassTile";
 
