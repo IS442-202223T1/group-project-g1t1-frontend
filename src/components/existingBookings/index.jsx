@@ -7,7 +7,7 @@ function ExistingBookings() {
       <h1 className="font-medium text-3xl">View All Existing Bookings</h1>
       <Bookings />
     </div>
-  )
+  );
 }
 
 export default ExistingBookings;

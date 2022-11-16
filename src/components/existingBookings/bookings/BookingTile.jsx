@@ -13,7 +13,7 @@ export default function BookingTile({
   attractionName,
   date,
   status,
-  feesOwed
+  feesOwed,
 }) {
   const token = sessionStorage.getItem("token");
   const displayedDate = new Date(date);
@@ -49,49 +49,45 @@ export default function BookingTile({
   const renderButtons = () => {
     switch (freshStatus) {
       case "DUESOWED":
-        return <ExpandableSecondaryButton buttonName='Clear Dues' onButtonClick={clearDues} />;
+        return <ExpandableSecondaryButton buttonName="Clear Dues" onButtonClick={clearDues} />;
       case "CONFIRMED":
-        return <ExpandableConfirmButton buttonName='Collect Card' onButtonClick={collectCard} />;
+        return <ExpandableConfirmButton buttonName="Collect Card" onButtonClick={collectCard} />;
       default:
         return (
           <>
-            <FullSecondaryButton buttonName='Return Card' onButtonClick={returnCard} />
-            <DefaultSubmitButton buttonName='Report Lost' onButtonClick={markCardAsLost} />
+            <FullSecondaryButton buttonName="Return Card" onButtonClick={returnCard} />
+            <DefaultSubmitButton buttonName="Report Lost" onButtonClick={markCardAsLost} />
           </>
         );
     }
   };
 
   return (
-    <div className='mb-5'>
-      <div className='flex items-center justify-between bg-white rounded-lg border shadow md:flex-row hover:shadow-lg'>
-        <div className='flex flex-col justify-between p-4 leading-normal'>
-          <h5 className='mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white'>
+    <div className="mb-5">
+      <div className="flex items-center justify-between bg-white rounded-lg border shadow md:flex-row hover:shadow-lg">
+        <div className="flex flex-col justify-between p-4 leading-normal">
+          <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             {borrowerName}
           </h5>
-          <p className='mb-3 font-normal text-gray-700'>
-            Attraction Name: <span className='font-medium text-black'>{attractionName}</span>
+          <p className="mb-3 font-normal text-gray-700">
+            Attraction Name: <span className="font-medium text-black">{attractionName}</span>
           </p>
-          <p className='mb-3 font-normal text-gray-700'>
-            Date: <span className='font-medium text-black'>{displayedDate.toDateString()}</span>
+          <p className="mb-3 font-normal text-gray-700">
+            Date: <span className="font-medium text-black">{displayedDate.toDateString()}</span>
           </p>
-          <p className='mb-3 font-normal text-gray-700'>
-            Booking ID: <span className='font-medium text-black'>{bookingID}</span>
+          <p className="mb-3 font-normal text-gray-700">
+            Booking ID: <span className="font-medium text-black">{bookingID}</span>
           </p>
-          <p className='mb-3 font-normal text-gray-700'>
-            Pass ID: <span className='font-medium text-black'>{corporatePassID}</span>
+          <p className="mb-3 font-normal text-gray-700">
+            Pass ID: <span className="font-medium text-black">{corporatePassID}</span>
           </p>
-          {
-            status === "DUESOWED" 
-            ? (
-              <p className='mb-3 font-normal text-gray-700'>
-                Dues Owed: <span className='font-medium text-black'>{feesOwed}</span>
-              </p>
-            )
-            : null
-          }
+          {status === "DUESOWED" ? (
+            <p className="mb-3 font-normal text-gray-700">
+              Dues Owed: <span className="font-medium text-black">{feesOwed}</span>
+            </p>
+          ) : null}
         </div>
-        <div className='grid grid-rows-2 justify-items-stretch items-stretch w-2/5 p-2 gap-2 h-56'>
+        <div className="grid grid-rows-2 justify-items-stretch items-stretch w-2/5 p-2 gap-2 h-56">
           {renderButtons()}
         </div>
       </div>

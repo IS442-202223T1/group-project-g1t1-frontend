@@ -1,34 +1,38 @@
 import React from "react";
 
-export default function BookingStatusBadge({status}) {
+export default function BookingStatusBadge({ status }) {
   const statusToBadgeClass = {
-    "CONFIRMED": {
+    CONFIRMED: {
       name: "Confirmed",
       color: "bg-blue-200 text-blue-800",
     },
-    "COLLECTED":{
+    COLLECTED: {
       name: "Collected",
       color: "bg-purple-200 text-purple-800",
     },
-    "CANCELLED": {
+    CANCELLED: {
       name: "Cancelled",
       color: "bg-orange-200 text-orange-800",
     },
-    "RETURNED": {
+    RETURNED: {
       name: "Returned",
       color: "bg-green-100 text-green-800",
     },
-    "DUESPAID": {
+    DUESPAID: {
       name: "Dues Paid",
       color: "bg-green-100 text-green-800",
     },
-    "DUESOWED": {
+    DUESOWED: {
       name: "Dues Owed",
       color: "bg-red-100 text-red-800",
     },
   };
 
   return (
-    <span className={`${statusToBadgeClass[status].color} text-sm font-medium mx-3 px-2.5 py-0.5 rounded`}>{statusToBadgeClass[status].name}</span>
+    <span
+      className={`${statusToBadgeClass[status].color} text-sm font-medium mx-3 px-2.5 py-0.5 rounded`}
+    >
+      {statusToBadgeClass[status].name}
+    </span>
   );
 }

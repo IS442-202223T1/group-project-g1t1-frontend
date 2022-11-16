@@ -38,11 +38,11 @@ function ViewGlobalConfig() {
   }, []);
 
   return (
-    <div className='max-w-5xl mt-5 mx-auto'>
-      <div className='flex justify-between items-center'>
-        <span className='font-medium text-3xl'>View System Configuration</span>
+    <div className="max-w-5xl mt-5 mx-auto">
+      <div className="flex justify-between items-center">
+        <span className="font-medium text-3xl">View System Configuration</span>
       </div>
-      <div className='w-10/12 max-w-5xl mt-5 p-5 grid grid-cols-1 md:grid-cols-1 xl:grid-cols-1 gap-5 mx-auto'>
+      <div className="w-10/12 max-w-5xl mt-5 p-5 grid grid-cols-1 md:grid-cols-1 xl:grid-cols-1 gap-5 mx-auto">
         {renderGlobalConfig(globalconfigs)}
       </div>
     </div>
