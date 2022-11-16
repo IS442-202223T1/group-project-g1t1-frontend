@@ -1,16 +1,18 @@
 import React, { useState, createContext, useContext, useMemo } from "react";
 
-const defaultViewMembershipContextState = {
+const defaultBookPassContextState = {
   selectedMembership: "",
   setSelectedMembership: (membership) => {},
+  membershipDetails: {},
+  setMembershipDetails: (membershipDetails) => {},
 };
-const ViewMembershipContext = createContext(defaultViewMembershipContextState);
+const BookPassContext = createContext(defaultBookPassContextState);
 
-export function ViewMembershipContextProvider({ children }) {
+export function BookPassContextProvider({ children }) {
   const [selectedMembership, setSelectedMembership] = useState("");
   const [membershipDetails, setMembershipDetails] = useState({});
 
-  const viewMembershipContextState = useMemo(
+  const bookPassContextState = useMemo(
     () => ({
       selectedMembership,
       setSelectedMembership,
@@ -26,13 +28,13 @@ export function ViewMembershipContextProvider({ children }) {
   );
 
   return (
-    <ViewMembershipContext.Provider value={viewMembershipContextState}>
+    <BookPassContext.Provider value={bookPassContextState}>
       {children}
-    </ViewMembershipContext.Provider>
+    </BookPassContext.Provider>
   );
 }
 
 // Helper functions
-export function useViewMembershipContext() {
-  return useContext(ViewMembershipContext);
+export function useBookPassContext() {
+  return useContext(BookPassContext);
 }

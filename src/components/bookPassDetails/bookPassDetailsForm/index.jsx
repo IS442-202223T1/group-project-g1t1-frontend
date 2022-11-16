@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import DatePicker from "react-datepicker";
-
-import { useViewMembershipContext } from "src/contexts/viewMembershipContext";
+import { useBookPassContext } from "src/contexts/bookPassContext";
 import { createNewBooking } from "src/api/borrower";
-
 import DefaultSubmitButton from "../../common/buttons/defaultSubmitButton";
-
 import "react-datepicker/dist/react-datepicker.css";
 import ResponseText from "./errorText";
 
-
-
-
-export default function ViewMembershipDetailsBody() {
-  const {membershipDetails,selectedMembership } = useViewMembershipContext();
-
+export default function BookPassDetailsForm() {
+  const {membershipDetails,selectedMembership } = useBookPassContext();
 
   return (
     <div className="w-full bg-white rounded-lg border shadow-md">
@@ -24,10 +17,8 @@ export default function ViewMembershipDetailsBody() {
   )
 }
 
-
-
 function PassContent({desc, membershipName}) {
-    const history = useHistory();
+  const history = useHistory();
   const defaultDescription = "No description specified";
   const token = sessionStorage.getItem("token");
   const email = sessionStorage.getItem("email");

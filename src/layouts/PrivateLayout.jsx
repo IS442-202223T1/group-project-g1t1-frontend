@@ -9,8 +9,8 @@ import {
   CreateMembershipRoute,
   EditMembershipRoute,
   PastBookingsRoute,
-  ViewMembershipsRoute,
-  ViewMembershipDetailsRoute,
+  BookPassRoute,
+  BookPassDetailsRoute,
 } from "src/routes";
 import { useUserContext } from "src/contexts/userContext";
 import { testToken } from "src/api/account";
@@ -37,10 +37,10 @@ export default function PrivateLayout() {
             return <UpcomingBookingsRoute />;
           }}
         />
-        <Route exact path='/view-memberships' component={ViewMembershipsRoute} />
+        <Route exact path='/book-pass' component={BookPassRoute} />
         <Route exact path='/employees' component={EmployeesRoute} />
         <Route exact path='/reports' component={ReportsRoute} />
-        <Route exact path='/view-membership-details' component={ViewMembershipDetailsRoute} />
+        <Route exact path='/book-pass-details' component={BookPassDetailsRoute} />
         <Route exact path='/update-membership-details' component={UpdateMembershipDetailsRoute} />
         <Route exact path='/create-membership' component={CreateMembershipRoute} />
         <Route exact path='/edit-membership' component={EditMembershipRoute} />
