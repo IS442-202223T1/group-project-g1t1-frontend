@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useUserContext } from "src/contexts/userContext";
+import { getCurrentAccount } from "src/api/account"
 
 export default function NavBar() {
   const history = useHistory();
@@ -89,10 +90,24 @@ function NavBarItems({currentRole, history}) {
 function UserProfile({currentRole, allUserRoles, userEmail, history}) {
   const { setCurrentSelectedRoleToStateAndSession } = useUserContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [name, setName] = useState(userEmail.split("@")[0]);
 
   const showViewBorrowerOption = allUserRoles.includes("borrower") && currentRole !== "borrower";
   const showViewGOPOption = allUserRoles.includes("gop") && currentRole !== "gop";
   const showViewAdminOption = allUserRoles.includes("admin") && currentRole !== "admin";
+
+  const token = sessionStorage.getItem("token");
+
+  useEffect(() => {
+    populateName();
+    async function populateName() {
+      const res = await getCurrentAccount(token);
+      console.log(res.name)
+      if (res.name) {
+        setName(res.name);
+      }
+    }
+  }, []);
 
   const onProfileClick = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -131,7 +146,7 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
       <div className={`${isMenuOpen ? "" : "hidden"} relative inset-y-5 right-10 z-20`}>
         <div className="absolute w-44 text-base list-none bg-white border border-gray-100 rounded divide-y divide-gray-100">
           <div className="py-3 px-4">
-            <span className="block text-sm font-medium text-gray-500 truncate">{userEmail}</span>
+            <span className="block text-sm font-medium text-gray-500 truncate">{name}</span>
           </div>
           <ul className="py-1">
             {showViewAdminOption && <li><button type="button" onClick={onClickedViewAdminOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">View as Admin</button></li>}
