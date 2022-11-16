@@ -1,5 +1,5 @@
 import React from "react";
-import BookingStatusBadge from "src/components/common/badges/bookingStatusBadge.jsx";
+import PassStatusBadge from "src/components/common/badges/bookingStatusBadge.jsx";
 
 
 export default function PassTile({title, imageUrl, date, ppl, passId, status, bookingID, fee}){
@@ -23,9 +23,8 @@ export default function PassTile({title, imageUrl, date, ppl, passId, status, bo
         <p className="mb-3 font-normal text-gray-700">
           Max Number of Accompanying Guests: <span className="font-medium text-black">{ppl}</span>
         </p>
-        <p className="mb-3 font-normal text-gray-700">
-          Status: <BookingStatusBadge status={status} />
-        </p>
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Status: <PassStatusBadge status={status} /></p>
+
         <p className="mb-3 font-normal text-gray-700">
           {
             fee=== 0 
