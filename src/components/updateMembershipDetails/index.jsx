@@ -17,7 +17,7 @@ function UpdateMembershipDetails() {
       <div className="flex items-center mb-5">
         <BackButton onClick={onBackButtonClicked} />
         <h1 className="font-medium text-3xl">{selectedMembership}</h1>
-        {membershipDetails.isActive ? null : <div className="ml-3 bg-darkGrey text-white px-2 py-1 rounded-full">Inactive</div>}
+        {membershipDetails.active ? null : <div className="ml-3 bg-darkGrey text-white px-2 py-1 rounded-full">Inactive</div>}
       </div>
       <UpdateMembershipDetailsBody />
     </div>
