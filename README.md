@@ -16,101 +16,94 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
+      <a href="#prerequisites">Prerequisites</a>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li>
+      <a href="#installation-and-set-up">Installation and Set-Up</a>
+    </li>
+      <ul>
+        <li><a href="#set-up-local-directories">Set-up Local Directories</a></li>
+      </ul>
+      <ul>
+        <li><a href="#provide-environment-variables">Provide Environment Variables</a></li>
+      </ul>
+      <ul>
+        <li><a href="#install-dependencies">Install Dependencies</a></li>
+      </ul>
+    <li>
+      <a href="#production-mode">Production Mode</a>
+    </li>
+    <li>
+      <a href="#development-mode">Development Mode</a>
+    </li>
   </ol>
 </details>
-
-
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+Frontend element for Singapore Sports School's Corporate Pass Application. Built in React and depends on its [accompanying REST API](https://github.com/IS442-202223T1/group-project-g1t1-backend).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Prerequisites
 
+- Recommended platform
+  - Development: macOS Monterey (Intel)
+  - Production: Linux (Ubuntu 16.04)
+- Nodejs 14.x, 16.x, 18.x (v18.9.1 preferred)
+  - Accompanying npm (v8.19.2 preferred)
 
-### Built With
+## Installation and Set-up
+This application can be run in both `development` and `production` modes
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+### Set-up Local Directories
 
-* [React.js](https://reactjs.org/)
+Clone this repository or download to files to local directory. Open a terminal session and navigate to this application root (`.../wanderlust`)
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+```bash
+cd /path/to/wanderlust
+```
 
+### Provide Environment Variables
 
+This frontend application relies on the accompanying backend server for computation logic and data. We need to provide it the following information. Edit the backend server URL in `.env.example` using any text editor (`vi .env.example`).
 
-<!-- GETTING STARTED -->
-## Getting Started
+1. Replace `<>` fields with the respective information
+2. Rename `.env.example` to `.env`
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+**Note: `.env` is automatically ignored by git`**
 
-### Prerequisites
+`REACT_APP_EMAIL_CHECKING` acts as a feature flag to verify that the email has a valid Singapore Sports School subdomain. It is set to `false` by default for development.
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+### Install Dependencies
 
-### Installation
+```bash
+npm install
+```
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+## Production Mode
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+1. Create a production build
+```bash
+npm run build
+```
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+2. Install serve
+```bash
+npm install -g serve
+```
 
+3. Run the production build
+```bash
+serve -s build
+```
 
+## Development Mode
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+Run the application in development mode
+```bash
+npm run start
+```
