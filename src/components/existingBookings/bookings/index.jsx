@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { getBookingsByEmail } from "src/api/gop";
-import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 import BookingTile from "./BookingTile";
 import SearchBar from "./searchBar";
 
@@ -12,8 +11,8 @@ function Bookings() {
 	const confirmedBookings = bookings.map((booking) => (
 		<BookingTile
 			bookingID={booking.bookingId}
-			borrowerName={booking.borrower.email}
 			corporatePassID={booking.corporatePass.id}
+      borrowerName={booking.borrower.email}
 			attractionName={booking.corporatePass.membership.membershipName}
 			date={booking.borrowDate}
 			numberOfPasses={1}
@@ -33,7 +32,6 @@ function Bookings() {
 			if (email.length !== 0) {
         setErrorText("");
 				const bookingsFromApi = await getBookingsByEmail(token, email);
-				console.log(bookingsFromApi);
 				setBookings(bookingsFromApi);
 			} else {
         setErrorText("Please enter an email");
