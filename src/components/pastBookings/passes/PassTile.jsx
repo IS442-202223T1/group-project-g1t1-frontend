@@ -21,7 +21,7 @@ export default function PassTile({title, imageUrl, date, ppl, passId, status, bo
           Date: <span className="font-medium text-black">{displayedDate.toDateString()}</span>
         </p>
         <p className="mb-3 font-normal text-gray-700">
-          Max Number of Accompanying Guests: <span className="font-medium text-black">{ppl}</span>
+          Pass Admits: <span className="font-medium text-black">{ppl} Pax</span>
         </p>
         <p className="mb-3 font-normal text-gray-700">
           Status: <BookingStatusBadge status={status} />
