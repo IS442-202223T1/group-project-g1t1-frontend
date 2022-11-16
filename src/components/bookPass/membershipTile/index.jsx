@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useBookPassContext } from "src/contexts/bookPassContext"
-import { getMembershipDetails } from "src/api/borrower"
+import { useBookPassContext } from "src/contexts/bookPassContext";
+import { getMembershipDetails } from "src/api/borrower";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 
 export default function MembershipTile({imageUrl, name, description}){

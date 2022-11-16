@@ -5,7 +5,6 @@ import { useBookPassContext } from "src/contexts/bookPassContext";
 import { createNewBooking } from "src/api/borrower";
 import DefaultSubmitButton from "../../common/buttons/defaultSubmitButton";
 import "react-datepicker/dist/react-datepicker.css";
-import ResponseText from "./errorText";
 
 export default function BookPassDetailsForm() {
   const {membershipDetails, selectedMembership} = useBookPassContext();
@@ -16,21 +15,19 @@ export default function BookPassDetailsForm() {
       <PassContent 
         desc={membershipDetails.description}
         address={membershipDetails.membershipAddress}
-        ppl={membershipDetails.maxPersonsAdmitted}
         membershipName={selectedMembership}
       />
     </div>
   )
 }
 
-function PassContent({desc, address, ppl, membershipName}) {
+function PassContent({desc, address, membershipName}) {
   const history = useHistory();
   const defaultDescription = "No description specified";
   const token = sessionStorage.getItem("token");
   const email = sessionStorage.getItem("email");
   const [bookingDate, setBookingDate] = useState(new Date());
 
-  const [statusCode, setStatusCode] = useState(0);
   const [message, setMessage] = useState("");
   const [borrowers, setBorrowers] = useState([]);
   const startDate = new Date();
@@ -54,14 +51,20 @@ function PassContent({desc, address, ppl, membershipName}) {
     const res = await createNewBooking(token, bookingDate, email, membershipName, numberOfPasses);
     console.log(res);
     if (res) {
-      setStatusCode(res.status);
-      if(res.status === 400){
-        setMessage(res.message);
+      if (res.status === 200) {
+        alert("Booking successful!");
+        history.push("/");
       }
-      else if(res.status === 409){
+
+      if (res.status === 409) {
         setBorrowers(res.message);
+        setMessage("Unable to book this attraction as there are not enough passes on that day.");
       }
-      // history.push("/")
+
+      if (res.status === 400) {
+        setMessage("An error has occured.");
+        console.log(res.message);
+      }
     }
   }
 
@@ -69,7 +72,7 @@ function PassContent({desc, address, ppl, membershipName}) {
 
   return (
     <div className="p-4 bg-white rounded-lg md:p-8" >
-      <ul className="divide-y divide-gray-300">
+      <ul className="divide-y divide-gray-300 mb-2">
         <li className="py-3 sm:py-4">
           <div className="flex items-center space-x-4 justify-start">
             <div className="flex-none w-44">
@@ -110,7 +113,7 @@ function PassContent({desc, address, ppl, membershipName}) {
         </li>
         <DefaultSubmitButton buttonName="Book Now" onButtonClick={onButtonClicked} />
       </ul>
-      <ResponseText statusCode = {statusCode} message = {message}/>
+      {message !== "" && <DangerAlert message={message} />}
       {borrowers.length === 0 
         ? null
         : (
@@ -149,4 +152,12 @@ function PassContent({desc, address, ppl, membershipName}) {
       }
     </div>
   );
+}
+
+function DangerAlert({message}) {
+  return (
+    <div className="p-4 mb-2 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+      <span className="font-medium">{message}</span>
+    </div>
+  )
 }
