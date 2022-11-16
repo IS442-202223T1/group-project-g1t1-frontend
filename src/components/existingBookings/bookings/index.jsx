@@ -12,10 +12,9 @@ function Bookings() {
 		<BookingTile
 			bookingID={booking.bookingId}
 			corporatePassID={booking.corporatePass.id}
-      		borrowerName={booking.borrower.email}
+			borrowerName={booking.borrower.email}
 			attractionName={booking.corporatePass.membership.membershipName}
 			date={booking.borrowDate}
-			numberOfPasses={1}
 			status={booking.bookingStatus}
 			feesOwed = {booking.feesOwed}
 		/>
@@ -46,7 +45,7 @@ function Bookings() {
 				const bookingsFromApi = await getBookingsByEmail(token, email);
 				setBookings(bookingsFromApi);
 		}
-	  },[]);
+	},[]);
 
 	return (
 		<div className="w-10/12 max-w-5xl mt-5 p-5 mx-auto">
