@@ -4,6 +4,7 @@ import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButt
 import FullSecondaryButton from "src/components/common/buttons/defaultSecondaryButton/fullSecondaryButton";
 import ExpandableSecondaryButton from "src/components/common/buttons/defaultSecondaryButton/expandableSecondaryButton";
 import ExpandableConfirmButton from "src/components/common/buttons/confirmButton/expandableConfirmButton";
+import BookingStatusBadge from "src/components/common/badges/bookingStatusBadge.jsx";
 
 export default function BookingTile({
   bookingID,
