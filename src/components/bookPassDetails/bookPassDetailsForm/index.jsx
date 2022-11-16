@@ -33,6 +33,8 @@ function PassContent({desc, address, membershipName}) {
   const startDate = new Date();
   startDate.setDate(today.getDate() + 1);
   const endDate = new Date();
+  endDate.setMonth(endDate.getMonth() + 2);
+  bookingDate.setDate(startDate.getDate());
 
   const [numberOfPasses, setNumberOfPasses] = useState(0);
 
@@ -67,10 +69,6 @@ function PassContent({desc, address, membershipName}) {
       }
     }
   }
-
-  startDate.setDate(startDate.getDate() + 1);
-  bookingDate.setDate(startDate.getDate());
-  endDate.setMonth(endDate.getMonth() + 2);
 
   return (
     <div className="p-4 bg-white rounded-lg md:p-8" >
