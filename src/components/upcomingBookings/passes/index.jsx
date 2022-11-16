@@ -12,16 +12,11 @@ function Pass() {
     renderUpcomingBookings();
     
     async function renderUpcomingBookings() {
-        const nonCancelledBookings = [];
-        const upcomingBookingsRes = await getUpcomingBookings(token, email);
-        upcomingBookingsRes.forEach((booking) => {
-          if (booking.bookingStatus !== "CANCELLED") {
-            nonCancelledBookings.push(booking);
-          };
-        });
-          setUpcomingBookings(nonCancelledBookings);
-        }
-      },[]);
+      const upcomingBookingsRes = await getUpcomingBookings(token, email);
+      const nonCancelledBookings = upcomingBookingsRes.filter(booking => booking.status !== "CANCELLED");
+      setUpcomingBookings(nonCancelledBookings);
+      }
+    },[]);
 
   const upcomingPasses = upcomingBookings.map((pass) => (
     <PassTile
