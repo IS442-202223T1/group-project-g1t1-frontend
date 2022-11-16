@@ -73,11 +73,8 @@ export const getMembershipDetails = async (token, membershipName) => {
         };
       }
       return {
-        status: 409,
+        status: 500,
       };
     }
-    return {
-      status: 500,
-    };
   }
-};
+
