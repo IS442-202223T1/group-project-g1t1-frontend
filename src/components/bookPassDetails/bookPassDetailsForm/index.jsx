@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { useBookPassContext } from "src/contexts/bookPassContext";
-import { createNewBooking } from "src/api/borrower";
+import { createNewBooking, sendEmail } from "src/api/borrower";
 import DefaultSubmitButton from "../../common/buttons/defaultSubmitButton";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function BookPassDetailsForm() {
   const {membershipDetails, selectedMembership} = useBookPassContext();
-  console.log(membershipDetails);
 
   return (
     <div className="w-full bg-white rounded-lg border shadow-md">
@@ -30,7 +29,9 @@ function PassContent({desc, address, membershipName}) {
 
   const [message, setMessage] = useState("");
   const [borrowers, setBorrowers] = useState([]);
+  const today = new Date();
   const startDate = new Date();
+  startDate.setDate(today.getDate() + 1);
   const endDate = new Date();
 
   const [numberOfPasses, setNumberOfPasses] = useState(0);
@@ -49,10 +50,10 @@ function PassContent({desc, address, membershipName}) {
     e.preventDefault();
     
     const res = await createNewBooking(token, bookingDate, email, membershipName, numberOfPasses);
-    console.log(res);
     if (res) {
       if (res.status === 200) {
-        alert("Booking successful!");
+        alert("Your Booking is Successful!");
+        sendEmail(token, bookingDate, email, membershipName, numberOfPasses, res.data);
         history.push("/");
       }
 
@@ -62,8 +63,7 @@ function PassContent({desc, address, membershipName}) {
       }
 
       if (res.status === 400) {
-        setMessage("An error has occured.");
-        console.log(res.message);
+        setMessage(res.message);
       }
     }
   }

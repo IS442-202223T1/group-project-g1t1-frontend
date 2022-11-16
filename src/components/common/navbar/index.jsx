@@ -102,7 +102,6 @@ function UserProfile({ currentRole, allUserRoles, userEmail, history }) {
     populateName();
     async function populateName() {
       const res = await getCurrentAccount(token);
-      console.log(res.name)
       if (res.name) {
         setName(res.name);
       }

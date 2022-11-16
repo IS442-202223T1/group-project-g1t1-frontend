@@ -12,7 +12,6 @@ export default function BookingTile({
   borrowerName,
   attractionName,
   date,
-  numberOfPasses,
   status,
   feesOwed
 }) {
@@ -81,12 +80,15 @@ export default function BookingTile({
           <p className='mb-3 font-normal text-gray-700'>
             Pass ID: <span className='font-medium text-black'>{corporatePassID}</span>
           </p>
-          <p className="mb-3 font-normal text-gray-700">
-          Status: <BookingStatusBadge status={status} />
-        </p>
-         { status === "DUESOWED" ? <p className='mb-3 font-normal text-gray-700'>
-            Dues Owed: <span className='font-medium text-black'>{feesOwed}</span>
-          </p> : <p/>}
+          {
+            status === "DUESOWED" 
+            ? (
+              <p className='mb-3 font-normal text-gray-700'>
+                Dues Owed: <span className='font-medium text-black'>{feesOwed}</span>
+              </p>
+            )
+            : null
+          }
         </div>
         <div className='grid grid-rows-2 justify-items-stretch items-stretch w-2/5 p-2 gap-2 h-56'>
           {renderButtons()}
