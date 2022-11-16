@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { UserCircleIcon } from "@heroicons/react/20/solid";
 import { useUserContext } from "src/contexts/userContext";
 
 export default function NavBar() {
@@ -124,8 +125,8 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
 
   return (
     <div className="flex items-center md:order-2">
-      <button type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-2 focus:ring-gray-300" onClick={onProfileClick}>
-        <img className="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3580&q=80" alt="user"/>
+      <button type="button" className="flex mr-3 text-sm rounded-full md:mr-0 focus:ring-2 focus:ring-gray-300" onClick={onProfileClick}>
+        <UserCircleIcon className="w-8 h-8 text-darkGrey" />
       </button>
 
       <div className={`${isMenuOpen ? "" : "hidden"} relative inset-y-5 right-10 z-20`}>
