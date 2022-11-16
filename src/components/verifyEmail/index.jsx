@@ -9,6 +9,7 @@ export default function VerifyEmail() {
   const [emailSuccess, setEmailSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
+  const { REACT_APP_EMAIL_CHECKING } = process.env;
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -19,8 +20,7 @@ export default function VerifyEmail() {
     setErrors([]);
     const emailComponents = email.split("@");
     const tempErrors = [];
-    const { EMAIL_CHECKING } = process.env;
-    if (emailComponents.length !== 2 || EMAIL_CHECKING && (!permittedEmails.includes(emailComponents[1]))) {
+    if (emailComponents.length !== 2 || REACT_APP_EMAIL_CHECKING && (!permittedEmails.includes(emailComponents[1]))) {
       tempErrors.push("Please enter a valid email address.");
     } else {
       setIsLoading(true);
