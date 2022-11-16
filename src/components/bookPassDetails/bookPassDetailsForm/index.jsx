@@ -68,6 +68,8 @@ function PassContent({desc, address, membershipName}) {
     }
   }
 
+  startDate.setDate(startDate.getDate() + 1);
+  bookingDate.setDate(startDate.getDate());
   endDate.setMonth(endDate.getMonth() + 2);
 
   return (
