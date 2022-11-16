@@ -4,8 +4,7 @@ import DatePicker from "react-datepicker";
 
 import { useViewMembershipContext } from "src/contexts/viewMembershipContext";
 import { createNewBooking } from "src/api/borrower";
-
-import DefaultSubmitButton from "../../common/buttons/defaultSubmitButton";
+import DefaultSubmitButtonSpinner from "src/components/common/buttons/defaultSubmitButtonSpinner";
 
 import "react-datepicker/dist/react-datepicker.css";
 import ResponseText from "./errorText";
@@ -36,6 +35,7 @@ function PassContent({desc, membershipName}) {
   const [statusCode, setStatusCode] = useState(0);
   const [message, setMessage] = useState("");
   const [borrowers, setBorrowers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const startDate = new Date();
   const endDate = new Date();
 
@@ -53,8 +53,9 @@ function PassContent({desc, membershipName}) {
 
   const onButtonClicked = async (e) => {
     e.preventDefault();
-    
+    setIsLoading(true);
     const res = await createNewBooking(token, bookingDate, email, membershipName, numberOfPasses);
+    setIsLoading(false);
     if (res) {
       setStatusCode(res.status);
       if(res.status===400){
@@ -95,7 +96,7 @@ function PassContent({desc, membershipName}) {
               </p>
         <input type="number" id="numberOfPasses" onChange={handleValueChange} className="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"/>
         </li>
-        <DefaultSubmitButton buttonName="Book membership" onButtonClick={onButtonClicked} />
+        <DefaultSubmitButtonSpinner buttonName="Book membership" onButtonClick={onButtonClicked} isLoading={isLoading} />
       </ul>
       <ResponseText statusCode = {statusCode} message = {message}/>
       {borrowers.length === 0 ? (
