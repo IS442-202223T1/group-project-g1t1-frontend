@@ -47,9 +47,8 @@ function EmployeeReport() {
 
 	return (
 		<div className="p-4 bg-white rounded-lg md:p-8">
+			<p className="mb-6 font-medium">Time Period: {duration[0]}</p>
 			<div className="shadow-md sm:rounded-lg mb-6">
-				<p className="mb-6 font-medium">Time Period: {duration[0]}</p>
-
 				<table className="w-full text-sm text-left text-gray-700">
 					<thead className="text-xs text-gray-700 uppercase">
 						<tr>
