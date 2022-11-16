@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import { cancelBooking } from "src/api/passes";
 import BookingStatusBadge from "src/components/common/badges/bookingStatusBadge.jsx";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
-import BookingStatusBadge from "src/components/common/badges/bookingStatusBadge.jsx";
 
 export default function PassTile({title, day, imageUrl, date, ppl, passId, status, bookingID, prevBookerDate, prevBookerName, prevBookerNum}){
   const token = sessionStorage.getItem("token");

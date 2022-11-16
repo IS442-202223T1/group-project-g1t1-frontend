@@ -11,8 +11,8 @@ function Bookings() {
 	const confirmedBookings = bookings.map((booking) => (
 		<BookingTile
 			bookingID={booking.bookingId}
-			borrowerName={booking.borrower.email}
 			corporatePassID={booking.corporatePass.id}
+      borrowerName={booking.borrower.email}
 			attractionName={booking.corporatePass.membership.membershipName}
 			date={booking.borrowDate}
 			numberOfPasses={1}
