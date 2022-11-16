@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { updatePassStatus } from "src/api/gop";
 import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
-import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
-import ConfirmButton from "src/components/common/buttons/confirmButton";
+import FullSecondaryButton from "src/components/common/buttons/defaultSecondaryButton/fullSecondaryButton";
+import ExpandableSecondaryButton from "src/components/common/buttons/defaultSecondaryButton/expandableSecondaryButton";
+import ExpandableConfirmButton from "src/components/common/buttons/confirmButton/expandableConfirmButton";
 
 export default function BookingTile({bookingID, corporatePassID, borrowerName, attractionName, date, numberOfPasses, status}){
   const token = sessionStorage.getItem("token");
@@ -36,21 +37,34 @@ export default function BookingTile({bookingID, corporatePassID, borrowerName, a
     return null;
   }
 
+  const renderButtons = () => {
+    switch (freshStatus) {
+      case "DUESOWED":
+        return <ExpandableSecondaryButton buttonName="Clear Dues" onButtonClick={clearDues} />;
+      case "CONFIRMED":
+        return <ExpandableConfirmButton buttonName="Collect Card" onButtonClick={collectCard} />;
+      default:
+        return (
+          <>
+            <FullSecondaryButton buttonName="Return Card" onButtonClick={returnCard} />
+            <DefaultSubmitButton buttonName="Report Lost" onButtonClick={markCardAsLost} />
+          </>
+        )
+    }
+  }
+
   return (
     <div className='mb-5'>
-      <div className="flex flex-col items-center bg-white rounded-lg border shadow md:flex-row hover:shadow-lg">
+      <div className="flex items-center justify-between bg-white rounded-lg border shadow md:flex-row hover:shadow-lg">
         <div className="flex flex-col justify-between p-4 leading-normal">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{borrowerName}</h5>
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{attractionName}</h5>
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-redPri dark:text-white">{attractionName}</h5>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{date}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">BookingID: {bookingID}</p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">cardID: {corporatePassID}</p>
-          <div className="justify-end">
-            {freshStatus === "DUESOWED" && <DefaultSecondaryButton buttonName="Clear Dues" onButtonClick={clearDues} />}
-            {freshStatus === "CONFIRMED" && <ConfirmButton buttonName="Collect Card" onButtonClick={collectCard} />}
-            {freshStatus === "COLLECTED" && <DefaultSecondaryButton buttonName="Return Card" onButtonClick={returnCard} />}
-            {freshStatus === "COLLECTED" && <DefaultSubmitButton buttonName="Report Lost" onButtonClick={markCardAsLost} />}
-          </div>
+        </div>
+        <div className="grid grid-rows-2 justify-items-stretch items-stretch w-2/5 p-2 gap-2 h-56">
+          {renderButtons()}
         </div>
       </div>
     </div>
