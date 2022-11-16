@@ -12,7 +12,7 @@ export default function SendEmailSuccess() {
   return (
     <div className='fixed top-0 left-0 h-screen w-screen scale-100 backdrop-blur-sm z-8'>
       <div className='absolute flex flex-col justify-center space-y-5 m-auto w-1/2 h-1/4 bg-white z-99 inset-0 shadow-lg rounded-lg items-center text-center'>
-        <CheckCircleIcon className='h-24 w-24 text-confirmationGreen' />
+        <CheckCircleIcon className='h-24 w-24 text-greenPri' />
         <span>Verification email sent!</span>
         <button
           type='button'
