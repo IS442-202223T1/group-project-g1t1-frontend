@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getBookingsByEmail } from "src/api/gop";
 import BookingTile from "./BookingTile";
 import SearchBar from "./searchBar";
+import PassStatusBadge from "src/components/common/badges/passStatusBadge";
 
 function Bookings() {
   const token = sessionStorage.getItem("token");
