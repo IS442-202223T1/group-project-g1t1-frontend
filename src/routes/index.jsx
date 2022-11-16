@@ -9,8 +9,8 @@ import LoginRoute from "./login";
 import VerifyEmailRoute from "./verifyEmail";
 import CreateAccountRoute from "./createAccount";
 import PastBookingsRoute from "./pastBookings";
-import ViewMembershipsRoute from "./viewMemberships";
-import ViewMembershipDetailsRoute from "./viewMembershipDetails";
+import BookPassRoute from "./bookPass";
+import BookPassDetailsRoute from "./bookPassDetails";
 import ViewGlobalConfig from "./viewGlobalConfig";
 
 export {
@@ -25,7 +25,7 @@ export {
   VerifyEmailRoute,
   CreateAccountRoute,
   PastBookingsRoute,
-  ViewMembershipsRoute,
-  ViewMembershipDetailsRoute,
+  BookPassRoute,
+  BookPassDetailsRoute,
   ViewGlobalConfig,
 };

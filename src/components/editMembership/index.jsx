@@ -3,8 +3,11 @@ import { useHistory } from "react-router-dom";
 import { updateMembership } from "src/api/membership";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
 import { EditIconButton, ConfirmIconButton, AddIconButton, DeleteIconButton } from "src/components/common/buttons/iconButtons";
+import PassStatusBadge from "src/components/common/badges/passStatusBadge";
 import BackButton from "src/components/common/buttons/backButton";
 import DefaultSubmitButton from "src/components/common/buttons/defaultSubmitButton";
+import { DefaultPhysicalEmailTemplate, DefaultElectronicEmailTemplate, EmailVariables } from "../defaultEmailTemplate";
+import { DefaultPhysicalAttachmentTemplate, DefaultElectronicAttachmentTemplate, ElectronicAttachmentVariables, PhysicalAttachmentVariables } from "../defaultAttachmentTemplate";
 
 export default function EditMembership() {
   const history = useHistory();
@@ -32,6 +35,18 @@ export default function EditMembership() {
 
   const [passes, setPasses] = useState(membershipDetailsCopy.corporatePasses);
 
+  const setElectronicPass = () => {
+    setEmailTemplate(DefaultElectronicEmailTemplate);
+    setAttachmentTemplate(DefaultElectronicAttachmentTemplate);
+    setPassType("electronic");
+  }
+
+  const setPhysicalPass = () => {
+    setEmailTemplate(DefaultPhysicalEmailTemplate);
+    setAttachmentTemplate(DefaultPhysicalAttachmentTemplate);
+    setPassType("physical");
+  }
+
   const valueSetters = {
     name: setName,
     desc: setDescription,
@@ -41,8 +56,8 @@ export default function EditMembership() {
     membershipGrade: setMembershipGrade,
     logoUrl: setLogoUrl,
     fee: setFee,
-    electronic: setPassType,
-    physical: setPassType,
+    electronic: setElectronicPass,
+    physical: setPhysicalPass,
     address: setAddress,
   }
 
@@ -160,7 +175,8 @@ export default function EditMembership() {
               : 
               <textarea rows={10} id="emailTemplate" onChange={handleValueChange} value={emailTemplate} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Leave a description..." required />
             }
-            <div className="flex justify-end my-2">
+            <div className="flex justify-between my-2">
+              <span className="text-sm text-darkGrey">{"Variables: " + EmailVariables}</span>
               <button type="button" onClick={toggleEmailPreview} className="text-sm font-medium  text-redPri rounded-lg py-1 px-2 hover:text-redPriDark hover:bg-gray-200">{emailPreview ? "Edit" : "Preview"}</button>
             </div>
           </div>
@@ -172,7 +188,8 @@ export default function EditMembership() {
               : 
               <textarea rows={10} id="attachmentTemplate" onChange={handleValueChange} value={attachmentTemplate} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Leave a description..." required />
             }
-            <div className="flex justify-end my-2">
+            <div className="flex justify-between my-2">
+              {passType === "electronic" ? <span className="text-sm text-darkGrey">{"Variables: " + ElectronicAttachmentVariables}</span> : <span className="text-sm text-darkGrey">{"Variables: " + PhysicalAttachmentVariables}</span>}
               <button type="button" onClick={toggleAttachmentPreview} className="text-sm font-medium  text-redPri rounded-lg py-1 px-2 hover:text-redPriDark hover:bg-gray-200">{attachmentPreview ? "Edit" : "Preview"}</button>
             </div>
           </div>
@@ -241,17 +258,18 @@ function PassTableForm({passes, setPasses, membership, passType}) {
 
   const handleValueChange = (e, index) => {
     const updatedPasses = JSON.parse(JSON.stringify(allPasses));
-    updatedPasses[index][e.target.id] = e.target.value;
+    switch (e.target.id) {
+      case ("passID"):
+        if (e.target.value.length <= 22) {
+          updatedPasses[index].passID = e.target.value;
+        }
+        break;
+      default:
+        updatedPasses[index][e.target.id] = e.target.value;
+    }
     setAllPasses(updatedPasses);
   }
 
-  if (passes === null || passes.length === 0) {
-    return (
-      <div className="p-4 bg-white rounded-lg md:p-8" >
-        <p className="text-center text-gray-500">No Passes Added</p>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-white rounded-lg">
@@ -267,103 +285,109 @@ function PassTableForm({passes, setPasses, membership, passType}) {
               </th>
               {
                 passType === "electronic" ?
-                (<th scope="col" className="py-3 px-6">
-                  Expiry Date
-                </th>)
-                : null
+                (
+                  <>
+                    <th scope="col" className="py-3 px-6 bg-gray-50">Expiry Date</th>
+                    <th scope="col" className="py-3 px-6">
+                      <div className="flex justify-between items-center">
+                        <span>Status</span>
+                        <AddIconButton onAddButtonClick={handleAddButtonClick} />
+                      </div>
+                    </th>
+                  </>
+                )
+                :
+                (
+                  <th scope="col" className="py-3 px-6 bg-gray-50">
+                    <div className="flex justify-between items-center">
+                      <span>Status</span>
+                      <AddIconButton onAddButtonClick={handleAddButtonClick} />
+                    </div>
+                  </th>
+                )
               }
-              <th scope="col" className="py-3 px-6 bg-gray-50">
-                <div className="flex justify-between items-center">
-                  <span>Status</span>
-                  <AddIconButton onAddButtonClick={handleAddButtonClick} />
-                </div>
-              </th>
             </tr>
           </thead>
-          <tbody>
-            {
-              allPasses.map((pass, index) => 
-                (
-                  passesEditingToggle[index] === true
-                  ?  (
-                    <tr className="bg-white divide-y">
-                      <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
-                        <input type="text" id="passID" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.passID} />
-                      </th>
-                      <td className="py-4 px-6">
-                        <input type="number" id="maxPersonsAdmitted" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.maxPersonsAdmitted} />
-                      </td>
-                      {
-                        passType === "electronic" ?
-                        (<td className="py-4 px-6">
-                          <input type="date" id="expiryDate" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.expiryDate} />
-                        </td>)
-                        : null
-                      }
-                      <td className="py-4 px-6 bg-gray-100">
-                        <div className="flex justify-between items-center">
-                          <PassStatusBadge status="AVAILABLE" />
-                          <div className="">
-                            <ConfirmIconButton onConfirmButtonClick={() => handleConfirmButtonClick(index)} />
-                            <DeleteIconButton onDeleteButtonClick={() => handleDeleteButtonClick(index)} />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                  : (
-                    <tr className="bg-white divide-y">
-                      <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
-                        {pass.passID}
-                      </th>
-                      <td className="py-4 px-6">
-                        {pass.maxPersonsAdmitted}
-                      </td>
-                      {
-                        passType === "electronic" ?
-                        (<td className="py-4 px-6">
-                          {pass.expiryDate}
-                        </td>)
-                        : null
-                      }
-                      <td className="py-4 px-6 bg-gray-100">
-                        <div className="flex justify-between items-center">
-                          <PassStatusBadge status={pass.status} />
+          { 
+            (passes === null || passes.length === 0)
+            ? (
+              <tbody>
+                <tr>
+                  <td className="p-4 bg-white rounded-lg md:p-8 col-span-3 text-gray-500 justify-center" >
+                    No Passes Added
+                  </td>
+                </tr>
+              </tbody>
+            )
+            : (
+              <tbody>
+                {
+                  allPasses.map((pass, index) => 
+                    (
+                      passesEditingToggle[index] === true
+                      ?  (
+                        <tr className="bg-white divide-y">
+                          <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
+                            <input type="text" id="passID" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.passID} />
+                          </th>
+                          <td className="py-4 px-6">
+                            <input type="number" id="maxPersonsAdmitted" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.maxPersonsAdmitted} />
+                          </td>
                           {
-                            pass.status === "AVAILABLE"
-                            ? <EditIconButton onEditButtonClick={() => handleEditButtonClick(index)} />
+                            passType === "electronic" ?
+                            (<td className="py-4 px-6">
+                              <input type="date" id="expiryDate" onChange={e => handleValueChange(e, index)} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" value={pass.expiryDate} />
+                            </td>)
                             : null
                           }
-                        </div>
-                      </td>
-                    </tr>
+                          <td className="py-4 px-6 bg-gray-100">
+                            <div className="flex justify-between">
+                              <PassStatusBadge status="AVAILABLE" />
+                              <div>
+                                <ConfirmIconButton onConfirmButtonClick={() => handleConfirmButtonClick(index)} />
+                                <DeleteIconButton onDeleteButtonClick={() => handleDeleteButtonClick(index)} />
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                      : (
+                        <tr className="bg-white divide-y">
+                          <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-100">
+                            {pass.passID}
+                          </th>
+                          <td className="py-4 px-6">
+                            {pass.maxPersonsAdmitted}
+                          </td>
+                          {
+                            passType === "electronic" ?
+                            (<td className="py-4 px-6">
+                              {pass.expiryDate}
+                            </td>)
+                            : null
+                          }
+                          <td className="py-4 px-6 bg-gray-100">
+                            <div className="flex justify-between">
+                              <PassStatusBadge status={pass.status} />
+                              {
+                                pass.status === "AVAILABLE"
+                                ? <EditIconButton onEditButtonClick={() => handleEditButtonClick(index)}/>
+                                : null
+                              }
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    )
                   )
-                )
-              )
-            }
-          </tbody>
+                }
+              </tbody>
+            )
+          }
         </table>
       </div>
     </div>
   );
-}
-
-function PassStatusBadge({status}) {
-  const statusToBadgeClass = {
-    "AVAILABLE": "bg-green-100 text-green-800",
-    "LOST": "bg-red-100 text-red-800", 
-    "LOANED": "bg-blue-200 text-blue-800",
-  };
-
-  const badgeStatus = capitalizeFirstLetter(status.toLowerCase());
-
-  return (
-    <div className={`${statusToBadgeClass[status]} text-sm font-medium mx-3 px-2.5 py-0.5 rounded flex items-center h-fit`}>{badgeStatus}</div>
-  );
-}
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function EPassMembershipGrade({handleValueChange, membershipGrade}) {

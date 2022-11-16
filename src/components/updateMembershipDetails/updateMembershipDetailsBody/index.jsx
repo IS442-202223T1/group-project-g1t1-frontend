@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { DeleteIconButton, ConfirmIconButton } from "src/components/common/buttons/iconButtons";
 import { useUpdateMembershipContext } from "src/contexts/updateMembershipContext"
-import PassStatusBadge from "./statusBadge";
+import { enableMembership, deleteMembership } from "src/api/membership";
+import PassStatusBadge from "src/components/common/badges/passStatusBadge";
 
 export default function UpdateMembershipDetailsBody() {
   const history = useHistory();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const { selectedMembership, membershipDetails } = useUpdateMembershipContext();
+  const token = sessionStorage.getItem("token");
 
   const handleButtonTabClick = (index) => (e) => {
     e.preventDefault();
@@ -15,6 +18,16 @@ export default function UpdateMembershipDetailsBody() {
 
   const onClickEditButton = (e) => {
     history.push("/edit-membership");
+  }
+
+  const onClickConfirmButton = async (e) => {
+    const res = await enableMembership(token, selectedMembership);
+    history.push("/");
+  }
+
+  const onClickDeleteButton = async (e) => {
+    const res = await deleteMembership(token, selectedMembership);
+    history.push("/");
   }
 
   const buttons = ["Administrative Details", "View All Corporate Passes"]
@@ -36,9 +49,14 @@ export default function UpdateMembershipDetailsBody() {
         <div className="flex">
           {renderButtonTabs}
         </div>
-        <EditButton onClick={onClickEditButton} />
+        <div className="flex">
+          {membershipDetails.isActive ? 
+          <DeleteIconButton onDeleteButtonClick={onClickDeleteButton} />
+          : <ConfirmIconButton onConfirmButtonClick={onClickConfirmButton} />}
+          <EditButton onClick={onClickEditButton} />
+        </div>
       </ul>
-      {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={(membershipDetails.emailTemplate === null || membershipDetails.emailTemplate.templateContent === null) ? "" : membershipDetails.emailTemplate.templateContent} attachmentTemplate={(membershipDetails.attachmentTemplate === null || membershipDetails.attachmentTemplate.templateContent === null) ? "" : membershipDetails.attachmentTemplate.templateContent} membershipGrade={membershipDetails.membershipGrade} logoUrl={membershipDetails.logoUrl}/>}
+      {activeTabIndex === 0 && <AdminContent address={membershipDetails.membershipAddress}  desc={membershipDetails.description} fee={membershipDetails.replacementFee} isElectronicPass={membershipDetails.isElectronicPass} emailTemplate={(membershipDetails.emailTemplate === null || membershipDetails.emailTemplate.templateContent === null) ? "" : membershipDetails.emailTemplate.templateContent} attachmentTemplate={(membershipDetails.attachmentTemplate === null || membershipDetails.attachmentTemplate.templateContent === null) ? "" : membershipDetails.attachmentTemplate.templateContent} membershipGrade={membershipDetails.membershipGrade} logoUrl={membershipDetails.logoUrl} />}
       {activeTabIndex === 1 && <PassTableContent passes={membershipDetails.corporatePasses} isElectronicPass={membershipDetails.isElectronicPass} />}
     </div>
   )

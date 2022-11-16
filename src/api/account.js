@@ -6,6 +6,15 @@ const axiosAccountInstance = axios.create({
   timeout: 5000,
 });
 
+export const getCurrentAccount = async(token) => {
+  const response = await axiosAccountInstance.get("/me", {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+  return response.data;
+}
+
 export const postCreateAccount = async (email, name, contactNumber, password) => {
   try {
     const res = await axiosAccountInstance.post("/create", {

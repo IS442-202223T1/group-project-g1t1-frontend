@@ -9,15 +9,12 @@ import {
   CreateMembershipRoute,
   EditMembershipRoute,
   PastBookingsRoute,
-  ViewMembershipsRoute,
-  ViewMembershipDetailsRoute,
+  BookPassRoute,
+  BookPassDetailsRoute,
   ViewGlobalConfig,
 } from "src/routes";
-import { useUserContext } from "src/contexts/userContext";
-import { testToken } from "src/api/account";
-// eslint-disable-next-line camelcase
-import jwt_decode from "jwt-decode";
 import ExistingBookings from "src/components/existingBookings";
+import isLoggedIn from "./isLoggedIn";
 
 export default function PrivateLayout() {
   return isLoggedIn() ? (
@@ -38,10 +35,10 @@ export default function PrivateLayout() {
             return <UpcomingBookingsRoute />;
           }}
         />
-        <Route exact path='/view-memberships' component={ViewMembershipsRoute} />
+        <Route exact path='/book-pass' component={BookPassRoute} />
         <Route exact path='/employees' component={EmployeesRoute} />
         <Route exact path='/reports' component={ReportsRoute} />
-        <Route exact path='/view-membership-details' component={ViewMembershipDetailsRoute} />
+        <Route exact path='/book-pass-details' component={BookPassDetailsRoute} />
         <Route exact path='/update-membership-details' component={UpdateMembershipDetailsRoute} />
         <Route exact path='/create-membership' component={CreateMembershipRoute} />
         <Route exact path='/edit-membership' component={EditMembershipRoute} />
@@ -54,36 +51,3 @@ export default function PrivateLayout() {
   );
 }
 
-function isLoggedIn() {
-  if (
-    sessionStorage.getItem("loginStatus") === null ||
-    sessionStorage.getItem("loginStatus") === "false"
-  ) {
-    const {
-      setLoginStatusToStateAndSession,
-      setUserRolesToStateAndSession,
-      setCurrentSelectedRoleToStateAndSession,
-      setCurrentUserEmailToStateAndSession,
-    } = useUserContext();
-
-    const token = sessionStorage.getItem("token");
-    let authenticated;
-    testToken(token)
-      .then((res) => {
-        if (res) {
-          const decoded = jwt_decode(token);
-          setLoginStatusToStateAndSession(true);
-          setUserRolesToStateAndSession(decoded.USER_ROLES);
-          setCurrentSelectedRoleToStateAndSession(decoded.USER_ROLES[0]);
-          setCurrentUserEmailToStateAndSession(decoded.sub);
-          authenticated = true;
-        }
-        authenticated = false;
-      })
-      .catch((err) => {
-        authenticated = false;
-      });
-    return authenticated;
-  }
-  return true;
-}

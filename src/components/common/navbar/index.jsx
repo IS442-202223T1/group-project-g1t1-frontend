@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { UserCircleIcon } from "@heroicons/react/20/solid";
 import { useUserContext } from "src/contexts/userContext";
+import { getCurrentAccount } from "src/api/account"
 
 export default function NavBar() {
   const history = useHistory();
@@ -64,13 +66,15 @@ function NavBarItems({ currentRole, history }) {
       { name: "Reports", href: "/reports" },
       { name: "System Config", href: "/view-global-config" },
     ],
-    borrower: [
-      { name: "Upcoming Bookings", href: "/" },
-      { name: "Past Bookings", href: "/past-bookings" },
-      { name: "Book a Pass", href: "/view-memberships" },
-    ],
-    gop: [{ name: "Bookings", href: "/" }],
-  };
+    "borrower": [
+      {name: "Upcoming Bookings", href: "/"},
+      {name: "Past Bookings", href: "/past-bookings"},
+      {name: "Book a Pass", href : "/book-pass"},
+    ], 
+    "gop": [
+      {name: "Bookings", href : "/"}
+    ]
+  }
 
   const renderNavBarItems = navBarItems[currentRole].map((item) => (
     <li>
@@ -98,10 +102,24 @@ function NavBarItems({ currentRole, history }) {
 function UserProfile({ currentRole, allUserRoles, userEmail, history }) {
   const { setCurrentSelectedRoleToStateAndSession } = useUserContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [name, setName] = useState(userEmail.split("@")[0]);
 
   const showViewBorrowerOption = allUserRoles.includes("borrower") && currentRole !== "borrower";
   const showViewGOPOption = allUserRoles.includes("gop") && currentRole !== "gop";
   const showViewAdminOption = allUserRoles.includes("admin") && currentRole !== "admin";
+
+  const token = sessionStorage.getItem("token");
+
+  useEffect(() => {
+    populateName();
+    async function populateName() {
+      const res = await getCurrentAccount(token);
+      console.log(res.name)
+      if (res.name) {
+        setName(res.name);
+      }
+    }
+  }, []);
 
   const onProfileClick = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -132,23 +150,15 @@ function UserProfile({ currentRole, allUserRoles, userEmail, history }) {
   };
 
   return (
-    <div className='flex items-center md:order-2'>
-      <button
-        type='button'
-        className='flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-2 focus:ring-gray-300'
-        onClick={onProfileClick}
-      >
-        <img
-          className='w-8 h-8 rounded-full'
-          src='https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3580&q=80'
-          alt='user'
-        />
+    <div className="flex items-center md:order-2">
+      <button type="button" className="flex mr-3 text-sm rounded-full md:mr-0 focus:ring-2 focus:ring-gray-300" onClick={onProfileClick}>
+        <UserCircleIcon className="w-8 h-8 text-darkGrey" />
       </button>
 
       <div className={`${isMenuOpen ? "" : "hidden"} relative inset-y-5 right-10 z-20`}>
-        <div className='absolute w-44 text-base list-none bg-white border border-gray-100 rounded divide-y divide-gray-100'>
-          <div className='py-3 px-4'>
-            <span className='block text-sm font-medium text-gray-500 truncate'>{userEmail}</span>
+        <div className="absolute w-44 text-base list-none bg-white border border-gray-100 rounded divide-y divide-gray-100">
+          <div className="py-3 px-4">
+            <span className="block text-sm font-medium text-gray-500 truncate">{name}</span>
           </div>
           <ul className='py-1'>
             {showViewAdminOption && (

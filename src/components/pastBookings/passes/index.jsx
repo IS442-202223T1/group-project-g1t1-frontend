@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { getPastBookings } from "src/api/passes";
 import PassTile from "./PassTile";
 
@@ -21,20 +21,16 @@ function BookingHistory() {
       title={pass.membershipName} 
       imageUrl={pass.imageUrl} 
       date={pass.borrowDate} 
-      desc={pass.numberOfPasses} 
       passId={pass.passId} 
       ppl={pass.maxPersonsAdmitted}
       bookingID={pass.bookingID}
       status={pass.bookingStatus}
-      prevBookerName={pass.previousBookerName}
-      prevBookerDate={pass.previousBookingDate}
-      prevBookerNum={pass.previousBookerContactNumber}
       fee={pass.feesOwed}
     />
   ));
 
   return (
-    <div className="w-10/12 max-w-xl mt-5 p-5 mx-auto">
+    <div className="w-10/12 max-w-5xl mt-5 p-5 mx-auto gap-4">
       {
         pastPasses.length === 0 
         ? <div className="flex justify-center">

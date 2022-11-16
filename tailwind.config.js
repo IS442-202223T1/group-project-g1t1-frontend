@@ -17,12 +17,6 @@ module.exports = {
         white: "#FFFFFF",
         greenPri: "#0A704E",
         greenSec: "#6F9D80",
-        badgeCol1Light: "#DCD3E2",
-        badgeCol1Dark: "#6D5271",
-        badgeCol2Light: "#CADEED",
-        badgeCol2Dark: "#053F5C",
-        badgeCol3Light: "#FFEACC",
-        badgeCol3Dark: "#DC6601",
       }
     },
   },

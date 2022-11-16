@@ -10,21 +10,28 @@ function Pass() {
 
   useEffect(() => {
     renderUpcomingBookings();
+    const nonCancelledBookings = [];
     async function renderUpcomingBookings() {
-        const upcomingBookingsRes = await getUpcomingBookings(token, email);
-        setUpcomingBookings(upcomingBookingsRes);
+      const upcomingBookingsRes = await getUpcomingBookings(token, email);
+      upcomingBookingsRes.forEach((booking) => {
+        if (booking.bookingStatus !== "CANCELLED") {
+          nonCancelledBookings.push(booking);
+        };
+      });
+      console.log(nonCancelledBookings);
+      setUpcomingBookings(nonCancelledBookings);
       }
-  },[]);
+    },[]);
 
   const upcomingPasses = upcomingBookings.map((pass) => (
     <PassTile
       title={pass.membershipName} 
       imageUrl={pass.imageUrl} 
       date={pass.borrowDate} 
-      desc={pass.numberOfPasses} 
+      ppl={pass.maxPersonsAdmitted} 
       passId={pass.passId} 
       bookingID={pass.bookingID}
-      status={pass.bookingStatus}
+      status={pass.bookingStatus}  
       prevBookerName={pass.previousBookerName}
       prevBookerDate={pass.previousBookingDate}
       prevBookerNum={pass.previousBookerContactNumber}
@@ -33,7 +40,7 @@ function Pass() {
   ));
 
   return (
-    <div className="w-10/12 max-w-xl mt-5 p-5 mx-auto">
+    <div className="w-10/12 max-w-5xl mt-5 p-5 mx-auto">
       {
         upcomingPasses.length === 0 
         ? <div className="flex justify-center">
@@ -41,6 +48,7 @@ function Pass() {
           </div>
         : upcomingPasses
       }
+      
     </div>
   )
 }
