@@ -13,7 +13,7 @@ function BookPass(){
 
     const renderMemberships = memberships.map((membership) => (
         <MembershipTile 
-          imageUrl={membership.imageUrl === null ? defaultImageUrl : membership.imageUrl}
+          imageUrl={membership.imageUrl === null || membership.imageUrl === "" ? defaultImageUrl : membership.imageUrl}
           name={membership.membershipName}
           description={membership.description === "" ? defaultDescription : membership.description}
         />

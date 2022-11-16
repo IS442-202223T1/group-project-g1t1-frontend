@@ -16,6 +16,8 @@ export default function MembershipTile({imageUrl, name, description}){
     history.push("/book-pass-details");
   }
 
+  console.log(imageUrl)
+
   return (
     <div className="mb-5 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg">
       <img className="rounded-t-lg object-cover w-screen h-64" src={imageUrl} alt="" />
