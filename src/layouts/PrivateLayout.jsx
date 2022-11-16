@@ -11,6 +11,7 @@ import {
   PastBookingsRoute,
   ViewMembershipsRoute,
   ViewMembershipDetailsRoute,
+  ViewGlobalConfig,
 } from "src/routes";
 import { useUserContext } from "src/contexts/userContext";
 import { testToken } from "src/api/account";
@@ -45,13 +46,19 @@ export default function PrivateLayout() {
         <Route exact path='/create-membership' component={CreateMembershipRoute} />
         <Route exact path='/edit-membership' component={EditMembershipRoute} />
         <Route exact path='/past-bookings' component={PastBookingsRoute} />
+        <Route exact path='/view-global-config' component={ViewGlobalConfig} />
       </Switch>
     </>
-  ) : <Redirect to={{ pathname: "/login"}} />;
+  ) : (
+    <Redirect to={{ pathname: "/login" }} />
+  );
 }
 
 function isLoggedIn() {
-  if (sessionStorage.getItem("loginStatus") === null || sessionStorage.getItem("loginStatus") === "false") {
+  if (
+    sessionStorage.getItem("loginStatus") === null ||
+    sessionStorage.getItem("loginStatus") === "false"
+  ) {
     const {
       setLoginStatusToStateAndSession,
       setUserRolesToStateAndSession,
@@ -70,11 +77,12 @@ function isLoggedIn() {
           setCurrentSelectedRoleToStateAndSession(decoded.USER_ROLES[0]);
           setCurrentUserEmailToStateAndSession(decoded.sub);
           authenticated = true;
-        } 
+        }
         authenticated = false;
-        
       })
-      .catch((err) => {authenticated = false});
+      .catch((err) => {
+        authenticated = false;
+      });
     return authenticated;
   }
   return true;
