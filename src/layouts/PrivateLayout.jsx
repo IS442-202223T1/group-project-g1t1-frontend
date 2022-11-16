@@ -11,6 +11,7 @@ import {
   PastBookingsRoute,
   BookPassRoute,
   BookPassDetailsRoute,
+  ViewGlobalConfig,
 } from "src/routes";
 import ExistingBookings from "src/components/existingBookings";
 import isLoggedIn from "./isLoggedIn";
@@ -42,9 +43,11 @@ export default function PrivateLayout() {
         <Route exact path='/create-membership' component={CreateMembershipRoute} />
         <Route exact path='/edit-membership' component={EditMembershipRoute} />
         <Route exact path='/past-bookings' component={PastBookingsRoute} />
+        <Route exact path='/view-global-config' component={ViewGlobalConfig} />
       </Switch>
     </>
-  ) : <Redirect to={{ pathname: "/login"}} />;
+  ) : (
+    <Redirect to={{ pathname: "/login" }} />
+  );
 }
-
 

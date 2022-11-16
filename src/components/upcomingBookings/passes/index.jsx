@@ -10,7 +10,7 @@ function Pass() {
 
   useEffect(() => {
     renderUpcomingBookings();
-    const nonCancelledBookings = [];
+    
     async function renderUpcomingBookings() {
       const upcomingBookingsRes = await getUpcomingBookings(token, email);
       upcomingBookingsRes.forEach((booking) => {

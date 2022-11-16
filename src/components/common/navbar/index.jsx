@@ -11,9 +11,9 @@ export default function NavBar() {
   const userEmail = sessionStorage.getItem("email");
 
   return (
-    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded flex justify-center">
-      <div className="container flex flex-wrap justify-between items-center max-w-5xl">
-        <div className="flex items-center">
+    <nav className='bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded flex justify-center'>
+      <div className='container flex flex-wrap justify-between items-center max-w-5xl'>
+        <div className='flex items-center'>
           <NavBarLogo currentRole={currentRole} history={history} />
         </div>
         <UserProfile currentRole={currentRole} allUserRoles={allUserRoles} userEmail={userEmail} history={history} />
@@ -24,22 +24,22 @@ export default function NavBar() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
 
-function NavBarLogo({currentRole, history}) {
+function NavBarLogo({ currentRole, history }) {
   return (
     <button
-      type="button"
-      onClick = {() => {
+      type='button'
+      onClick={() => {
         history.push("/");
-      }} 
+      }}
     >
-      <img src="/logo.png" className="mx-3 h-8 sm:h-9" alt="" />
-      {currentRole === "admin" && <span className="text-sm font-bold text-gray-800">Admin</span>}
-      {currentRole === "gop" && <span className="text-sm font-bold text-gray-800">GOP</span>}
+      <img src='/logo.png' className='mx-3 h-8 sm:h-9' alt='' />
+      {currentRole === "admin" && <span className='text-sm font-bold text-gray-800'>Admin</span>}
+      {currentRole === "gop" && <span className='text-sm font-bold text-gray-800'>GOP</span>}
     </button>
-  )
+  );
 }
 
 function isCurrentPage(href) {
@@ -54,10 +54,11 @@ function isCurrentPage(href) {
 
 function NavBarItems({currentRole, history, closeMenu}) {
   const navBarItems = {
-    "admin": [
-      {name: "Memberships", href: "/"},
-      {name: "Employees", href: "/employees"},
-      {name: "Reports", href: "/reports"},
+    admin: [
+      { name: "Memberships", href: "/" },
+      { name: "Employees", href: "/employees" },
+      { name: "Reports", href: "/reports" },
+      { name: "System Config", href: "/view-global-config" },
     ],
     "borrower": [
       {name: "Upcoming Bookings", href: "/"},
@@ -85,7 +86,7 @@ function NavBarItems({currentRole, history, closeMenu}) {
     ));
 }
 
-function UserProfile({currentRole, allUserRoles, userEmail, history}) {
+function UserProfile({ currentRole, allUserRoles, userEmail, history }) {
   const { setCurrentSelectedRoleToStateAndSession } = useUserContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
@@ -112,7 +113,7 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
       setIsHamburgerOpen(false);
     }
     setIsMenuOpen(!isMenuOpen);
-  }
+  };
 
   const onHamBurgerClick = () => {
     if (isMenuOpen) {
@@ -125,25 +126,25 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
     setCurrentSelectedRoleToStateAndSession("admin");
     setIsMenuOpen(false);
     history.push("/");
-  }
+  };
 
   const onClickedViewGOPOption = () => {
     setCurrentSelectedRoleToStateAndSession("gop");
     setIsMenuOpen(false);
     history.push("/");
-  }
+  };
 
   const onClickedViewBorrowerOption = () => {
     setCurrentSelectedRoleToStateAndSession("borrower");
     setIsMenuOpen(false);
     history.push("/");
-  }
+  };
 
   const onClickedSignOutOption = () => {
     sessionStorage.clear();
     setIsMenuOpen(false);
     history.push("/login");
-  }
+  };
 
   return (
     <div className="flex items-center md:order-2">
@@ -156,11 +157,49 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
           <div className="py-3 px-4">
             <span className="block text-sm font-medium text-gray-500 truncate">{name}</span>
           </div>
-          <ul className="py-1">
-            {showViewAdminOption && <li><button type="button" onClick={onClickedViewAdminOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">View as Admin</button></li>}
-            {showViewGOPOption && <li><button type="button" onClick={onClickedViewGOPOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">View as GOP</button></li>}
-            {showViewBorrowerOption && <li><button type="button" onClick={onClickedViewBorrowerOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">View as Staff</button></li>}
-            <li><button type="submit" onClick={onClickedSignOutOption} className="w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri">Sign Out</button></li>
+          <ul className='py-1'>
+            {showViewAdminOption && (
+              <li>
+                <button
+                  type='button'
+                  onClick={onClickedViewAdminOption}
+                  className='w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri'
+                >
+                  View as Admin
+                </button>
+              </li>
+            )}
+            {showViewGOPOption && (
+              <li>
+                <button
+                  type='button'
+                  onClick={onClickedViewGOPOption}
+                  className='w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri'
+                >
+                  View as GOP
+                </button>
+              </li>
+            )}
+            {showViewBorrowerOption && (
+              <li>
+                <button
+                  type='button'
+                  onClick={onClickedViewBorrowerOption}
+                  className='w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri'
+                >
+                  View as Staff
+                </button>
+              </li>
+            )}
+            <li>
+              <button
+                type='submit'
+                onClick={onClickedSignOutOption}
+                className='w-full text-start py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-redPri'
+              >
+                Sign Out
+              </button>
+            </li>
           </ul>
         </div>
       </div>
@@ -178,5 +217,5 @@ function UserProfile({currentRole, allUserRoles, userEmail, history}) {
         <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/></svg>
       </button>
     </div>
-  )
+  );
 }

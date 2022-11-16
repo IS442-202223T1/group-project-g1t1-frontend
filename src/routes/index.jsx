@@ -11,6 +11,7 @@ import CreateAccountRoute from "./createAccount";
 import PastBookingsRoute from "./pastBookings";
 import BookPassRoute from "./bookPass";
 import BookPassDetailsRoute from "./bookPassDetails";
+import ViewGlobalConfig from "./viewGlobalConfig";
 
 export {
   UpdateMembershipRoute,
@@ -26,4 +27,5 @@ export {
   PastBookingsRoute,
   BookPassRoute,
   BookPassDetailsRoute,
+  ViewGlobalConfig,
 };
