@@ -113,7 +113,7 @@ export default function GlobalConfig(isEdit, toggleIsEditHandler) {
           )}
         </p>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          Attacment Letter Head Image URL:
+          Attachment Letter Head Image URL:
           {isEdit ? (
             <div>
               <input
