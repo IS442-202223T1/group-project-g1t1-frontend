@@ -82,7 +82,7 @@ export default function PassTile({
           </>
         ) : null}
 
-        {status === "CONFIRMED" && (
+        {status !== "CANCELLED" && (
           <div>
             <DefaultSecondaryButton
               buttonName="Cancel Booking"
