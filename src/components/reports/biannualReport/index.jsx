@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getEmployeeReport } from "src/api/dashboard";
+import { getEmployeeReportByPeriod } from "src/api/dashboard";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
+import { subMonths } from "date-fns";
 
 const downloadFile = ({ data, fileName, fileType }) => {
   const blob = new Blob([data], { type: fileType });
@@ -19,19 +20,20 @@ const downloadFile = ({ data, fileName, fileType }) => {
 
 function BiannualReport() {
   const token = sessionStorage.getItem("token");
-  const timeframe = "biannual";
   const [employeeData, setEmployeeData] = useState([]);
+  const currDate = new Date();
+  const [startPeriod, setStartPeriod] = useState(subMonths(currDate, 5));
+  const [endPeriod, setEndPeriod] = useState(currDate);
   useEffect(() => {
     renderEmployeeData();
     async function renderEmployeeData() {
-      const employeeDataRes = await getEmployeeReport(token, timeframe);
+      const employeeDataRes = await getEmployeeReportByPeriod(token, startPeriod, endPeriod);
       setEmployeeData(employeeDataRes);
     }
-  }, []);
+  }, [startPeriod, endPeriod]);
 
   const downloadBiAnnualReportCSV = async (e) => {
     e.preventDefault();
-    const res = await getEmployeeReport(token, timeframe);
     const headers = ["Employee Name,Employee Email,Number Of Loans,"];
     const monthlyCSV = employeeData.reduce((acc, row) => {
       const { employeeName, employeeEmail, numberOfLoans } = row;
@@ -44,11 +46,27 @@ function BiannualReport() {
       fileType: "text/csv",
     });
   };
-  const duration = employeeData.map((data) => data.duration);
 
   return (
     <div className="p-4 bg-white rounded-lg md:p-8">
-      <p className="mb-6 font-medium">Time Period: {duration[0]}</p>
+      <div className="flex space-x-4 items-center mb-6">
+        <p className="font-medium">Time Period: </p>
+        <input
+          type="month"
+          id="startPeriod"
+          className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm border-gray-300 p-2.5"
+          onChange={(e) => setStartPeriod(new Date(e.target.value))}
+          value={startPeriod.toLocaleDateString("sv-SE", { year: "numeric", month: "2-digit" })}
+        />
+        <span>To</span>
+        <input
+          type="month"
+          id="endPeriod"
+          className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm border-gray-300 p-2.5"
+          onChange={(e) => setEndPeriod(new Date(e.target.value))}
+          value={endPeriod.toLocaleDateString("sv-SE", { year: "numeric", month: "2-digit" })}
+        />
+      </div>
       <div className="shadow-md sm:rounded-lg mb-6">
         <table className="w-full text-sm text-left text-gray-700">
           <thead className="text-xs text-gray-700 uppercase">

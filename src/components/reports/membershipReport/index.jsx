@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getMonthlyReport } from "src/api/dashboard";
+import { getMembershipReport } from "src/api/dashboard";
+import { getAllMemberships } from "src/api/membership";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 
 const downloadFile = ({ data, fileName, fileType }) => {
@@ -17,30 +18,43 @@ const downloadFile = ({ data, fileName, fileType }) => {
   a.remove();
 };
 
-function AllReport() {
+function MembershipReport() {
   const token = sessionStorage.getItem("token");
-  const [monthlyData, setMonthlyData] = useState([]);
-  const [timePeriod, setTimePeriod] = useState(new Date());
-  useEffect(() => {
-    renderMonthlyData();
-    async function renderMonthlyData() {
-      const monthlyDataRes = await getMonthlyReport(token, timePeriod.getFullYear());
-      setMonthlyData(monthlyDataRes);
-    }
-  }, [timePeriod]);
+  const [membershipData, setMembershipData] = useState([]);
+  const [memberships, setMemberships] = useState([]);
+  const [selectedMembership, setSelectedMembership] = useState("");
 
-  const downloadMonthlyReportCSV = async (e) => {
+  useEffect(() => {
+    renderMemberships();
+    async function renderMemberships() {
+      const membershipsRes = await getAllMemberships(token);
+      setMemberships(membershipsRes.map((membership) => membership.membershipName));
+      setSelectedMembership(membershipsRes[0].membershipName);
+    }
+  }, []);
+
+  useEffect(() => {
+    renderMembershipsData();
+    async function renderMembershipsData() {
+      if (selectedMembership === "") {
+        return;
+      }
+      const employeeDataRes = await getMembershipReport(token, selectedMembership);
+      setMembershipData(employeeDataRes);
+    }
+  }, [selectedMembership]);
+
+  const downloadMembershipReportCSV = async (e) => {
     e.preventDefault();
-    const res = await getMonthlyReport(token);
     const headers = ["month,year,number of loans,number of borrowers"];
-    const monthlyCSV = monthlyData.reduce((acc, row) => {
+    const monthlyCSV = membershipData.reduce((acc, row) => {
       const { month, year, numberOfLoans, numberOfBorrowers } = row;
       acc.push([month, year, numberOfLoans, numberOfBorrowers].join(","));
       return acc;
     }, []);
     downloadFile({
       data: [...headers, ...monthlyCSV].join("\n"),
-      fileName: "monthly_report.csv",
+      fileName: "membership_report.csv",
       fileType: "text/csv",
     });
   };
@@ -48,16 +62,12 @@ function AllReport() {
   return (
     <div className="p-4 bg-white rounded-lg md:p-8">
       <div className="flex space-x-4 items-center mb-6">
-        <p className="font-medium">Time Period: </p>
-        <input
-          type="number"
-          min="1900"
-          max={new Date().getFullYear() + 1}
-          step="1"
-          className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm border-gray-300 p-2.5"
-          onChange={(e) => setTimePeriod(new Date(e.target.value))}
-          value={timePeriod.toLocaleDateString("default", { year: "numeric" })}
-        />
+        <p className="font-medium">Membership: </p>
+        <select className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm border-gray-300 p-2.5 pr-10" id="membership" name="membership" value={selectedMembership} onChange={(e) => setSelectedMembership(e.target.value)}>
+          {memberships.map((membership) => (
+            <option value={membership}>{membership}</option>
+          ))}
+        </select>
       </div>
       <div className="shadow-md sm:rounded-lg mb-6">
         <table className="w-full text-sm text-left text-gray-700">
@@ -78,7 +88,7 @@ function AllReport() {
             </tr>
           </thead>
           <tbody>
-            {monthlyData.map((data) => (
+            {membershipData.map((data) => (
               <tr className="bg-white divide-y">
                 <th
                   scope="row"
@@ -94,9 +104,9 @@ function AllReport() {
           </tbody>
         </table>
       </div>
-      <DefaultSecondaryButton buttonName="Export CSV" onButtonClick={downloadMonthlyReportCSV} />
+      <DefaultSecondaryButton buttonName="Export CSV" onButtonClick={downloadMembershipReportCSV} />
     </div>
   );
 }
 
-export default AllReport;
+export default MembershipReport;

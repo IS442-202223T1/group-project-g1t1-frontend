@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getEmployeeReport } from "src/api/dashboard";
+import { getEmployeeReportByMonth } from "src/api/dashboard";
 import DefaultSecondaryButton from "src/components/common/buttons/defaultSecondaryButton";
 
 const downloadFile = ({ data, fileName, fileType }) => {
@@ -19,16 +19,21 @@ const downloadFile = ({ data, fileName, fileType }) => {
 
 function EmployeeReport() {
   const token = sessionStorage.getItem("token");
-  const timeframe = "month";
   const [employeeData, setEmployeeData] = useState([]);
+  const [timePeriod, setTimePeriod] = useState(new Date());
 
   useEffect(() => {
     renderEmployeeData();
     async function renderEmployeeData() {
-      const employeeDataRes = await getEmployeeReport(token, timeframe);
+      const employeeDataRes = await getEmployeeReportByMonth(
+        token,
+        timePeriod.getMonth() + 1,
+        timePeriod.getFullYear(),
+      );
       setEmployeeData(employeeDataRes);
     }
-  }, []);
+  }, [timePeriod]);
+
   const downloadMonthlyReportCSV = async (e) => {
     e.preventDefault();
     const headers = ["Employee Name,Employee Email,Number Of Loans,"];
@@ -43,11 +48,18 @@ function EmployeeReport() {
       fileType: "text/csv",
     });
   };
-  const duration = employeeData.map((data) => data.duration);
 
   return (
     <div className="p-4 bg-white rounded-lg md:p-8">
-      <p className="mb-6 font-medium">Time Period: {duration[0]}</p>
+      <div className="flex space-x-4 items-center mb-6">
+        <p className="font-medium">Time Period: </p>
+        <input
+          type="month"
+          className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm border-gray-300 p-2.5"
+          onChange={(e) => setTimePeriod(new Date(e.target.value))}
+          value={timePeriod.toLocaleDateString("sv-SE", { year: "numeric", month: "2-digit" })}
+        />
+      </div>
       <div className="shadow-md sm:rounded-lg mb-6">
         <table className="w-full text-sm text-left text-gray-700">
           <thead className="text-xs text-gray-700 uppercase">
