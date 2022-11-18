@@ -64,7 +64,7 @@ export default function PassTile({
         <p className="mb-3 font-normal text-gray-700">
           Status: <BookingStatusBadge status={status} />
         </p>
-        {day === "SUNDAY" ? (
+        {prevBookerName !== null ? (
           <>
             <p className="mb-3 font-normal text-gray-700">
               Previously Booked Date:{" "}
@@ -82,7 +82,7 @@ export default function PassTile({
           </>
         ) : null}
 
-        {status === "CONFIRMED" && (
+        {status !== "CANCELLED" && (
           <div>
             <DefaultSecondaryButton
               buttonName="Cancel Booking"

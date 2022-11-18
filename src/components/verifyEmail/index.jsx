@@ -22,7 +22,7 @@ export default function VerifyEmail() {
     const tempErrors = [];
     if (
       emailComponents.length !== 2 ||
-      (REACT_APP_EMAIL_CHECKING && !permittedEmails.includes(emailComponents[1]))
+      (REACT_APP_EMAIL_CHECKING === "true" && !permittedEmails.includes(emailComponents[1]))
     ) {
       tempErrors.push("Please enter a valid email address.");
     } else {

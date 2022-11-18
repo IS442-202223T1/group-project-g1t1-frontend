@@ -26,7 +26,9 @@ function PassContent({ desc, address, membershipName }) {
   const defaultDescription = "No description specified";
   const token = sessionStorage.getItem("token");
   const email = sessionStorage.getItem("email");
-  const [bookingDate, setBookingDate] = useState(new Date());
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const [bookingDate, setBookingDate] = useState(tomorrow);
 
   const [message, setMessage] = useState("");
   const [borrowers, setBorrowers] = useState([]);
@@ -36,7 +38,6 @@ function PassContent({ desc, address, membershipName }) {
   startDate.setDate(today.getDate() + 1);
   const endDate = new Date();
   endDate.setMonth(endDate.getMonth() + 2);
-  bookingDate.setDate(startDate.getDate());
   useEffect(() => {
     getGlobalConfigs();
     async function getGlobalConfigs() {

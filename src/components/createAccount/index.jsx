@@ -37,7 +37,7 @@ export default function CreateAccount() {
     if (
       queryEmail === null ||
       queryEmail.split("@").length !== 2 ||
-      (REACT_APP_EMAIL_CHECKING && !permittedEmails.includes(queryEmail.split("@")[1]))
+      (REACT_APP_EMAIL_CHECKING === "true" && !permittedEmails.includes(queryEmail.split("@")[1]))
     ) {
       tempErrors.push("Unable to fulfil request. Please use the link that was sent to your email.");
     } else if (name === "") {
