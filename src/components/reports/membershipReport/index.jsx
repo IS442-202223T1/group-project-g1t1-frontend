@@ -22,7 +22,7 @@ function MembershipReport() {
   const token = sessionStorage.getItem("token");
   const [membershipData, setMembershipData] = useState([]);
   const [memberships, setMemberships] = useState([]);
-  const [selectedMembership, setSelectedMembership] = useState(null);
+  const [selectedMembership, setSelectedMembership] = useState("");
 
   useEffect(() => {
     renderMemberships();
@@ -36,7 +36,7 @@ function MembershipReport() {
   useEffect(() => {
     renderMembershipsData();
     async function renderMembershipsData() {
-      if (selectedMembership === null) {
+      if (selectedMembership === "") {
         return;
       }
       const employeeDataRes = await getMembershipReport(token, selectedMembership);
