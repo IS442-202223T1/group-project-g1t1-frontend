@@ -37,3 +37,19 @@ export const getEmployeeReport = async (token, duration) => {
     return false;
   }
 };
+
+export const getEmployeeReportByMonth = async (token, month, year) => {
+  try {
+    const res = await axiosDashboardInstance.get(`/employee-report?month=${month}&year=${year}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    if (res) {
+      return res.data;
+    }
+    throw new Error("No data returned from backend");
+  } catch (error) {
+    return false;
+  }
+};
