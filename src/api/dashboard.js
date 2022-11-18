@@ -40,11 +40,14 @@ export const getEmployeeReport = async (token, duration) => {
 
 export const getEmployeeReportByMonth = async (token, month, year) => {
   try {
-    const res = await axiosDashboardInstance.get(`/employee-report-by-month?month=${month}&year=${year}`, {
-      headers: {
-        Authorization: `${token}`,
+    const res = await axiosDashboardInstance.get(
+      `/employee-report-by-month?month=${month}&year=${year}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
       },
-    });
+    );
     if (res) {
       return res.data;
     }
@@ -72,11 +75,18 @@ export const getEmployeeReportByYear = async (token, year) => {
 
 export const getEmployeeReportByPeriod = async (token, startDate, endDate) => {
   try {
-    const res = await axiosDashboardInstance.get(`/employee-report-by-period?startMonth=${startDate.getMonth()+1}&startYear=${startDate.getFullYear()}&endMonth=${endDate.getMonth()+1}&endYear=${endDate.getFullYear()}`, {
-      headers: {
-        Authorization: `${token}`,
+    const res = await axiosDashboardInstance.get(
+      `/employee-report-by-period?startMonth=${
+        startDate.getMonth() + 1
+      }&startYear=${startDate.getFullYear()}&endMonth=${
+        endDate.getMonth() + 1
+      }&endYear=${endDate.getFullYear()}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
       },
-    });
+    );
     if (res) {
       return res.data;
     }
