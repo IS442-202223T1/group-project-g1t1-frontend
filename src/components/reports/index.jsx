@@ -3,6 +3,7 @@ import AllReport from "./allReport";
 import EmployeeReport from "./monthlyReport";
 import AnnualReport from "./annualReport";
 import BiannualReport from "./biannualReport";
+import MembershipReport from "./membershipReport";
 import ButtonTab from "./buttonTab";
 
 function Reports() {
@@ -11,6 +12,7 @@ function Reports() {
     "Employee Bi-Annual Reports",
     "Employee Annual Reports",
     "Monthly Report",
+    "Membership Report",
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const handleButtonTabClick = (index) => (e) => {
@@ -43,6 +45,7 @@ function Reports() {
       {activeTabIndex === 1 ? <BiannualReport /> : null}
       {activeTabIndex === 2 ? <AnnualReport /> : null}
       {activeTabIndex === 3 ? <AllReport /> : null}
+      {activeTabIndex === 4 ? <MembershipReport /> : null}
     </div>
   );
 }
