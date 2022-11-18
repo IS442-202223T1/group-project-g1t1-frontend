@@ -54,6 +54,7 @@ function BiannualReport() {
         <input
           type="month"
           id="startPeriod"
+          className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm border-gray-300 p-2.5"
           onChange={(e) => setStartPeriod(new Date(e.target.value))}
           value={startPeriod.toLocaleDateString("sv-SE", { year: "numeric", month: "2-digit" })}
         />
@@ -61,6 +62,7 @@ function BiannualReport() {
         <input
           type="month"
           id="endPeriod"
+          className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm border-gray-300 p-2.5"
           onChange={(e) => setEndPeriod(new Date(e.target.value))}
           value={endPeriod.toLocaleDateString("sv-SE", { year: "numeric", month: "2-digit" })}
         />

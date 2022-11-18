@@ -54,6 +54,7 @@ function AllReport() {
           min="1900"
           max={new Date().getFullYear() + 1}
           step="1"
+          className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm border-gray-300 p-2.5"
           onChange={(e) => setTimePeriod(new Date(e.target.value))}
           value={timePeriod.toLocaleDateString("default", { year: "numeric" })}
         />

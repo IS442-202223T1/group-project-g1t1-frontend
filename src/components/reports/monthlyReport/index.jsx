@@ -55,6 +55,7 @@ function EmployeeReport() {
         <p className="font-medium">Time Period: </p>
         <input
           type="month"
+          className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm border-gray-300 p-2.5"
           onChange={(e) => setTimePeriod(new Date(e.target.value))}
           value={timePeriod.toLocaleDateString("sv-SE", { year: "numeric", month: "2-digit" })}
         />

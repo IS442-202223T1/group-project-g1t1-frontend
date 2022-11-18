@@ -63,7 +63,7 @@ function MembershipReport() {
     <div className="p-4 bg-white rounded-lg md:p-8">
       <div className="flex space-x-4 items-center mb-6">
         <p className="font-medium">Membership: </p>
-        <select className="" id="membership" name="membership" value={selectedMembership} onChange={(e) => setSelectedMembership(e.target.value)}>
+        <select className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm border-gray-300 p-2.5 pr-10" id="membership" name="membership" value={selectedMembership} onChange={(e) => setSelectedMembership(e.target.value)}>
           {memberships.map((membership) => (
             <option value={membership}>{membership}</option>
           ))}
