@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getAllMemberships, getAvailableBookings } from "src/api/borrower";
+import { getAvailableBookings, getMembershipDetails } from "src/api/borrower";
+import { useHistory } from "react-router-dom";
+import { useBookPassContext } from "src/contexts/bookPassContext";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import {
   add,
@@ -14,6 +16,7 @@ import {
   isSameMonth,
   isToday,
   parse,
+  startOfMonth,
 } from "date-fns";
 
 export default function CalendarView() {
@@ -32,13 +35,18 @@ export default function CalendarView() {
 
   function previousMonth() {
     const firstDayPrevMonth = add(firstDayCurrentMonth, { months: -1 });
+    if (isBefore(firstDayPrevMonth, startOfMonth(today))) {
+      return;
+    }
     setCurrentMonth(format(firstDayPrevMonth, "MMM-yyyy"));
+    setSelectedDay(isBefore(firstDayPrevMonth, today) ? add(today, { days: 1 }) : firstDayPrevMonth);
     setViewStartDate(firstDayPrevMonth);
   }
 
   function nextMonth() {
     const firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
+    setSelectedDay(firstDayNextMonth);
     setViewStartDate(firstDayNextMonth);
   }
 
@@ -156,7 +164,7 @@ export default function CalendarView() {
             {availablePasses[format(selectedDay, "yyyy-MM-dd")] !== undefined &&
             availablePasses[format(selectedDay, "yyyy-MM-dd")].length > 0 ? (
               availablePasses[format(selectedDay, "yyyy-MM-dd")].map((pass) => (
-                <AvailablePassTile pass={pass} key={pass.id} />
+                <AvailablePassTile pass={pass} key={pass.id} selectedDay={selectedDay} />
               ))
             ) : (
               <p>No available passes for today.</p>
@@ -182,16 +190,26 @@ const colStartClasses = [
   "col-start-7",
 ];
 
-function AvailablePassTile({ pass }) {
+function AvailablePassTile({ pass, selectedDay }) {
+  const history = useHistory();
+  const token = sessionStorage.getItem("token");
+  const { setSelectedMembership, setMembershipDetails } = useBookPassContext();
+
+  const handleSelectPass = async() => {
+    setSelectedMembership(pass.membership.membershipName);
+    const membershipDetails = await getMembershipDetails(token, pass.membership.membershipName);
+    setMembershipDetails(membershipDetails);
+    history.push(`/book-pass-details?date=${selectedDay}`);
+  }
 
   return (
-    <li className="flex items-center justify-between px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
+    <button type="button" className="w-full flex items-center justify-between px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100" onClick={handleSelectPass}>
       <img src={pass.membership.imageUrl} alt="" className="flex-none w-10 h-10 rounded-full" />
       <div className="text-left">
         <p className="text-black font-semibold text-md">{pass.membership.membershipName}</p>
         <p className="text-darkGray">{pass.passID}</p>
       </div>
       <ChevronRightIcon className="w-5 h-5" aria-hidden="true" />
-    </li>
+    </button>
   );
 }

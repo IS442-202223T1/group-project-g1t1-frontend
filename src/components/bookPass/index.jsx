@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import MembershipTile from "src/components/bookPass/membershipTile";
-import { getAllMemberships, getAvailableBookings } from "src/api/borrower";
-import { useHistory } from "react-router-dom";
-import CalendarView from "./calendarView";
+import { getAllMemberships } from "src/api/borrower";
+import CalendarView from "src/components/bookPass/calendarView";
 
 function BookPass() {
-  const history = useHistory();
   const token = sessionStorage.getItem("token");
   const [memberships, setMemberships] = useState([]);
   const [view, setView] = useState("calendar");
