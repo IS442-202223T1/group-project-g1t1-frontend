@@ -8,7 +8,6 @@ function BookPass() {
   const [memberships, setMemberships] = useState([]);
   const [view, setView] = useState("calendar");
 
-
   const defaultImageUrl =
     "https://images.unsplash.com/photo-1464059728276-d877187d61a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=cr";
   const defaultDescription = "No description specified";
@@ -32,7 +31,6 @@ function BookPass() {
       const allMemberships = await getAllMemberships(token);
       setMemberships(allMemberships);
     }
-
   }, []);
 
   const toggleView = () => {
@@ -44,13 +42,13 @@ function BookPass() {
   };
 
   const renderListView = () =>
-  memberships.length === 0 ? (
-    <div className="flex justify-center text-center col-span-full">
-      <span className="text-lg font-medium">No Memberships Found</span>
-    </div>
-  ) : (
-    renderMemberships
-  );
+    memberships.length === 0 ? (
+      <div className="flex justify-center text-center col-span-full">
+        <span className="text-lg font-medium">No Memberships Found</span>
+      </div>
+    ) : (
+      renderMemberships
+    );
 
   return (
     <div className="max-w-5xl mt-5 mx-auto">

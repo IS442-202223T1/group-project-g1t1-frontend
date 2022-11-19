@@ -39,7 +39,9 @@ export default function CalendarView() {
       return;
     }
     setCurrentMonth(format(firstDayPrevMonth, "MMM-yyyy"));
-    setSelectedDay(isBefore(firstDayPrevMonth, today) ? add(today, { days: 1 }) : firstDayPrevMonth);
+    setSelectedDay(
+      isBefore(firstDayPrevMonth, today) ? add(today, { days: 1 }) : firstDayPrevMonth,
+    );
     setViewStartDate(firstDayPrevMonth);
   }
 
@@ -195,15 +197,19 @@ function AvailablePassTile({ pass, selectedDay }) {
   const token = sessionStorage.getItem("token");
   const { setSelectedMembership, setMembershipDetails } = useBookPassContext();
 
-  const handleSelectPass = async() => {
+  const handleSelectPass = async () => {
     setSelectedMembership(pass.membership.membershipName);
     const membershipDetails = await getMembershipDetails(token, pass.membership.membershipName);
     setMembershipDetails(membershipDetails);
     history.push(`/book-pass-details?date=${selectedDay}`);
-  }
+  };
 
   return (
-    <button type="button" className="w-full flex items-center justify-between px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100" onClick={handleSelectPass}>
+    <button
+      type="button"
+      className="w-full flex items-center justify-between px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100"
+      onClick={handleSelectPass}
+    >
       <img src={pass.membership.imageUrl} alt="" className="flex-none w-10 h-10 rounded-full" />
       <div className="text-left">
         <p className="text-black font-semibold text-md">{pass.membership.membershipName}</p>
