@@ -53,7 +53,7 @@ function Bookings() {
         handleSubmitButtonClick={searchForBorrower}
         handleInputChange={handleEmailChange}
       />
-      <div>{errorText.length === 0 ? null : errorText}</div>
+      {errorText !== "" && <DangerAlert message={errorText} />}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {confirmedBookings.length === 0 ? (
           <div className="flex justify-center">
@@ -68,3 +68,14 @@ function Bookings() {
 }
 
 export default Bookings;
+
+function DangerAlert({ message }) {
+  return (
+    <div
+      className="p-4 mb-5 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+      role="alert"
+    >
+      <span className="font-medium">{message}</span>
+    </div>
+  );
+}
