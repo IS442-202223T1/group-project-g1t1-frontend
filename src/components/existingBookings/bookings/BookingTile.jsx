@@ -81,6 +81,9 @@ export default function BookingTile({
           <p className="mb-3 font-normal text-gray-700">
             Pass ID: <span className="font-medium text-black">{corporatePassID}</span>
           </p>
+          <p className="mb-3 font-normal text-gray-700">
+            Status: <span className="font-medium text-black"><BookingStatusBadge status={status} /></span>
+          </p>
           {status === "DUESOWED" ? (
             <p className="mb-3 font-normal text-gray-700">
               Dues Owed: <span className="font-medium text-black">{feesOwed}</span>
