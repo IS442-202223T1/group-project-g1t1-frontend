@@ -56,7 +56,15 @@ export default function PassTile({
           Pass ID: <span className="font-medium text-black">{passId}</span>
         </p>
         <p className="mb-3 font-normal text-gray-700">
-          Date: <span className="font-medium text-black">{displayedDate.toDateString()}</span>
+          Date:{" "}
+          <span className="font-medium text-black">
+            {displayedDate.toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+              weekday: "short",
+            })}
+          </span>
         </p>
         <p className="mb-3 font-normal text-gray-700">
           Pass Admits: <span className="font-medium text-black">{ppl} Pax</span>

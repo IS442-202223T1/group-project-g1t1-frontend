@@ -73,7 +73,15 @@ export default function BookingTile({
             Attraction Name: <span className="font-medium text-black">{attractionName}</span>
           </p>
           <p className="mb-3 font-normal text-gray-700">
-            Date: <span className="font-medium text-black">{displayedDate.toDateString()}</span>
+            Date:{" "}
+            <span className="font-medium text-black">
+              {displayedDate.toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                weekday: "short",
+              })}
+            </span>
           </p>
           <p className="mb-3 font-normal text-gray-700">
             Booking ID: <span className="font-medium text-black">{bookingID}</span>

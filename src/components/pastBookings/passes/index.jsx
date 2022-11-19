@@ -12,7 +12,9 @@ function BookingHistory() {
     renderPastBookings();
     async function renderPastBookings() {
       const pastBookingsRes = await getPastBookings(token, email);
-      setPastBookings(pastBookingsRes);
+      if (pastBookingsRes) {
+        setPastBookings(pastBookingsRes);
+      }
     }
   }, []);
 
