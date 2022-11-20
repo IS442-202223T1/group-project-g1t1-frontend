@@ -40,6 +40,28 @@ export const getMembershipDetails = async (token, membershipName) => {
   }
 };
 
+export const getAvailableBookings = async (token, startDate, endDate) => {
+  try {
+    const res = await axiosBorrowerInstance.get(
+      `available-booking?startDate=${startDate.toISOString().substring(0, 10)}&endDate=${endDate
+        .toISOString()
+        .substring(0, 10)}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      },
+    );
+    if (res) {
+      return res.data;
+    }
+    throw new Error("No data returned from backend");
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const createNewBooking = async (token, date, email, membershipName, quantity) => {
   try {
     date.setHours(date.getHours() + 8);

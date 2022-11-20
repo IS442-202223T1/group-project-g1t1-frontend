@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import { enGB } from "date-fns/locale";
 import { useBookPassContext } from "src/contexts/bookPassContext";
@@ -29,8 +29,14 @@ function PassContent({ desc, address, membershipName }) {
   const defaultDescription = "No description specified";
   const token = sessionStorage.getItem("token");
   const email = sessionStorage.getItem("email");
-  const tomorrow = new Date();
+
+  const { search } = useLocation();
+  const date = new URLSearchParams(search).get("date");
+  let tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
+  if (date !== null) {
+    tomorrow = new Date(date);
+  }
   const [bookingDate, setBookingDate] = useState(tomorrow);
 
   const [message, setMessage] = useState("");
