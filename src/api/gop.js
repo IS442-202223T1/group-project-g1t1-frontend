@@ -23,6 +23,23 @@ export const getBookingsByEmail = async (token, email) => {
   }
 };
 
+export const getBookingsByDate = async (token) => {
+  try {
+    const res = await axiosBookingInstance.get("/bookings/today", {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    if (res) {
+      return res.data;
+    }
+    throw new Error("No data returned from backend");
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const getBookingsContainingEmail = async (token, email) => {
   try {
     const res = await axiosBookingInstance.get(`/bookings-containing/${email}`, {
