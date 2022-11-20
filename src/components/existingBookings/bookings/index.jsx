@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getBookingsByEmail } from "src/api/gop";
+import { getBookingsByEmail, getBookingsContainingEmail } from "src/api/gop";
 import BookingTile from "./BookingTile";
 import SearchBar from "./searchBar";
 
@@ -31,7 +31,7 @@ function Bookings() {
     async function renderBookings() {
       if (email.length !== 0) {
         setErrorText("");
-        const bookingsFromApi = await getBookingsByEmail(token, email);
+        const bookingsFromApi = await getBookingsContainingEmail(token, email);
         setBookings(bookingsFromApi);
       } else {
         setErrorText("Please enter an email");

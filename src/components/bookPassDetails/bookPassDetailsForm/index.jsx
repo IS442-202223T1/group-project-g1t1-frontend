@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
+import { enGB } from "date-fns/locale";
 import { useBookPassContext } from "src/contexts/bookPassContext";
 import { createNewBooking, sendEmail } from "src/api/borrower";
 import { getGlobalConfig } from "src/api/globalConfig";
@@ -22,6 +23,8 @@ export default function BookPassDetailsForm() {
 }
 
 function PassContent({ desc, address, membershipName }) {
+  registerLocale("en-GB", enGB);
+  setDefaultLocale("en-GB");
   const history = useHistory();
   const defaultDescription = "No description specified";
   const token = sessionStorage.getItem("token");
@@ -111,6 +114,8 @@ function PassContent({ desc, address, membershipName }) {
             selected={bookingDate}
             minDate={startDate}
             maxDate={endDate}
+            dateFormat="dd/MM/yyyy"
+            className="rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm p-2.5"
             onChange={(date) => {
               setBookingDate(date);
             }}
