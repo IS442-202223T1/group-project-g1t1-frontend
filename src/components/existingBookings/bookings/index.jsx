@@ -29,13 +29,8 @@ function Bookings() {
     e.preventDefault();
     renderBookings();
     async function renderBookings() {
-      if (email.length !== 0) {
-        setErrorText("");
-        const bookingsFromApi = await getBookingsContainingEmail(token, email);
-        setBookings(bookingsFromApi);
-      } else {
-        setErrorText("Please enter an email");
-      }
+      const bookingsFromApi = await getBookingsContainingEmail(token, email);
+      setBookings(bookingsFromApi);
     }
   };
 
